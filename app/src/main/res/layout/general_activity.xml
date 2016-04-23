@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#181818"
+    android:id="@+id/t">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Connected to: "
+        android:id="@+id/tv_connectedto"
+        android:layout_marginTop="27dp"
+        android:textColor="#ffffff"
+        android:typeface="sans"
+        android:textSize="15dp"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/imageButton"
+        android:layout_toStartOf="@+id/imageButton" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButton"
+        android:src="@drawable/btn_explore_white"
+        android:background="#00ffffff"
+        android:layout_marginTop="34dp"
+        android:layout_below="@+id/tv_connectedto"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="EXPLORE"
+        android:id="@+id/tv_explore"
+        android:background="#00ffffff"
+        android:textColor="#ffffff"
+        android:typeface="sans"
+        android:textSize="20dp"
+        android:layout_below="@+id/imageButton"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="NONE"
+        android:id="@+id/tv_dashboardip"
+        android:textColor="#cf3737"
+        android:layout_alignTop="@+id/tv_connectedto"
+        android:layout_alignLeft="@+id/tv_install"
+        android:layout_alignStart="@+id/tv_install" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButton2"
+        android:layout_marginTop="31dp"
+        android:src="@drawable/rsz_netbot_cajita_color_black_resized"
+        android:background="#00ffffff"
+        android:layout_below="@+id/tv_explore"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="INSTALL"
+        android:id="@+id/tv_install"
+        android:background="#00ffffff"
+        android:textColor="#ffffff"
+        android:typeface="sans"
+        android:textSize="20dp"
+        android:layout_below="@+id/imageButton2"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>
