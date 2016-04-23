@@ -11,10 +11,23 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_main"
-    tools:context="practicaiufragments.dam.com.netbeast.MainActivity">
+    tools:context="practicaiufragments.dam.com.netbeast.MainActivity"
+    android:background="#181818">
 
     <TextView
-        android:text="Hello World!"
+        android:text="Connected to:"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:id="@+id/connectedto"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textColor="#ffffff" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/dashboardIP"
+        android:layout_alignParentTop="true" />
+
 </RelativeLayout>
