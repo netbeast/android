@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:descendantFocusability="blocksDescendants"
+    android:orientation="vertical"
+    android:background="#181818"
+    android:id="@+id/linearchild">
+
+    <ImageButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/image"
+        android:src="@drawable/rsz_netbot_cajita_color_black_resized"
+        android:background="#00ffffff"
+        android:layout_marginTop="34sp"
+        android:onClick="exploreApps" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/text"
+        android:background="#00ffffff"
+        android:textColor="#ffffff"
+        android:typeface="sans"
+        android:textSize="20sp"
+        android:textAlignment="center" />
+
+</LinearLayout>

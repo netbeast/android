@@ -74,14 +74,5 @@
         android:layout_below="@+id/imageButton2"
         android:layout_centerHorizontal="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/text"
-        android:layout_below="@+id/tv_install"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="42dp"
-        android:textColor="#ffffff" />
 
 </RelativeLayout>

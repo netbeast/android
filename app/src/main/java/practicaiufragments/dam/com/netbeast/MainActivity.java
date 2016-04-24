@@ -33,7 +33,7 @@ import static practicaiufragments.dam.com.netbeast.R.id.tv_dashboardip;
 
 public class MainActivity extends AppCompatActivity {
 
-    final static String IP = "192.168.1.40";
+    final static String IP = "192.168.1.121";
 
     // json object response url
     private String urlGetOneApp = "http://" + IP + ":8000/api/app/";
@@ -173,9 +173,8 @@ public class MainActivity extends AppCompatActivity {
                                 JSONObject app = (JSONObject) response.get(i);
                                 String name = app.getString("name");
                                 jsonResponse += "Name: " + name + "\n\n";
+                                Log.d(TAG, name);
                             }
-
-                            Log.d(TAG, jsonResponse);
                         } catch (JSONException e) {
                             e.printStackTrace();
                             Toast.makeText(getApplicationContext(),
@@ -196,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                 Toast.makeText(getApplicationContext(),
-                        error.getMessage(), Toast.LENGTH_SHORT).show();
+                        "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
                 new Timer().schedule(
                         new TimerTask() {
                             @Override
