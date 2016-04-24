@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Connected to: "
+        android:text="@string/connectedto"
         android:id="@+id/tv_connectedto"
         android:layout_marginTop="27dp"
         android:textColor="#ffffff"
@@ -27,12 +27,13 @@
         android:background="#00ffffff"
         android:layout_marginTop="34dp"
         android:layout_below="@+id/tv_connectedto"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:onClick="exploreApps" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="EXPLORE"
+        android:text="@string/explore"
         android:id="@+id/tv_explore"
         android:background="#00ffffff"
         android:textColor="#ffffff"
@@ -44,12 +45,12 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="NONE"
+        android:text="@string/none"
         android:id="@+id/tv_dashboardip"
         android:textColor="#cf3737"
-        android:layout_alignTop="@+id/tv_connectedto"
-        android:layout_alignLeft="@+id/tv_install"
-        android:layout_alignStart="@+id/tv_install" />
+        android:layout_above="@+id/imageButton"
+        android:layout_alignLeft="@+id/tv_explore"
+        android:layout_alignStart="@+id/tv_explore" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -64,7 +65,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="INSTALL"
+        android:text="@string/install"
         android:id="@+id/tv_install"
         android:background="#00ffffff"
         android:textColor="#ffffff"
@@ -72,5 +73,15 @@
         android:textSize="20dp"
         android:layout_below="@+id/imageButton2"
         android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/text"
+        android:layout_below="@+id/tv_install"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="42dp"
+        android:textColor="#ffffff" />
 
 </RelativeLayout>

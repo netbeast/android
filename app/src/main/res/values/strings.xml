@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Netbeast</string>
     <string name="action_settings">Settings</string>
+    <string name="connectedto">Connected to:</string>
+    <string name="explore">EXPLORE</string>
+    <string name="none">NONE</string>
+    <string name="install">INSTALL</string>
 </resources>
