@@ -1,6 +1,7 @@
 package practicaiufragments.dam.com.netbeast;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -156,8 +157,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void exploreApps(View v) {
+        Intent intent = new Intent(this, ExploreActivity.class);
+        startActivity(intent);
 
-        showpDialog();
+        /*showpDialog();
 
         JsonArrayRequest req = new JsonArrayRequest(urlGetAllApps,
                 new Response.Listener<JSONArray>() {
@@ -172,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 JSONObject app = (JSONObject) response.get(i);
                                 String name = app.getString("name");
-                                jsonResponse += "Name: " + name + "\n\n";
+                                jsonResponse += "Name: " + name +"\n\n";
                                 Log.d(TAG, name);
                             }
                         } catch (JSONException e) {
@@ -207,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Adding request to request queue
-        QueueController.getInstance().addToRequestQueue(req);
+        QueueController.getInstance().addToRequestQueue(req);*/
     }
 
     private void showpDialog() {

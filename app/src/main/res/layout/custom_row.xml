@@ -10,7 +10,7 @@
     <ImageButton
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/image"
+        android:id="@+id/button"
         android:src="@drawable/rsz_netbot_cajita_color_black_resized"
         android:background="#00ffffff"
         android:layout_marginTop="34sp"
