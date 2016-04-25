@@ -34,7 +34,7 @@ import static practicaiufragments.dam.com.netbeast.R.id.tv_dashboardip;
 
 public class MainActivity extends AppCompatActivity {
 
-    final static String IP = "192.168.1.121";
+    final static String IP = "172.16.46.1";
 
     // json object response url
     private String urlGetOneApp = "http://" + IP + ":8000/api/app/";

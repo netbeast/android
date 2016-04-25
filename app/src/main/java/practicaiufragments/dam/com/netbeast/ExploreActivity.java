@@ -30,7 +30,7 @@ import java.util.TimerTask;
  * Created by Alejandro Rodríguez Calzado on 24/04/16.
  */
 public class ExploreActivity extends Activity{
-    final static String IP = "192.168.1.121";
+    final static String IP = "172.16.46.1";
 
     private static String TAG = ExploreActivity.class.getSimpleName();
 
@@ -43,7 +43,7 @@ public class ExploreActivity extends Activity{
 
     private Context mContext;
 
-    private ScrollView slnLay;
+    private LinearLayout slnLay;
     private ImageButton bt;
     private TextView tv;
 
@@ -68,7 +68,7 @@ public class ExploreActivity extends Activity{
         mContext = ExploreActivity.this;
         LinearLayout childln = null ;
 
-        slnLay = (ScrollView) findViewById(R.id.scrollView);
+        slnLay = (LinearLayout) findViewById(R.id.scrollLinearLayout);
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         View convertView = inflater.inflate(R.layout.custom_row, null);
