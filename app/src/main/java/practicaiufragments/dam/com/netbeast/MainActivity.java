@@ -34,11 +34,10 @@ import static practicaiufragments.dam.com.netbeast.R.id.tv_dashboardip;
 
 public class MainActivity extends AppCompatActivity {
 
-    final static String IP = "172.16.46.1";
 
-    // json object response url
-    private String urlGetOneApp = "http://" + IP + ":8000/api/app/";
-    private String urlGetAllApps = "http://" + IP + ":8000/api/apps";
+    private String IP;
+    private String urlGetOneApp;
+    private String urlGetAllApps;
 
     private static String TAG = MainActivity.class.getSimpleName();
     private String jsonResponse = "";
@@ -51,6 +50,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.general_activity);
 
+        // Let's create/get global params
+        Global g = Global.getInstance();
+        IP = g.getIP();
+        urlGetOneApp = "http://" + IP + ":8000/api/app/";
+        urlGetAllApps = "http://" + IP + ":8000/api/apps";
 
 
         TextView tv_ip = (TextView)findViewById(tv_dashboardip);
@@ -110,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
                 mTextView.setText("That didn't work!");
             }
         });
-// Add the request to the RequestQueue.
+        // Add the request to the RequestQueue.
         queue.add(stringRequest);
     }
 

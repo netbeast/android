@@ -30,14 +30,13 @@ import java.util.TimerTask;
  * Created by Alejandro Rodríguez Calzado on 24/04/16.
  */
 public class ExploreActivity extends Activity{
-    final static String IP = "172.16.46.1";
+    private String IP;
+    private String urlGetAllApps;
 
     private static String TAG = ExploreActivity.class.getSimpleName();
 
     // Progress dialog
     private ProgressDialog pDialog;
-
-    private String urlGetAllApps = "http://" + IP + ":8000/api/apps";
 
     private ArrayList<String> jsonResponse;
 
@@ -53,7 +52,13 @@ public class ExploreActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.scroll);
 
-        jsonResponse = new ArrayList<String>();
+        // Let's create/get global params
+        Global g = Global.getInstance();
+        IP = g.getIP();
+        urlGetAllApps = "http://" + IP + ":8000/api/apps";
+
+
+        jsonResponse = new ArrayList<>();
 
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Please wait...");
@@ -66,7 +71,7 @@ public class ExploreActivity extends Activity{
 
     public void fillRows() {
         mContext = ExploreActivity.this;
-        LinearLayout childln = null ;
+        LinearLayout childln;
 
         slnLay = (LinearLayout) findViewById(R.id.scrollLinearLayout);
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
