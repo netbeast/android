@@ -1,10 +1,11 @@
 package practicaiufragments.dam.com.netbeast;
 
+import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,21 +19,16 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import static practicaiufragments.dam.com.netbeast.R.id.tv_dashboardip;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends FragmentActivity {
 
 
     private String IP;
@@ -44,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
 
     // Progress dialog
     private ProgressDialog pDialog;
+
+    private TextView tv_ip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         urlGetAllApps = "http://" + IP + ":8000/api/apps";
 
 
-        TextView tv_ip = (TextView)findViewById(tv_dashboardip);
+        tv_ip = (TextView)findViewById(tv_dashboardip);
         tv_ip.setText(IP);
         tv_ip.setTextColor(Color.parseColor("#33cc33"));
 
@@ -175,4 +173,8 @@ public class MainActivity extends AppCompatActivity {
             pDialog.dismiss();
     }
 
+    public void changeIp(View v) {
+        DialogFragment newFragment = new ChangeIpDialog();
+        newFragment.show(getFragmentManager(), "missiles");
+    }
 }
