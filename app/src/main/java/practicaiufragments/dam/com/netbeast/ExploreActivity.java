@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,70 +39,33 @@ public class ExploreActivity extends Activity{
     // Progress dialog
     private ProgressDialog pDialog;
 
-    private ArrayList<String> jsonResponse;
-
     private Context mContext;
 
-    private LinearLayout slnLay;
-    private ImageButton bt;
-    private TextView tv;
-
+    private ListView listView;
+    private CustomListAdapter adapter;
+    private ArrayList<App> appList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.scroll);
+        setContentView(R.layout.explore_activity);
 
         // Let's create/get global params
         Global g = Global.getInstance();
         IP = g.getIP();
-        urlGetAllApps = "http://" + IP + ":8000/api/apps";
+        urlGetAllApps = "http://" + IP + ":8000/api/modules";
 
+        appList = new ArrayList<>();
 
-        jsonResponse = new ArrayList<>();
+        listView = (ListView) findViewById(R.id.list);
+        adapter = new CustomListAdapter(this, appList);
+        listView.setAdapter(adapter);
 
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Please wait...");
         pDialog.setCancelable(false);
 
         exploreApps();
-
-        fillRows();
-    }
-
-    public void fillRows() {
-        mContext = ExploreActivity.this;
-        LinearLayout childln;
-
-        slnLay = (LinearLayout) findViewById(R.id.scrollLinearLayout);
-        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        View convertView = inflater.inflate(R.layout.custom_row, null);
-
-        for (int i = 0; i < jsonResponse.size(); i++) {
-
-            childln = (LinearLayout) convertView.findViewById(R.id.linearchild);
-            bt = new ImageButton(this);
-            bt = (ImageButton) convertView.findViewById(R.id.button);
-            //im.setImageResource();
-
-            childln.addView(bt);
-
-            tv = new TextView(this);
-            tv = (TextView) convertView.findViewById(R.id.text);
-            tv.setText(jsonResponse.get(i));
-
-            childln.addView(tv);
-
-            /*bt.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // TODO Auto-generated method stub
-                }
-            });*/
-            slnLay.addView(childln);
-        }
-
     }
 
     public void exploreApps() {
@@ -119,7 +83,7 @@ public class ExploreActivity extends Activity{
 
                                 JSONObject app = (JSONObject) response.get(i);
                                 String name = app.getString("name");
-                                jsonResponse.add(name);
+                                appList.add(new App(name));
                                 Log.d(TAG, name);
                             }
                         } catch (JSONException e) {
@@ -136,6 +100,10 @@ public class ExploreActivity extends Activity{
                                         hidepDialog();
                                     }
                                 }, 500);
+
+                        // notifying list adapter about data changes
+                        // so that it renders the list view with updated data
+                        adapter.notifyDataSetChanged();
                     }
                 }, new Response.ErrorListener() {
             @Override
