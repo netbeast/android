@@ -1,6 +1,7 @@
 package practicaiufragments.dam.com.netbeast;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -33,11 +34,10 @@ import static practicaiufragments.dam.com.netbeast.R.id.tv_dashboardip;
 
 public class MainActivity extends AppCompatActivity {
 
-    final static String IP = "192.168.1.121";
 
-    // json object response url
-    private String urlGetOneApp = "http://" + IP + ":8000/api/app/";
-    private String urlGetAllApps = "http://" + IP + ":8000/api/apps";
+    private String IP;
+    private String urlGetOneApp;
+    private String urlGetAllApps;
 
     private static String TAG = MainActivity.class.getSimpleName();
     private String jsonResponse = "";
@@ -48,8 +48,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.general_activity);
+        setContentView(R.layout.main_activity);
 
+        // Let's create/get global params
+        Global g = Global.getInstance();
+        IP = g.getIP();
+        urlGetOneApp = "http://" + IP + ":8000/api/app/";
+        urlGetAllApps = "http://" + IP + ":8000/api/apps";
 
 
         TextView tv_ip = (TextView)findViewById(tv_dashboardip);
@@ -109,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
                 mTextView.setText("That didn't work!");
             }
         });
-// Add the request to the RequestQueue.
+        // Add the request to the RequestQueue.
         queue.add(stringRequest);
     }
 
@@ -156,58 +161,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void exploreApps(View v) {
-
-        showpDialog();
-
-        JsonArrayRequest req = new JsonArrayRequest(urlGetAllApps,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        Log.d(TAG, response.toString());
-
-                        try {
-
-                            jsonResponse = "";
-                            for (int i = 0; i < response.length(); i++) {
-
-                                JSONObject app = (JSONObject) response.get(i);
-                                String name = app.getString("name");
-                                jsonResponse += "Name: " + name + "\n\n";
-                                Log.d(TAG, name);
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Toast.makeText(getApplicationContext(),
-                                    "Error: " + e.getMessage(),
-                                    Toast.LENGTH_LONG).show();
-                        }
-
-                        new Timer().schedule(
-                                new TimerTask() {
-                                    @Override
-                                    public void run() {
-                                        hidepDialog();
-                                    }
-                                }, 500);
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-                Toast.makeText(getApplicationContext(),
-                        "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-                new Timer().schedule(
-                        new TimerTask() {
-                            @Override
-                            public void run() {
-                                hidepDialog();
-                            }
-                        },500);
-            }
-        });
-
-        // Adding request to request queue
-        QueueController.getInstance().addToRequestQueue(req);
+        Intent intent = new Intent(this, ExploreActivity.class);
+        startActivity(intent);
     }
 
     private void showpDialog() {
