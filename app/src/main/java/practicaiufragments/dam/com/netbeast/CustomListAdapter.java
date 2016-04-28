@@ -2,13 +2,11 @@ package practicaiufragments.dam.com.netbeast;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Movie;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -56,10 +54,10 @@ public class CustomListAdapter extends BaseAdapter {
         // getting app data for the row
         App app = appItems.get(position);
 
-        // image Button
-        imgBt.setImageResource(R.drawable.rsz_netbot_cajita_color_black_resized);
+        // download app logo and set it to image button
+        new DownloadImageTask(imgBt).execute(app.getLogoURL());
 
-        // text
+        // set app name to textView
         txt.setText(app.getName());
 
         return convertView;

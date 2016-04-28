@@ -77,15 +77,9 @@ public class ExploreActivity extends Activity{
 
                                 JSONObject app = (JSONObject) response.get(i);
                                 String name = app.getString("name");
-                                String gitHubUrl = app.getJSONObject("repository").getString("url");
-                                String logoPath;
-                                try {
-                                    logoPath = app.getString("logo");
-                                } catch (Exception e) {
-                                    logoPath = null;
-                                }
-                                appList.add(new App(name,gitHubUrl,logoPath));
-                                Log.d(TAG, name + " - " + gitHubUrl + " - " + logoPath);
+
+                                appList.add(new App(name));
+                                Log.d(TAG, name);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
