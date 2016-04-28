@@ -8,7 +8,7 @@
     <string name="ip_dialog_message">Set Dashboard IP</string>
     <string name="connect_dialog_button">Connect</string>
     <string name="cancel_dialog_button">Cancel</string>
-    <string name="ip_error_dialog">You must enter an IP.</string>
+    <string name="ip_error_dialog">Error: you must enter an IP.</string>
     <string name="hint_dialog_text">Dashboard IP</string>
     <string name="explore_activity_tittle">Apps</string>
 </resources>
