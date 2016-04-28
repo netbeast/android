@@ -12,7 +12,7 @@
         android:text="@string/connectedto"
         android:id="@+id/tv_connectedto"
         android:layout_marginTop="27dp"
-        android:textColor="#ffffff"
+        android:textColor="@color/text"
         android:typeface="sans"
         android:textSize="15dp"
         android:layout_alignParentTop="true"
@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/imageButton"
         android:src="@drawable/btn_explore_white"
-        android:background="#00ffffff"
+        android:background="@color/imgBackground"
         android:layout_marginTop="34dp"
         android:layout_below="@+id/tv_connectedto"
         android:layout_centerHorizontal="true"
@@ -35,10 +35,9 @@
         android:layout_height="wrap_content"
         android:text="@string/explore"
         android:id="@+id/tv_explore"
-        android:background="#00ffffff"
         android:textColor="#ffffff"
         android:typeface="sans"
-        android:textSize="20dp"
+        android:textSize="@dimen/app_name"
         android:layout_below="@+id/imageButton"
         android:layout_centerHorizontal="true" />
 
@@ -47,7 +46,7 @@
         android:layout_height="wrap_content"
         android:text="@string/none"
         android:id="@+id/tv_dashboardip"
-        android:textColor="#cf3737"
+        android:textColor="@color/error"
         android:layout_above="@+id/imageButton"
         android:layout_alignLeft="@+id/tv_explore"
         android:layout_alignStart="@+id/tv_explore" />
@@ -58,7 +57,7 @@
         android:id="@+id/imageButton2"
         android:layout_marginTop="31dp"
         android:src="@drawable/rsz_netbot_cajita_color_black_resized"
-        android:background="#00ffffff"
+        android:background="@color/imgBackground"
         android:layout_below="@+id/tv_explore"
         android:layout_centerHorizontal="true" />
 
@@ -67,10 +66,9 @@
         android:layout_height="wrap_content"
         android:text="@string/install"
         android:id="@+id/tv_install"
-        android:background="#00ffffff"
-        android:textColor="#ffffff"
+        android:textColor="@color/text"
         android:typeface="sans"
-        android:textSize="20dp"
+        android:textSize="@dimen/app_name"
         android:layout_below="@+id/imageButton2"
         android:layout_centerHorizontal="true" />
 

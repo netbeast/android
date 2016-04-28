@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:descendantFocusability="blocksDescendants"
     android:orientation="vertical"
-    android:background="#181818"
+    android:background="@color/background"
     android:id="@+id/linearchild">
 
     <ImageButton
@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/button"
         android:src="@drawable/dflt"
-        android:background="#00ffffff"
+        android:background="@color/imgBackground"
         android:layout_marginTop="25dp"
         android:layout_marginBottom="8dp"
         android:layout_alignParentTop="true"
@@ -22,10 +22,9 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/text"
-        android:background="#00ffffff"
-        android:textColor="#ffffff"
+        android:textColor="@color/text"
         android:typeface="sans"
-        android:textSize="20sp"
+        android:textSize="@dimen/app_name"
         android:textAlignment="center"
         android:text="App_Name"
         android:layout_below="@+id/button"
