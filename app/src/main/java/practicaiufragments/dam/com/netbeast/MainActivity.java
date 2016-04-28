@@ -163,58 +163,6 @@ public class MainActivity extends AppCompatActivity {
     public void exploreApps(View v) {
         Intent intent = new Intent(this, ExploreActivity.class);
         startActivity(intent);
-
-        /*showpDialog();
-
-        JsonArrayRequest req = new JsonArrayRequest(urlGetAllApps,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        Log.d(TAG, response.toString());
-
-                        try {
-
-                            jsonResponse = "";
-                            for (int i = 0; i < response.length(); i++) {
-
-                                JSONObject app = (JSONObject) response.get(i);
-                                String name = app.getString("name");
-                                jsonResponse += "Name: " + name +"\n\n";
-                                Log.d(TAG, name);
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Toast.makeText(getApplicationContext(),
-                                    "Error: " + e.getMessage(),
-                                    Toast.LENGTH_LONG).show();
-                        }
-
-                        new Timer().schedule(
-                                new TimerTask() {
-                                    @Override
-                                    public void run() {
-                                        hidepDialog();
-                                    }
-                                }, 500);
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-                Toast.makeText(getApplicationContext(),
-                        "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-                new Timer().schedule(
-                        new TimerTask() {
-                            @Override
-                            public void run() {
-                                hidepDialog();
-                            }
-                        },500);
-            }
-        });
-
-        // Adding request to request queue
-        QueueController.getInstance().addToRequestQueue(req);*/
     }
 
     private void showpDialog() {
