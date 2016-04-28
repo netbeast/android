@@ -49,7 +49,8 @@
         android:textColor="@color/error"
         android:layout_above="@+id/imageButton"
         android:layout_alignLeft="@+id/tv_explore"
-        android:layout_alignStart="@+id/tv_explore" />
+        android:layout_alignStart="@+id/tv_explore"
+        android:onClick="changeIp"/>
 
     <ImageButton
         android:layout_width="wrap_content"
