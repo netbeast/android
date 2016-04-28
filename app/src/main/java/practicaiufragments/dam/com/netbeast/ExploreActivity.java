@@ -5,13 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ScrollView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
@@ -83,8 +77,15 @@ public class ExploreActivity extends Activity{
 
                                 JSONObject app = (JSONObject) response.get(i);
                                 String name = app.getString("name");
-                                appList.add(new App(name));
-                                Log.d(TAG, name);
+                                String gitHubUrl = app.getJSONObject("repository").getString("url");
+                                String logoPath;
+                                try {
+                                    logoPath = app.getString("logo");
+                                } catch (Exception e) {
+                                    logoPath = null;
+                                }
+                                appList.add(new App(name,gitHubUrl,logoPath));
+                                Log.d(TAG, name + " - " + gitHubUrl + " - " + logoPath);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
