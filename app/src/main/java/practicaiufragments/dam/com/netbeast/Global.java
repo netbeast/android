@@ -9,7 +9,7 @@ public class Global {
     private static Global instance;
 
     // IP where the dashboard is running
-    private String IP = "10.100.2.113";
+    private String IP = "192.168.1.138";
 
     public void setIP (String ip) {
         this.IP = ip;
