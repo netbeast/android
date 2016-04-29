@@ -33,8 +33,6 @@ public class ExploreActivity extends Activity{
     // Progress dialog
     private ProgressDialog pDialog;
 
-    private Context mContext;
-
     private ListView listView;
     private CustomListAdapter adapter;
     private ArrayList<App> appList;
