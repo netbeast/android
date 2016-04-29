@@ -4,86 +4,84 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ListView;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * Created by Alejandro Rodríguez Calzado on 24/04/16.
+ * Created by Cayetano Rodríguez Medina on 29/4/16.
  */
-public class ExploreActivity extends Activity{
+public class InstallActivity extends Activity{
     private String IP;
-    private String urlGetAllApps;
+    private String urlPostApp;
 
-    private static String TAG = ExploreActivity.class.getSimpleName();
+    private static String TAG = InstallActivity.class.getSimpleName();
+
+    private EditText editText;
+    private Button installButton;
 
     // Progress dialog
     private ProgressDialog pDialog;
 
-    private ListView listView;
-    private CustomListAdapter adapter;
-    private ArrayList<App> appList;
+    private HashMap<String, String> mRequestParams;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.explore_activity);
+        setContentView(R.layout.install_activity);
 
         // Let's create/get global params
         Global g = Global.getInstance();
         IP = g.getIP();
-        urlGetAllApps = "http://" + IP + ":8000/api/modules";
-
-        appList = new ArrayList<>();
-
-        listView = (ListView) findViewById(R.id.list);
-        adapter = new CustomListAdapter(this, appList);
-        listView.setAdapter(adapter);
+        urlPostApp = "http://" + IP + ":8000/api/apps";
 
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Please wait...");
         pDialog.setCancelable(false);
 
-        exploreApps();
+        editText = (EditText) findViewById(R.id.editText);
+
+        mRequestParams = new HashMap<>();
+
+        installButton = (Button) findViewById(R.id.installButton);
+        installButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Get url from text box
+                String url = editText.getText().toString();
+                // Use this url for post params
+                mRequestParams.put("url", url);
+                // Make post request
+                installApp();
+            }
+        });
+
     }
 
-    public void exploreApps() {
+    public void installApp() {
 
         showpDialog();
 
-        JsonArrayRequest req = new JsonArrayRequest(urlGetAllApps,
+        JsonArrayRequest req = new JsonArrayRequest(Request.Method.POST, urlPostApp,
+                new JSONObject(mRequestParams),
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        Log.d(TAG, response.toString());
-
-                        try {
-                            for (int i = 0; i < response.length(); i++) {
-
-                                JSONObject app = (JSONObject) response.get(i);
-                                String name = app.getString("name");
-
-                                appList.add(new App(name));
-                                Log.d(TAG, name);
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Toast.makeText(getApplicationContext(),
-                                    "Error: " + e.getMessage(),
-                                    Toast.LENGTH_LONG).show();
-                        }
+                        Log.d(TAG, "ERROR:  " + response.toString());
 
                         new Timer().schedule(
                                 new TimerTask() {
@@ -92,10 +90,6 @@ public class ExploreActivity extends Activity{
                                         hidepDialog();
                                     }
                                 }, 500);
-
-                        // notifying list adapter about data changes
-                        // so that it renders the list view with updated data
-                        adapter.notifyDataSetChanged();
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -109,13 +103,14 @@ public class ExploreActivity extends Activity{
                             public void run() {
                                 hidepDialog();
                             }
-                        },500);
+                        }, 500);
             }
         });
 
         // Adding request to request queue
         QueueController.getInstance().addToRequestQueue(req);
     }
+
 
     private void showpDialog() {
         if (!pDialog.isShowing())
