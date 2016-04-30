@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#181818"
+    android:background="@color/background"
     android:id="@+id/t">
 
     <android.support.design.widget.AppBarLayout
@@ -92,7 +92,8 @@
         android:src="@drawable/rsz_netbot_cajita_color_black_resized"
         android:background="@color/imgBackground"
         android:layout_below="@+id/tv_explore"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:onClick="installApps"/>
 
     <TextView
         android:layout_width="wrap_content"

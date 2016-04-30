@@ -163,6 +163,11 @@ public class MainActivity extends FragmentActivity {
         startActivity(intent);
     }
 
+    public void installApps(View view){
+        Intent intent = new Intent(this, InstallActivity.class);
+        startActivity(intent);
+    }
+
     private void showpDialog() {
         if (!pDialog.isShowing())
             pDialog.show();
