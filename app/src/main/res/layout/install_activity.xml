@@ -17,7 +17,6 @@
             android:id="@+id/editText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Paste here an URL to install from git"
             android:singleLine="true"
             android:inputType="text"
             android:textColor="@color/text"
@@ -27,7 +26,9 @@
             android:layout_alignBaseline="@+id/installButton"
             android:layout_alignBottom="@+id/installButton"
             android:layout_centerHorizontal="true"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:hint="@string/hint_install_activity"
+            android:textColorHint="@color/hintText">
 
         <requestFocus />
 
