@@ -1,125 +1,43 @@
 package practicaiufragments.dam.com.netbeast;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonArrayRequest;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
- * Created by Cayetano Rodríguez Medina on 29/4/16.
+ * Created by Cayetano Rodríguez Medina on 3/5/16.
  */
 public class InstallActivity extends Activity{
+
     private String IP;
-    private String urlPostApp;
-
-    private static String TAG = InstallActivity.class.getSimpleName();
-
-    private EditText editText;
-    private Button installButton;
-
-    // Progress dialog
-    private ProgressDialog pDialog;
-
-    private HashMap<String, String> mRequestParams;
+    private String urlGetAllApps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.install_activity);
 
-        // Let's create/get global params
+    }
+
+    public void exploreInstallableApps(View v) {
+        Intent intent = new Intent(this, ExploreActivity.class);
+
         Global g = Global.getInstance();
         IP = g.getIP();
-        urlPostApp = "http://" + IP + ":8000/api/apps";
+        urlGetAllApps = "http://" + IP + ":8000/api/modules";
 
-        pDialog = new ProgressDialog(this);
-        pDialog.setMessage("Please wait...");
-        pDialog.setCancelable(false);
+        Bundle b = new Bundle();
+        b.putString("url", urlGetAllApps);
+        intent.putExtras(b);
 
-        editText = (EditText) findViewById(R.id.editText);
-
-        mRequestParams = new HashMap<>();
-
-        installButton = (Button) findViewById(R.id.installButton);
-        installButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Get url from text box
-                String url = editText.getText().toString();
-                // Use this url for post params
-                mRequestParams.put("url", url);
-                // Make post request
-                installApp();
-            }
-        });
-
+        startActivity(intent);
     }
 
-    public void installApp() {
-
-        showpDialog();
-
-        JsonArrayRequest req = new JsonArrayRequest(Request.Method.POST, urlPostApp,
-                new JSONObject(mRequestParams),
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        Log.d(TAG, "ERROR:  " + response.toString());
-
-                        new Timer().schedule(
-                                new TimerTask() {
-                                    @Override
-                                    public void run() {
-                                        hidepDialog();
-                                    }
-                                }, 500);
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-                Toast.makeText(getApplicationContext(),
-                        "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-                new Timer().schedule(
-                        new TimerTask() {
-                            @Override
-                            public void run() {
-                                hidepDialog();
-                            }
-                        }, 500);
-            }
-        });
-
-        // Adding request to request queue
-        QueueController.getInstance().addToRequestQueue(req);
+    public void gitInstallApps(View view){
+        Intent intent = new Intent(this, GitInstallActivity.class);
+        startActivity(intent);
     }
 
-
-    private void showpDialog() {
-        if (!pDialog.isShowing())
-            pDialog.show();
-    }
-
-    private void hidepDialog() {
-        if (pDialog.isShowing())
-            pDialog.dismiss();
-    }
 }
-
