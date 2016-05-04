@@ -26,7 +26,7 @@ import java.util.TimerTask;
 public class ExploreInstallableAppsActivity extends Activity {
     private String url;
 
-    private static String TAG = ExploreActivity.class.getSimpleName();
+    private static String TAG = ExploreInstallableAppsActivity.class.getSimpleName();
 
     // Progress dialog
     private ProgressDialog pDialog;
@@ -66,18 +66,18 @@ public class ExploreInstallableAppsActivity extends Activity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d(TAG, response.toString());
-
                         try {
                             JSONArray items = response.getJSONArray("items");
+                            Log.d(TAG, response.getJSONArray("items").toString());
                             for (int i = 0; i < items.length(); i++) {
 
                                 JSONObject app = (JSONObject) items.get(i);
                                 String name = app.getString("name");
+                                String full_name = app.getString("full_name");
 
                                 if (!contains(ignoreApps, name)) {
-                                    appList.add(new App(name));
-                                    Log.d(TAG, name);
+                                    appList.add(new App(name, full_name));
+                                    Log.d(TAG, name + " || " + full_name);
 
                                 }
                             }
