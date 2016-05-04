@@ -11,8 +11,6 @@ import android.view.View;
  */
 public class InstallActivity extends Activity{
 
-    private String IP;
-    private String urlGetAllApps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,16 +20,7 @@ public class InstallActivity extends Activity{
     }
 
     public void exploreInstallableApps(View v) {
-        Intent intent = new Intent(this, ExploreActivity.class);
-
-        Global g = Global.getInstance();
-        IP = g.getIP();
-        urlGetAllApps = "http://" + IP + ":8000/api/modules";
-
-        Bundle b = new Bundle();
-        b.putString("url", urlGetAllApps);
-        intent.putExtras(b);
-
+        Intent intent = new Intent(this, ExploreInstallableAppsActivity.class);
         startActivity(intent);
     }
 
