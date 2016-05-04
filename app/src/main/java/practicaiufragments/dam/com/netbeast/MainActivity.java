@@ -160,6 +160,15 @@ public class MainActivity extends FragmentActivity {
 
     public void exploreApps(View v) {
         Intent intent = new Intent(this, ExploreActivity.class);
+
+        Global g = Global.getInstance();
+        IP = g.getIP();
+        urlGetAllApps = "http://" + IP + ":8000/api/modules";
+
+        Bundle b = new Bundle();
+        b.putString("url", urlGetAllApps);
+        intent.putExtras(b);
+
         startActivity(intent);
     }
 

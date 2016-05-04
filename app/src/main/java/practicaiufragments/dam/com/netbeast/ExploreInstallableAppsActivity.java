@@ -10,7 +10,7 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,13 +21,12 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * Created by Alejandro Rodríguez Calzado on 24/04/16.
+ * Created by Cayetano Rodríguez Medina on 4/5/16.
  */
-public class ExploreActivity extends Activity{
-    private String IP;
+public class ExploreInstallableAppsActivity extends Activity {
     private String url;
 
-    private static String TAG = ExploreActivity.class.getSimpleName();
+    private static String TAG = ExploreInstallableAppsActivity.class.getSimpleName();
 
     // Progress dialog
     private ProgressDialog pDialog;
@@ -35,17 +34,14 @@ public class ExploreActivity extends Activity{
     private ListView listView;
     private CustomListAdapter adapter;
     private ArrayList<App> appList;
+    private String [] ignoreApps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.explore_activity);
 
-        Bundle b = getIntent().getExtras();
-        if (b!=null)
-            url = b.getString("url");
-        else
-            Log.d(TAG, "URL is null");
+        url = "https://api.github.com/search/repositories?q=netbeast+language:javascript";
 
         appList = new ArrayList<>();
 
@@ -57,6 +53,8 @@ public class ExploreActivity extends Activity{
         pDialog.setMessage("Please wait...");
         pDialog.setCancelable(false);
 
+        ignoreApps = new String[] {"dashboard", "api"};
+
         exploreApps();
     }
 
@@ -64,20 +62,24 @@ public class ExploreActivity extends Activity{
 
         showpDialog();
 
-        JsonArrayRequest req = new JsonArrayRequest(url,
-                new Response.Listener<JSONArray>() {
+        JsonObjectRequest req = new JsonObjectRequest(url,
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(JSONArray response) {
-                        Log.d(TAG, response.toString());
-
+                    public void onResponse(JSONObject response) {
                         try {
-                            for (int i = 0; i < response.length(); i++) {
+                            JSONArray items = response.getJSONArray("items");
+                            Log.d(TAG, response.getJSONArray("items").toString());
+                            for (int i = 0; i < items.length(); i++) {
 
-                                JSONObject app = (JSONObject) response.get(i);
+                                JSONObject app = (JSONObject) items.get(i);
                                 String name = app.getString("name");
+                                String full_name = app.getString("full_name");
 
-                                appList.add(new App(name));
-                                Log.d(TAG, name);
+                                if (!contains(ignoreApps, name)) {
+                                    appList.add(new App(name, full_name));
+                                    Log.d(TAG, name + " || " + full_name);
+
+                                }
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -126,6 +128,20 @@ public class ExploreActivity extends Activity{
     private void hidepDialog() {
         if (pDialog.isShowing())
             pDialog.dismiss();
+    }
+
+    private static <String> boolean contains(final String[] array, final String v) {
+        if (v == null) {
+            for (final String e : array)
+                if (e == null)
+                    return true;
+        } else {
+            for (final String e : array)
+                if (v.equals(e))
+                    return true;
+        }
+
+        return false;
     }
 }
 

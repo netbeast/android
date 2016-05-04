@@ -11,5 +11,8 @@
     <string name="ip_error_dialog">Error: you must enter a valid IP.</string>
     <string name="hint_dialog_text">Dashboard IP</string>
     <string name="explore_activity_tittle">Apps</string>
+    <string name="install_activity_tittle">Install</string>
     <string name="hint_install_activity">Paste here an URL to install from git</string>
+    <string name="install_explore">Explore apps to install</string>
+    <string name="install_git">Install from git</string>
 </resources>

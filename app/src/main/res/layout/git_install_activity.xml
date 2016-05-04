@@ -33,36 +33,49 @@
                 android:textColor="@color/text"
                 android:typeface="sans"
                 android:textSize="20sp"
-                android:text="@string/install_activity_tittle"/>
+                android:text="@string/install_git"/>
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
 
-    <Button
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/installButton1"
-        android:text="@string/install_explore"
-        android:textColor="@color/text"
-        android:typeface="sans"
-        android:textSize="@dimen/app_name"
-        android:textAlignment="center"
-        android:onClick="exploreInstallableApps"
+        android:orientation="horizontal"
+        android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:id="@+id/linearLayout">
 
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:inputType="text"
+            android:textColor="@color/text"
+            android:typeface="sans"
+            android:textSize="@dimen/app_name"
+            android:textAlignment="center"
+            android:layout_alignBaseline="@+id/installButton"
+            android:layout_alignBottom="@+id/installButton"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="1"
+            android:hint="@string/hint_install_activity"
+            android:textColorHint="@color/hintText">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/installButton2"
-        android:text="@string/install_git"
-        android:textColor="@color/text"
-        android:typeface="sans"
-        android:textAlignment="center"
-        android:textSize="@dimen/app_name"
-        android:onClick="gitInstallApps"
-        android:layout_below="@+id/installButton1"
-        android:layout_centerHorizontal="true" />
+        <requestFocus />
+
+    </EditText>
+    </LinearLayout>
+        <Button
+            android:id="@+id/installButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/install"
+            android:typeface="sans"
+            android:textSize="@dimen/app_name"
+            android:layout_below="@+id/linearLayout"
+            android:layout_centerHorizontal="true" />
+
 
 </RelativeLayout>
