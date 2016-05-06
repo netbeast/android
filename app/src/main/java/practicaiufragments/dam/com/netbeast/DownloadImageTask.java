@@ -13,15 +13,18 @@ import java.io.InputStream;
  */
 public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
     ImageButton bmImage;
+    App app;
 
-    public DownloadImageTask(ImageButton bmImage) {
+    public DownloadImageTask(ImageButton bmImage, App app) {
         this.bmImage = bmImage;
+        this.app = app;
     }
 
     protected Bitmap doInBackground(String... urls) {
         String urldisplay = urls[0];
         Bitmap mIcon11 = null;
         try {
+            Log.d("DownloadImageTask", "Downloading " + urldisplay);
             InputStream in = new java.net.URL(urldisplay).openStream();
             mIcon11 = BitmapFactory.decodeStream(in);
         } catch (Exception e) {
@@ -33,5 +36,6 @@ public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
 
     protected void onPostExecute(Bitmap result) {
         bmImage.setImageBitmap(result);
+        app.setLogoBitmap(result);
     }
 }
