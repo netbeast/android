@@ -54,8 +54,11 @@ public class CustomListAdapter extends BaseAdapter {
         // getting app data for the row
         App app = appItems.get(position);
 
-        // download app logo and set it to image button
-        new DownloadImageTask(imgBt).execute(app.getLogoURL());
+        if (app.getLogoURL() != null)
+            // download app logo and set it to image button
+            new DownloadImageTask(imgBt).execute(app.getLogoURL());
+        else
+            imgBt.setImageResource(R.drawable.dflt);
 
         // set app name to textView
         txt.setText(app.getName());

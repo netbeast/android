@@ -1,20 +1,15 @@
 package practicaiufragments.dam.com.netbeast;
 
+import android.support.v7.util.AsyncListUtil;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * Created by Alejandro Rodríguez Calzado on 28/04/16.
@@ -25,16 +20,19 @@ public class App {
     private String full_name;
     private String logoPath;
 
+    private String aux;
+    private String url;
+
     public App (String name) {
         this.name = name;
-        this.logoURL = calculateLogoUrl();
+        calculateLogoUrl();
         this.full_name = null;
     }
 
     public App (String name, String full_name) {
         this.name = name;
         this.full_name = full_name;
-        this.logoURL = calculateLogoUrl();
+        calculateLogoUrl();
     }
 
     public String getName() {
@@ -62,27 +60,46 @@ public class App {
     public void setLogoPath(String logoPath) { this.logoPath = logoPath; }
 
     private String calculateLogoUrl () {
-        String aux = null;
+        aux = null;
         if (full_name != null) {
-            String url = "https://raw.githubusercontent.com/" + full_name + "/master/";
-            this.askLogoPath(url + "package.json", this);
-            Log.d("LOGO1", "Hello " + name + "|" + this.getLogoPath() + "|" + this.logoPath);
+            url = "https://raw.githubusercontent.com/" + full_name + "/master/";
+            //this.askLogoPath(url + "package.json", this);
+            this.askLogoPath(url + "package.json", new DataCallback() {
+                @Override
+                public void onSuccess(JSONObject result) {
+                    try {
+                        logoPath = result.getString("logo");
+                        if (logoPath != null) {
+                            aux = url + logoPath;
+                            logoURL = aux;
+                            Log.d("LOGO2", aux);
+                        } else {
+                            aux = "http://" + Global.getInstance().getIP() + ":8000/api/apps/" + name + "/logo";
+                            logoURL = aux;
+                        }
+                    } catch (JSONException e) {
+                        Log.e("ERROR", e.getMessage(), e);
+                    }
+                }
+            });
+            /*Log.d("LOGO1", "Hello " + name + "|" + this.getLogoPath() + "|" + this.logoPath);
             if (this.logoPath != null) {
                 aux = url + this.logoPath;
                 Log.d("LOGO2", aux);
             }
             else
-                aux = "http://" + Global.getInstance().getIP() + ":8000/api/apps/" + name + "/logo";
+                aux = "http://" + Global.getInstance().getIP() + ":8000/api/apps/" + name + "/logo";*/
         }
         else {
             aux = "http://" + Global.getInstance().getIP() + ":8000/api/apps/" + name + "/logo";
+            logoURL = aux;
             Log.d("test", aux);
         }
 
         return aux;
     }
 
-    public void askLogoPath(String url, final App app) {
+    public void askLogoPath(String url, final DataCallback callback) {
 
         JsonObjectRequest req = new JsonObjectRequest(url,
                 new Response.Listener<JSONObject>() {
@@ -90,8 +107,9 @@ public class App {
                     public void onResponse(JSONObject response) {
                         try {
                             if(response.has("logo")) {
-                                app.setLogoPath(response.getString("logo"));
-                                Log.d("LOGO", app.getName() + " || " + app.getLogoPath());
+                                //app.setLogoPath(response.getString("logo"));
+                                Log.d("LOGO", response.getString("name") + " || " + response.getString("logo"));
+                                callback.onSuccess(response);
                             }
                             else
                                 logoPath = null;
