@@ -73,6 +73,7 @@
         android:layout_below="@+id/imageButton"
         android:layout_centerHorizontal="true" />
 
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -82,7 +83,8 @@
         android:layout_above="@+id/imageButton"
         android:layout_alignLeft="@+id/tv_explore"
         android:layout_alignStart="@+id/tv_explore"
-        android:onClick="changeIp"/>
+        android:onClick="changeIp"
+        android:clickable="true"/>
 
     <ImageButton
         android:layout_width="wrap_content"

@@ -189,6 +189,6 @@ public class MainActivity extends FragmentActivity {
 
     public void changeIp(View v) {
         DialogFragment newFragment = new ChangeIpDialog();
-        newFragment.show(getFragmentManager(), "missiles");
+        newFragment.show(getFragmentManager(),"ChangeIp");
     }
 }
