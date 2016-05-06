@@ -1,5 +1,6 @@
 package practicaiufragments.dam.com.netbeast;
 
+import android.graphics.Bitmap;
 import android.support.v7.util.AsyncListUtil;
 import android.util.Log;
 
@@ -19,18 +20,21 @@ public class App {
     private String logoURL;
     private String full_name;
     private String logoPath;
+    private Bitmap logoBitmap;
 
     private String aux;
     private String url;
 
     public App (String name) {
         this.name = name;
+        logoBitmap = null;
         calculateLogoUrl();
         this.full_name = null;
     }
 
     public App (String name, String full_name) {
         this.name = name;
+        logoBitmap = null;
         this.full_name = full_name;
         calculateLogoUrl();
     }
@@ -58,6 +62,14 @@ public class App {
     public String getLogoPath() {  return this.logoPath; }
 
     public void setLogoPath(String logoPath) { this.logoPath = logoPath; }
+
+    public Bitmap getLogoBitmap() {
+        return logoBitmap;
+    }
+
+    public void setLogoBitmap(Bitmap logoBitmap) {
+        this.logoBitmap = logoBitmap;
+    }
 
     private String calculateLogoUrl () {
         aux = null;

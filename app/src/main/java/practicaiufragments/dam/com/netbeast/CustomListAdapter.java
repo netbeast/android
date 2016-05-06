@@ -55,8 +55,14 @@ public class CustomListAdapter extends BaseAdapter {
         App app = appItems.get(position);
 
         if (app.getLogoURL() != null)
-            // download app logo and set it to image button
-            new DownloadImageTask(imgBt).execute(app.getLogoURL());
+            if (app.getLogoBitmap() == null)
+                // If the logo has not been downloaded yet...
+                // download app logo and set it to image button
+                new DownloadImageTask(imgBt, app).execute(app.getLogoURL());
+            else
+                // If the logo has already been downloaded...
+                // set it to image button
+                imgBt.setImageBitmap(app.getLogoBitmap());
         else
             imgBt.setImageResource(R.drawable.dflt);
 
