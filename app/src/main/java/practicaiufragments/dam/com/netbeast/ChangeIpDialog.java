@@ -51,9 +51,10 @@ public class ChangeIpDialog extends DialogFragment {
                         // givenIP is the one that de user set so we need to verify the format
 
                         if (givenIP.isEmpty() || !validateIP(givenIP)) {
-                            Toast.makeText(getContext(),
+                            Toast.makeText(getActivity(),
                                     R.string.ip_error_dialog,
                                     Toast.LENGTH_LONG).show();
+                            ChangeIpDialog.this.getDialog().dismiss();
                         } else {
                             Global g = Global.getInstance();
 

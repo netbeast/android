@@ -95,8 +95,8 @@ public class GitInstallActivity extends Activity{
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
-                Toast.makeText(getApplicationContext(),
-                        "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(),
+                //        "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
                 new Timer().schedule(
                         new TimerTask() {
                             @Override
