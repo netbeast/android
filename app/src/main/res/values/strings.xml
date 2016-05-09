@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Netbeast</string>
     <string name="action_settings">Settings</string>
+    <string name="web">http://netbeast.co/</string>
     <string name="connectedto">Connected to:</string>
     <string name="explore">EXPLORE</string>
     <string name="none">NONE</string>

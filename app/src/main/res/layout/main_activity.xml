@@ -13,8 +13,7 @@
         android:id="@+id/tv_connectedto"
         android:textColor="@color/text"
         android:typeface="sans"
-        android:textSize="15dp"
-        android:layout_below="@+id/view"
+        android:textSize="@dimen/connected"
         android:layout_toLeftOf="@+id/imageButton"
         android:layout_toStartOf="@+id/imageButton"
         android:layout_marginTop="20dp"/>
