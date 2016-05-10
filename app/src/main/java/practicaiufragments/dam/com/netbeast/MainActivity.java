@@ -5,14 +5,20 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -28,12 +34,16 @@ import org.json.JSONObject;
 
 import static practicaiufragments.dam.com.netbeast.R.id.tv_dashboardip;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
 
 
     private String IP;
     private String urlGetOneApp;
     private String urlGetAllApps;
+    private String urlGetApps;
+    private String urlGetPlugins;
+    private String urlGetActivities;
 
     private static String TAG = MainActivity.class.getSimpleName();
     private String jsonResponse = "";
@@ -46,14 +56,41 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_activity);
+        setContentView(R.layout.complete_main_activity);
 
         // Let's create/get global params
         Global g = Global.getInstance();
         IP = g.getIP();
-        urlGetOneApp = "http://" + IP + ":8000/api/app/";
-        urlGetAllApps = "http://" + IP + ":8000/api/apps";
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(false);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        toggle.setDrawerIndicatorEnabled(false);
+        toggle.setHomeAsUpIndicator(R.mipmap.logo);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        // onClick method to show the menu
+        toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                if (drawer.isDrawerOpen(GravityCompat.START)) {
+                    drawer.closeDrawer(GravityCompat.START);
+                } else {
+                    drawer.openDrawer(GravityCompat.START);
+                }
+            }
+        });
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
         tv_ip = (TextView)findViewById(tv_dashboardip);
         tv_ip.setText(IP);
@@ -116,57 +153,15 @@ public class MainActivity extends FragmentActivity {
         queue.add(stringRequest);
     }
 
-    public void exploreOneApp (View v, String app) {
-        showpDialog();
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
-                                                            urlGetOneApp + app,
-                                                            (String)null,
-                                                            new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                Log.d(TAG,response.toString());
-
-                try {
-                    String name = response.getString("name");
-
-                    jsonResponse = "";
-                    jsonResponse += "Name: " + name + "\n\n";
-
-
-                    Log.d(TAG, jsonResponse);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Toast.makeText(getApplicationContext(),
-                            "Error: " + e.getMessage(),
-                            Toast.LENGTH_LONG).show();
-                }
-                hidepDialog();
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-                Toast.makeText(getApplicationContext(),
-                        error.getMessage(), Toast.LENGTH_SHORT).show();
-                hidepDialog();
-            }
-        });
-
-        // Adding request to request queue
-        QueueController.getInstance().addToRequestQueue(jsonObjReq);
-    }
-
     public void exploreApps(View v) {
         Intent intent = new Intent(this, ExploreActivity.class);
 
         Global g = Global.getInstance();
         IP = g.getIP();
         urlGetAllApps = "http://" + IP + ":8000/api/modules";
-
         Bundle b = new Bundle();
         b.putString("url", urlGetAllApps);
+        b.putString("title", "Apps");
         intent.putExtras(b);
 
         startActivity(intent);
@@ -177,18 +172,68 @@ public class MainActivity extends FragmentActivity {
         startActivity(intent);
     }
 
-    private void showpDialog() {
-        if (!pDialog.isShowing())
-            pDialog.show();
-    }
-
-    private void hidepDialog() {
-        if (pDialog.isShowing())
-            pDialog.dismiss();
-    }
-
     public void changeIp(View v) {
         DialogFragment newFragment = new ChangeIpDialog();
-        newFragment.show(getFragmentManager(),"ChangeIp");
+        newFragment.show(getFragmentManager(), "ChangeIp");
+    }
+
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+
+        // Let's create/get global params
+        Global g = Global.getInstance();
+        IP = g.getIP();
+
+        Intent intent = new Intent(this, ExploreActivity.class);
+        Bundle b = new Bundle();
+
+        switch(item.getItemId()) {
+
+            case R.id.nav_apps:
+                urlGetApps = "http://" + IP + ":8000/api/apps";
+                b.putString("url", urlGetApps);
+                b.putString("title", "Apps");
+                intent.putExtras(b);
+                startActivity(intent);
+                break;
+            case R.id.nav_plugins:
+                urlGetPlugins = "http://" + IP + ":8000/api/plugins";
+                b.putString("url", urlGetPlugins);
+                b.putString("title", "Plugins");
+                intent.putExtras(b);
+                startActivity(intent);
+                break;
+            case R.id.nav_activities:
+                urlGetActivities = "http://" + IP + ":8000/api/activities";
+                b.putString("url", urlGetActivities);
+                b.putString("title", "Activities");
+                intent.putExtras(b);
+                startActivity(intent);
+                break;
+            case R.id.nav_install:
+                Intent install_intent = new Intent(this, InstallActivity.class);
+                startActivity(install_intent);
+                break;
+            case R.id.nav_delete:
+                urlGetAllApps = "http://" + IP + ":8000/api/modules";
+                b.putString("url", urlGetAllApps);
+                b.putString("title", "Delete");
+                intent.putExtras(b);
+                startActivity(intent);
+                break;
+            case R.id.nav_twitter:
+
+                break;
+            case R.id.nav_slack:
+
+                break;
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 }
+

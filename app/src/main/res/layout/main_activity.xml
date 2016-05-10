@@ -1,42 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/background"
     android:id="@+id/t">
-
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay"
-        android:id="@+id/view">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar_main"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/logo"
-                android:paddingRight="10dp"
-                android:paddingBottom="8dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textColor="@color/text"
-                android:typeface="sans"
-                android:textSize="20sp"
-                android:text="@string/app_name"/>
-        </android.support.v7.widget.Toolbar>
-
-    </android.support.design.widget.AppBarLayout>
 
     <TextView
         android:layout_width="wrap_content"
@@ -45,11 +13,10 @@
         android:id="@+id/tv_connectedto"
         android:textColor="@color/text"
         android:typeface="sans"
-        android:textSize="15dp"
-        android:layout_below="@+id/view"
+        android:textSize="@dimen/connected"
+        android:layout_alignBottom="@+id/tv_dashboardip"
         android:layout_toLeftOf="@+id/imageButton"
-        android:layout_toStartOf="@+id/imageButton"
-        android:layout_marginTop="20dp"/>
+        android:layout_toStartOf="@+id/imageButton" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -57,10 +24,9 @@
         android:id="@+id/imageButton"
         android:src="@drawable/btn_explore_white"
         android:background="@color/imgBackground"
-        android:layout_marginTop="34dp"
-        android:layout_below="@+id/tv_connectedto"
-        android:layout_centerHorizontal="true"
-        android:onClick="exploreApps" />
+        android:onClick="exploreApps"
+        android:layout_above="@+id/tv_explore"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -70,8 +36,10 @@
         android:textColor="#ffffff"
         android:typeface="sans"
         android:textSize="@dimen/app_name"
-        android:layout_below="@+id/imageButton"
-        android:layout_centerHorizontal="true" />
+        android:layout_above="@+id/imageButton2"
+        android:layout_alignRight="@+id/tv_install"
+        android:layout_alignEnd="@+id/tv_install"
+        android:layout_marginBottom="47dp" />
 
 
     <TextView
@@ -80,22 +48,22 @@
         android:text="@string/none"
         android:id="@+id/tv_dashboardip"
         android:textColor="@color/error"
-        android:layout_above="@+id/imageButton"
-        android:layout_alignLeft="@+id/tv_explore"
-        android:layout_alignStart="@+id/tv_explore"
         android:onClick="changeIp"
-        android:clickable="true"/>
+        android:clickable="true"
+        android:layout_above="@+id/imageButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="37dp" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageButton2"
-        android:layout_marginTop="31dp"
         android:src="@drawable/rsz_netbot_cajita_color_black_resized"
         android:background="@color/imgBackground"
-        android:layout_below="@+id/tv_explore"
-        android:layout_centerHorizontal="true"
-        android:onClick="installApps"/>
+        android:onClick="installApps"
+        android:layout_above="@+id/tv_install"
+        android:layout_toRightOf="@+id/tv_connectedto"
+        android:layout_toEndOf="@+id/tv_connectedto" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -105,8 +73,9 @@
         android:textColor="@color/text"
         android:typeface="sans"
         android:textSize="@dimen/app_name"
-        android:layout_below="@+id/imageButton2"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="49dp" />
 
 
 </RelativeLayout>
