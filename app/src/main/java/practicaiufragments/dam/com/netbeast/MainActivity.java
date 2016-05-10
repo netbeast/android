@@ -159,9 +159,9 @@ public class MainActivity extends AppCompatActivity
         Global g = Global.getInstance();
         IP = g.getIP();
         urlGetAllApps = "http://" + IP + ":8000/api/modules";
-
         Bundle b = new Bundle();
         b.putString("url", urlGetAllApps);
+        b.putString("title", "Apps");
         intent.putExtras(b);
 
         startActivity(intent);

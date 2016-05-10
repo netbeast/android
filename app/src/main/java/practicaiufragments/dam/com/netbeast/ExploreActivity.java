@@ -43,7 +43,6 @@ public class ExploreActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.explore_activity);
 
-        title = "Apps";
         Bundle b = getIntent().getExtras();
         if (b!=null) {
             url = b.getString("url");
