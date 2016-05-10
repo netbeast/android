@@ -108,6 +108,8 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    /* This is the settings button. If you want to display it uncomment this method and add
+       the settings item in main_menu.xml
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -122,7 +124,7 @@ public class MainActivity extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
-
+*/
 
     /*
         This is just a checking method that we can use to get responses if we don't know if
