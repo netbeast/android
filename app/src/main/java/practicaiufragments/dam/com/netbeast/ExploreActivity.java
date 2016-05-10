@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
@@ -24,14 +25,15 @@ import java.util.TimerTask;
  * Created by Alejandro Rodríguez Calzado on 24/04/16.
  */
 public class ExploreActivity extends Activity{
-    private String IP;
     private String url;
+    private String title;
 
     private static String TAG = ExploreActivity.class.getSimpleName();
 
     // Progress dialog
     private ProgressDialog pDialog;
 
+    private TextView textView;
     private ListView listView;
     private CustomListAdapter adapter;
     private ArrayList<App> appList;
@@ -41,14 +43,19 @@ public class ExploreActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.explore_activity);
 
+        title = "Apps";
         Bundle b = getIntent().getExtras();
-        if (b!=null)
+        if (b!=null) {
             url = b.getString("url");
+            title = b.getString("title");
+        }
         else
-            Log.d(TAG, "URL is null");
+            Log.d(TAG, "Bundle is null");
 
         appList = new ArrayList<>();
 
+        textView = (TextView) findViewById(R.id.title_text);
+        textView.setText(title);
         listView = (ListView) findViewById(R.id.list);
         adapter = new CustomListAdapter(this, appList);
         listView.setAdapter(adapter);

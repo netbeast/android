@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -40,6 +41,9 @@ public class MainActivity extends AppCompatActivity
     private String IP;
     private String urlGetOneApp;
     private String urlGetAllApps;
+    private String urlGetApps;
+    private String urlGetPlugins;
+    private String urlGetActivities;
 
     private static String TAG = MainActivity.class.getSimpleName();
     private String jsonResponse = "";
@@ -57,8 +61,6 @@ public class MainActivity extends AppCompatActivity
         // Let's create/get global params
         Global g = Global.getInstance();
         IP = g.getIP();
-        urlGetOneApp = "http://" + IP + ":8000/api/app/";
-        urlGetAllApps = "http://" + IP + ":8000/api/apps";
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -151,48 +153,6 @@ public class MainActivity extends AppCompatActivity
         queue.add(stringRequest);
     }
 
-    public void exploreOneApp (View v, String app) {
-        showpDialog();
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
-                                                            urlGetOneApp + app,
-                                                            (String)null,
-                                                            new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                Log.d(TAG,response.toString());
-
-                try {
-                    String name = response.getString("name");
-
-                    jsonResponse = "";
-                    jsonResponse += "Name: " + name + "\n\n";
-
-
-                    Log.d(TAG, jsonResponse);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Toast.makeText(getApplicationContext(),
-                            "Error: " + e.getMessage(),
-                            Toast.LENGTH_LONG).show();
-                }
-                hidepDialog();
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-                Toast.makeText(getApplicationContext(),
-                        error.getMessage(), Toast.LENGTH_SHORT).show();
-                hidepDialog();
-            }
-        });
-
-        // Adding request to request queue
-        QueueController.getInstance().addToRequestQueue(jsonObjReq);
-    }
-
     public void exploreApps(View v) {
         Intent intent = new Intent(this, ExploreActivity.class);
 
@@ -212,39 +172,63 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
     }
 
-    private void showpDialog() {
-        if (!pDialog.isShowing())
-            pDialog.show();
-    }
-
-    private void hidepDialog() {
-        if (pDialog.isShowing())
-            pDialog.dismiss();
-    }
-
     public void changeIp(View v) {
         DialogFragment newFragment = new ChangeIpDialog();
-        newFragment.show(getFragmentManager(),"ChangeIp");
+        newFragment.show(getFragmentManager(), "ChangeIp");
     }
+
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        // Let's create/get global params
+        Global g = Global.getInstance();
+        IP = g.getIP();
 
-        } else if (id == R.id.nav_slideshow) {
+        Intent intent = new Intent(this, ExploreActivity.class);
+        Bundle b = new Bundle();
 
-        } else if (id == R.id.nav_manage) {
+        switch(item.getItemId()) {
 
-        } else if (id == R.id.nav_share) {
+            case R.id.nav_apps:
+                urlGetApps = "http://" + IP + ":8000/api/apps";
+                b.putString("url", urlGetApps);
+                b.putString("title", "Apps");
+                intent.putExtras(b);
+                startActivity(intent);
+                break;
+            case R.id.nav_plugins:
+                urlGetPlugins = "http://" + IP + ":8000/api/plugins";
+                b.putString("url", urlGetPlugins);
+                b.putString("title", "Plugins");
+                intent.putExtras(b);
+                startActivity(intent);
+                break;
+            case R.id.nav_activities:
+                urlGetActivities = "http://" + IP + ":8000/api/activities";
+                b.putString("url", urlGetActivities);
+                b.putString("title", "Activities");
+                intent.putExtras(b);
+                startActivity(intent);
+                break;
+            case R.id.nav_install:
+                Intent install_intent = new Intent(this, InstallActivity.class);
+                startActivity(install_intent);
+                break;
+            case R.id.nav_delete:
+                urlGetAllApps = "http://" + IP + ":8000/api/modules";
+                b.putString("url", urlGetAllApps);
+                b.putString("title", "Delete");
+                intent.putExtras(b);
+                startActivity(intent);
+                break;
+            case R.id.nav_twitter:
 
-        } else if (id == R.id.nav_send) {
+                break;
+            case R.id.nav_slack:
 
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

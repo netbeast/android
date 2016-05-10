@@ -15,7 +15,12 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="explore_activity_tittle">Apps</string>
     <string name="install_activity_tittle">Install</string>
+    <string name="plugins_activity_tittle">Plugins</string>
+    <string name="activities_activity_tittle">Activities</string>
+    <string name="delete_activity_tittle">Delete</string>
     <string name="hint_install_activity">Paste here an URL to install from git</string>
     <string name="install_explore">Explore apps to install</string>
     <string name="install_git">Install from git</string>
+    <string name="twitter">\@netbeast_co</string>
+    <string name="slack">netbeast-community</string>
 </resources>

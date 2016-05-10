@@ -3,33 +3,37 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/dflt"
-            android:title="Import" />
+            android:id="@+id/nav_apps"
+            android:icon="@drawable/columns"
+            android:title="@string/explore_activity_tittle" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_plugins"
             android:icon="@drawable/btn_explore_white"
-            android:title="Gallery" />
+            android:title="@string/plugins_activity_tittle" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_activities"
             android:icon="@drawable/rsz_netbot_cajita_color_black_resized"
-            android:title="Slideshow" />
+            android:title="@string/activities_activity_tittle" />
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/nav_install"
             android:icon="@drawable/dflt"
-            android:title="Tools" />
+            android:title="@string/install_activity_tittle" />
+        <item
+            android:id="@+id/nav_delete"
+            android:icon="@drawable/bin"
+            android:title="@string/delete_activity_tittle" />
     </group>
 
     <item android:title="Communicate">
         <menu>
             <item
-                android:id="@+id/nav_share"
+                android:id="@+id/nav_twitter"
                 android:icon="@drawable/btn_explore_white"
-                android:title="Share" />
+                android:title="@string/twitter" />
             <item
-                android:id="@+id/nav_send"
+                android:id="@+id/nav_slack"
                 android:icon="@drawable/rsz_netbot_cajita_color_black_resized"
-                android:title="Send" />
+                android:title="@string/slack" />
         </menu>
     </item>
 
