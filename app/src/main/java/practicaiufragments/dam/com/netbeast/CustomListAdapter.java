@@ -3,6 +3,8 @@ package practicaiufragments.dam.com.netbeast;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -115,6 +117,7 @@ public class CustomListAdapter extends BaseAdapter {
                             mRequestParams.put("app", app.getName());
                             // Make post request
                             sendPostRequest();
+
                         }
                     });
                 }
@@ -181,6 +184,7 @@ public class CustomListAdapter extends BaseAdapter {
                 mRequestParams.put("app", app.getName());
                 // Make post request
                 sendPostRequest();
+                launchWebActivity(v, app.getName());
             }
         });
 
@@ -237,6 +241,12 @@ public class CustomListAdapter extends BaseAdapter {
         // Adding request to request queue
         QueueController.getInstance().addToRequestQueue(req);
     }
-
-
+    public void launchWebActivity (View view, String name)
+    {
+        Intent intent = new Intent(view.getContext(), WebActivity.class);
+        Bundle b = new Bundle();
+        b.putString("title", name);
+        intent.putExtras(b);
+        view.getContext().startActivity(intent);
+    }
 }
