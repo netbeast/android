@@ -56,7 +56,7 @@ public class ExploreActivity extends Activity{
         textView = (TextView) findViewById(R.id.title_text);
         textView.setText(title);
         listView = (ListView) findViewById(R.id.list);
-        adapter = new CustomListAdapter(this, appList);
+        adapter = new CustomListAdapter(this, appList, title);
         listView.setAdapter(adapter);
 
         pDialog = new ProgressDialog(this);
@@ -76,21 +76,19 @@ public class ExploreActivity extends Activity{
                     public void onResponse(JSONArray response) {
                         Log.d(TAG, response.toString());
 
-                        try {
                             for (int i = 0; i < response.length(); i++) {
-
-                                JSONObject app = (JSONObject) response.get(i);
-                                String name = app.getString("name");
-
-                                appList.add(new App(name));
-                                Log.d(TAG, name);
+                                try {
+                                    JSONObject app = (JSONObject) response.get(i);
+                                    String name = app.getString("name");
+                                    appList.add(new App(name));
+                                    Log.d(TAG, name);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    Toast.makeText(getApplicationContext(),
+                                            "Error: " + e.getMessage(),
+                                            Toast.LENGTH_LONG).show();
+                                }
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Toast.makeText(getApplicationContext(),
-                                    "Error: " + e.getMessage(),
-                                    Toast.LENGTH_LONG).show();
-                        }
 
                         new Timer().schedule(
                                 new TimerTask() {
@@ -133,5 +131,6 @@ public class ExploreActivity extends Activity{
         if (pDialog.isShowing())
             pDialog.dismiss();
     }
+
 }
 

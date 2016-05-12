@@ -63,7 +63,7 @@ public class GitInstallActivity extends Activity{
             public void onClick(View view) {
                 // Get url from text box
                 String url = editText.getText().toString();
-                // Use this url for post params
+                // Use this url to post params
                 mRequestParams.put("url", url);
                 // Make post request
                 installApp();

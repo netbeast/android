@@ -21,19 +21,31 @@ public class App {
     private String full_name;
     private String logoPath;
     private Bitmap logoBitmap;
+    private Boolean installed;
 
     private String aux;
     private String url;
 
+
     public App (String name) {
         this.name = name;
+        installed = true;
         logoBitmap = null;
         calculateLogoUrl();
         this.full_name = null;
     }
 
-    public App (String name, String full_name) {
+    public App (String name, Boolean installed) {
         this.name = name;
+        this.installed = installed;
+        logoBitmap = null;
+        calculateLogoUrl();
+        this.full_name = null;
+    }
+
+    public App (String name, Boolean installed, String full_name) {
+        this.name = name;
+        this.installed = installed;
         logoBitmap = null;
         this.full_name = full_name;
         calculateLogoUrl();
@@ -71,11 +83,14 @@ public class App {
         this.logoBitmap = logoBitmap;
     }
 
+    public Boolean getInstalled() { return installed; }
+
+    public void setInstalled(Boolean installed) { this.installed = installed; }
+
     private String calculateLogoUrl () {
         aux = null;
         if (full_name != null) {
             url = "https://raw.githubusercontent.com/" + full_name + "/master/";
-            //this.askLogoPath(url + "package.json", this);
             this.askLogoPath(url + "package.json", new DataCallback() {
                 @Override
                 public void onSuccess(JSONObject result) {
@@ -94,13 +109,6 @@ public class App {
                     }
                 }
             });
-            /*Log.d("LOGO1", "Hello " + name + "|" + this.getLogoPath() + "|" + this.logoPath);
-            if (this.logoPath != null) {
-                aux = url + this.logoPath;
-                Log.d("LOGO2", aux);
-            }
-            else
-                aux = "http://" + Global.getInstance().getIP() + ":8000/api/apps/" + name + "/logo";*/
         }
         else {
             aux = "http://" + Global.getInstance().getIP() + ":8000/api/apps/" + name + "/logo";
@@ -119,7 +127,6 @@ public class App {
                     public void onResponse(JSONObject response) {
                         try {
                             if(response.has("logo")) {
-                                //app.setLogoPath(response.getString("logo"));
                                 Log.d("LOGO", response.getString("name") + " || " + response.getString("logo"));
                                 callback.onSuccess(response);
                             }

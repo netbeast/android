@@ -5,23 +5,23 @@
         <item
             android:id="@+id/nav_apps"
             android:icon="@drawable/columns"
-            android:title="@string/explore_activity_tittle" />
+            android:title="@string/explore_activity_title" />
         <item
             android:id="@+id/nav_plugins"
             android:icon="@drawable/btn_explore_white"
-            android:title="@string/plugins_activity_tittle" />
+            android:title="@string/plugins_activity_title" />
         <item
             android:id="@+id/nav_activities"
             android:icon="@drawable/rsz_netbot_cajita_color_black_resized"
-            android:title="@string/activities_activity_tittle" />
+            android:title="@string/activities_activity_title" />
         <item
             android:id="@+id/nav_install"
             android:icon="@drawable/dflt"
-            android:title="@string/install_activity_tittle" />
+            android:title="@string/install_activity_title" />
         <item
-            android:id="@+id/nav_delete"
+            android:id="@+id/nav_remove"
             android:icon="@drawable/bin"
-            android:title="@string/delete_activity_tittle" />
+            android:title="@string/remove_activity_title" />
     </group>
 
     <item android:title="Communicate">

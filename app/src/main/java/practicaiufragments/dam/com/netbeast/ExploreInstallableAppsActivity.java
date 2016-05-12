@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONArray;
@@ -25,6 +26,10 @@ import java.util.TimerTask;
  */
 public class ExploreInstallableAppsActivity extends Activity {
     private String url;
+    private String urlGetAllApps;
+    private String IP;
+    private String title;
+    Boolean installed;
 
     private static String TAG = ExploreInstallableAppsActivity.class.getSimpleName();
 
@@ -41,12 +46,18 @@ public class ExploreInstallableAppsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.explore_activity);
 
+        Global g = Global.getInstance();
+        IP = g.getIP();
+        urlGetAllApps = "http://" + IP + ":8000/api/modules";
+
+        title = "Install";
+
         url = "https://api.github.com/search/repositories?q=netbeast+language:javascript";
 
         appList = new ArrayList<>();
 
         listView = (ListView) findViewById(R.id.list);
-        adapter = new CustomListAdapter(this, appList);
+        adapter = new CustomListAdapter(this, appList, title);
         listView.setAdapter(adapter);
 
         pDialog = new ProgressDialog(this);
@@ -70,16 +81,24 @@ public class ExploreInstallableAppsActivity extends Activity {
                             JSONArray items = response.getJSONArray("items");
                             Log.d(TAG, response.getJSONArray("items").toString());
                             for (int i = 0; i < items.length(); i++) {
-
                                 JSONObject app = (JSONObject) items.get(i);
-                                String name = app.getString("name");
-                                String full_name = app.getString("full_name");
-
-                                if (!contains(ignoreApps, name)) {
-                                    appList.add(new App(name, full_name));
-                                    Log.d(TAG, name + " || " + full_name);
-
-                                }
+                                final String name = app.getString("name");
+                                final String full_name = app.getString("full_name");
+                                isAppInstalled(name, new DataCallback() {
+                                    @Override
+                                    public void onSuccess(JSONObject response) {
+                                            if (!contains(ignoreApps, name)) {
+                                                appList.add(new App(name, installed, full_name));
+                                                if (installed)
+                                                    Log.d(TAG, name + " || " + full_name + " || is installed");
+                                                else
+                                                    Log.d(TAG, name + " || " + full_name + " || is NOT installed");
+                                            }
+                                        // notifying list adapter about data changes
+                                        // so that it renders the list view with updated data
+                                        adapter.notifyDataSetChanged();
+                                    }
+                                });
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -98,7 +117,7 @@ public class ExploreInstallableAppsActivity extends Activity {
 
                         // notifying list adapter about data changes
                         // so that it renders the list view with updated data
-                        adapter.notifyDataSetChanged();
+                        // adapter.notifyDataSetChanged();
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -143,5 +162,49 @@ public class ExploreInstallableAppsActivity extends Activity {
 
         return false;
     }
+
+
+    // This method requests all installed apps/plugins
+    // We should use it to set the image over the app to INSTALL or LAUNCH if the app is installed or not
+    public void isAppInstalled(final String name, final DataCallback callback) {
+
+        JsonArrayRequest req = new JsonArrayRequest(urlGetAllApps,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.d(TAG, response.toString());
+
+                        try {
+                            installed = false;
+                            for (int i = 0; i < response.length(); i++) {
+                                JSONObject result = (JSONObject) response.get(i);
+                                String nameApp = result.getString("name");
+                                if(nameApp.equals(name)){
+                                    installed = true;
+                                    callback.onSuccess(result);
+                                    Log.d("INST", "App " + name + " is installed");
+                                }
+                            }
+                            if (!installed)
+                                callback.onSuccess(null);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(getApplicationContext(),
+                                    "Error: " + e.getMessage(),
+                                    Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+            }
+        });
+
+        // Adding request to request queue
+        QueueController.getInstance().addToRequestQueue(req);
+    }
+
 }
 

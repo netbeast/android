@@ -1,7 +1,9 @@
 package practicaiufragments.dam.com.netbeast;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +11,19 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonArrayRequest;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by Alejandro Rodríguez Calzado on 28/04/16.
@@ -18,10 +32,19 @@ public class CustomListAdapter extends BaseAdapter {
     private Activity activity;
     private LayoutInflater inflater;
     private List<App> appItems;
+    private String title;
+    private String IP;
+    private String url;
 
-    public CustomListAdapter(Activity activity, List<App> appItems) {
+
+    private HashMap<String, String> mRequestParams;
+
+    private static String TAG = CustomListAdapter.class.getSimpleName();
+
+    public CustomListAdapter(Activity activity, List<App> appItems, String title) {
         this.activity = activity;
         this.appItems = appItems;
+        this.title = title;
     }
 
     @Override
@@ -48,11 +71,12 @@ public class CustomListAdapter extends BaseAdapter {
         if (convertView == null)
             convertView = inflater.inflate(R.layout.custom_row, null);
 
-        ImageButton imgBt = (ImageButton) convertView.findViewById(R.id.button);
+        ImageButton imgBt = (ImageButton) convertView.findViewById(R.id.imbutton);
         TextView txt = (TextView) convertView.findViewById(R.id.text);
+        ImageButton bt = (ImageButton) convertView.findViewById(R.id.button);
 
         // getting app data for the row
-        App app = appItems.get(position);
+        final App app = appItems.get(position);
 
         if (app.getLogoURL() != null)
             if (app.getLogoBitmap() == null)
@@ -69,6 +93,150 @@ public class CustomListAdapter extends BaseAdapter {
         // set app name to textView
         txt.setText(app.getName());
 
+
+        // Let's create/get global params
+        Global g = Global.getInstance();
+        IP = g.getIP();
+
+        mRequestParams = new HashMap<>();
+
+        // Set the button over the apps, to INSTALL, LAUNCH, REMOVE or STOP
+        switch(title){
+            case "Install":
+                bt.setVisibility(View.VISIBLE);
+                if (app.getInstalled()) {
+                    bt.setImageResource(R.drawable.launch);
+                    bt.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            url = "http://" + IP + ":8000/api/activities/" + app.getName();
+                            //String gitUrl = "https://github.com/" + app.getFull_name();
+                            // Use this url to post params
+                            mRequestParams.put("app", app.getName());
+                            // Make post request
+                            sendPostRequest();
+                        }
+                    });
+                }
+                else {
+                    bt.setImageResource(R.drawable.install);
+                    bt.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            url = "http://" + IP + ":8000/api/apps";
+                            String gitUrl = "https://github.com/" + app.getFull_name();
+                            // Use this url to post params
+                            mRequestParams.put("url", gitUrl);
+                            // Make post request
+                            sendPostRequest();
+
+                        }
+                    });
+                }
+                break;
+            case "Activities":
+                bt.setVisibility(View.VISIBLE);
+                bt.setImageResource(R.drawable.stop);
+                bt.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        url = "http://" + IP + ":8000/api/activities/" + app.getName();
+                        // Use this url to post params
+                        mRequestParams.put("url", url);
+                        // Make post request
+                        sendDeleteRequest();
+                    }
+                });
+                imgBt.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
+                break;
+            case "Remove":
+                bt.setVisibility(View.VISIBLE);
+                bt.setImageResource(R.drawable.remove);
+                bt.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        url = "http://" + IP + ":8000/api/apps/" + app.getName();
+                        // Use this url to post params
+                        mRequestParams.put("url", url);
+                        // Make post request
+                        sendDeleteRequest();
+                    }
+                });
+                break;
+        }
+
+        // If you click on an app, it launches
+        imgBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                url = "http://" + IP + ":8000/api/activities/" + app.getName();
+                //String gitUrl = "https://github.com/" + app.getFull_name();
+                // Use this url to post params
+                mRequestParams.put("app", app.getName());
+                // Make post request
+                sendPostRequest();
+            }
+        });
+
         return convertView;
     }
+
+
+    // Generic method to make a POST request
+    public void sendPostRequest() {
+
+        JsonArrayRequest req = new JsonArrayRequest(Request.Method.POST, url,
+                new JSONObject(mRequestParams),
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.d(TAG, "ERROR:  " + response.toString());
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                //Toast.makeText(getApplicationContext(),
+                //        "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        // Adding request to request queue
+        QueueController.getInstance().addToRequestQueue(req);
+    }
+
+
+    // Generic method to make a DELETE request
+    public void sendDeleteRequest() {
+
+        JsonArrayRequest req = new JsonArrayRequest(Request.Method.DELETE, url,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                //Toast.makeText(getApplicationContext(),
+                //        "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        // Adding request to request queue
+        QueueController.getInstance().addToRequestQueue(req);
+    }
+
+
 }

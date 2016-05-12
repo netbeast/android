@@ -13,11 +13,11 @@
     <string name="hint_dialog_text">Dashboard IP</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="explore_activity_tittle">Apps</string>
-    <string name="install_activity_tittle">Install</string>
-    <string name="plugins_activity_tittle">Plugins</string>
-    <string name="activities_activity_tittle">Activities</string>
-    <string name="delete_activity_tittle">Delete</string>
+    <string name="explore_activity_title">Apps</string>
+    <string name="install_activity_title">Install</string>
+    <string name="plugins_activity_title">Plugins</string>
+    <string name="activities_activity_title">Activities</string>
+    <string name="remove_activity_title">Remove</string>
     <string name="hint_install_activity">Paste here an URL to install from git</string>
     <string name="install_explore">Explore apps to install</string>
     <string name="install_git">Install from git</string>

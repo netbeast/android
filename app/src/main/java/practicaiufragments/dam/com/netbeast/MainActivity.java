@@ -218,10 +218,10 @@ public class MainActivity extends AppCompatActivity
                 Intent install_intent = new Intent(this, InstallActivity.class);
                 startActivity(install_intent);
                 break;
-            case R.id.nav_delete:
+            case R.id.nav_remove:
                 urlGetAllApps = "http://" + IP + ":8000/api/modules";
                 b.putString("url", urlGetAllApps);
-                b.putString("title", "Delete");
+                b.putString("title", "Remove");
                 intent.putExtras(b);
                 startActivity(intent);
                 break;
