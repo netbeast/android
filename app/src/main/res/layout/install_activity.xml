@@ -33,7 +33,7 @@
                 android:textColor="@color/text"
                 android:typeface="sans"
                 android:textSize="20sp"
-                android:text="@string/install_activity_tittle"/>
+                android:text="@string/install_activity_title"/>
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
