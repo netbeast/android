@@ -18,6 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -117,7 +118,7 @@ public class CustomListAdapter extends BaseAdapter {
                             mRequestParams.put("app", app.getName());
                             // Make post request
                             sendPostRequest();
-
+                            launchWebActivity(v, app.getName());
                         }
                     });
                 }
@@ -179,8 +180,7 @@ public class CustomListAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 url = "http://" + IP + ":8000/api/activities/" + app.getName();
-                //String gitUrl = "https://github.com/" + app.getFull_name();
-                // Use this url to post params
+                // Use the app name to post params
                 mRequestParams.put("app", app.getName());
                 // Make post request
                 sendPostRequest();
@@ -195,21 +195,17 @@ public class CustomListAdapter extends BaseAdapter {
     // Generic method to make a POST request
     public void sendPostRequest() {
 
-        JsonArrayRequest req = new JsonArrayRequest(Request.Method.POST, url,
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, url,
                 new JSONObject(mRequestParams),
-                new Response.Listener<JSONArray>() {
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(JSONArray response) {
-                        Log.d(TAG, "ERROR:  " + response.toString());
-
+                    public void onResponse(JSONObject response) {
+                        Log.d(TAG, "POST request has been made");
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
-                //Toast.makeText(getApplicationContext(),
-                //        "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-
             }
         });
 
@@ -221,20 +217,16 @@ public class CustomListAdapter extends BaseAdapter {
     // Generic method to make a DELETE request
     public void sendDeleteRequest() {
 
-        JsonArrayRequest req = new JsonArrayRequest(Request.Method.DELETE, url,
-                new Response.Listener<JSONArray>() {
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.DELETE, url,
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(JSONArray response) {
-
-
+                    public void onResponse(JSONObject response) {
+                        Log.d(TAG, "DELETE request has been made");
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
-                //Toast.makeText(getApplicationContext(),
-                //        "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-
             }
         });
 
