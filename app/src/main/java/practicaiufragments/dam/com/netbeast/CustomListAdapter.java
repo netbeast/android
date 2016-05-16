@@ -3,8 +3,6 @@ package practicaiufragments.dam.com.netbeast;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +16,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -118,7 +115,6 @@ public class CustomListAdapter extends BaseAdapter {
                             mRequestParams.put("app", app.getName());
                             // Make post request
                             sendPostRequest();
-                            launchWebActivity(v, app.getName());
                         }
                     });
                 }
@@ -180,11 +176,11 @@ public class CustomListAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 url = "http://" + IP + ":8000/api/activities/" + app.getName();
-                // Use the app name to post params
+                //String gitUrl = "https://github.com/" + app.getFull_name();
+                // Use this url to post params
                 mRequestParams.put("app", app.getName());
                 // Make post request
                 sendPostRequest();
-                launchWebActivity(v, app.getName());
             }
         });
 
@@ -195,17 +191,21 @@ public class CustomListAdapter extends BaseAdapter {
     // Generic method to make a POST request
     public void sendPostRequest() {
 
-        JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, url,
+        JsonArrayRequest req = new JsonArrayRequest(Request.Method.POST, url,
                 new JSONObject(mRequestParams),
-                new Response.Listener<JSONObject>() {
+                new Response.Listener<JSONArray>() {
                     @Override
-                    public void onResponse(JSONObject response) {
-                        Log.d(TAG, "POST request has been made");
+                    public void onResponse(JSONArray response) {
+                        Log.d(TAG, "ERROR:  " + response.toString());
+
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
+                //Toast.makeText(getApplicationContext(),
+                //        "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -217,28 +217,26 @@ public class CustomListAdapter extends BaseAdapter {
     // Generic method to make a DELETE request
     public void sendDeleteRequest() {
 
-        JsonObjectRequest req = new JsonObjectRequest(Request.Method.DELETE, url,
-                new Response.Listener<JSONObject>() {
+        JsonArrayRequest req = new JsonArrayRequest(Request.Method.DELETE, url,
+                new Response.Listener<JSONArray>() {
                     @Override
-                    public void onResponse(JSONObject response) {
-                        Log.d(TAG, "DELETE request has been made");
+                    public void onResponse(JSONArray response) {
+
+
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
+                //Toast.makeText(getApplicationContext(),
+                //        "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+
             }
         });
 
         // Adding request to request queue
         QueueController.getInstance().addToRequestQueue(req);
     }
-    public void launchWebActivity (View view, String name)
-    {
-        Intent intent = new Intent(view.getContext(), WebActivity.class);
-        Bundle b = new Bundle();
-        b.putString("title", name);
-        intent.putExtras(b);
-        view.getContext().startActivity(intent);
-    }
+
+
 }
