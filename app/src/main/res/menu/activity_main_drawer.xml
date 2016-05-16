@@ -8,15 +8,15 @@
             android:title="@string/explore_activity_title" />
         <item
             android:id="@+id/nav_plugins"
-            android:icon="@drawable/btn_explore_white"
+            android:icon="@drawable/plugin"
             android:title="@string/plugins_activity_title" />
         <item
             android:id="@+id/nav_activities"
-            android:icon="@drawable/rsz_netbot_cajita_color_black_resized"
+            android:icon="@drawable/compass"
             android:title="@string/activities_activity_title" />
         <item
             android:id="@+id/nav_install"
-            android:icon="@drawable/dflt"
+            android:icon="@drawable/rsz_netbot_cajita_color_black_resized"
             android:title="@string/install_activity_title" />
         <item
             android:id="@+id/nav_remove"
@@ -28,11 +28,11 @@
         <menu>
             <item
                 android:id="@+id/nav_twitter"
-                android:icon="@drawable/btn_explore_white"
+                android:icon="@drawable/twitter"
                 android:title="@string/twitter" />
             <item
                 android:id="@+id/nav_slack"
-                android:icon="@drawable/rsz_netbot_cajita_color_black_resized"
+                android:icon="@drawable/slack"
                 android:title="@string/slack" />
         </menu>
     </item>
