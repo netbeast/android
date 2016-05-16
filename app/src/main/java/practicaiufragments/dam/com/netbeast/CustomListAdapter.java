@@ -1,8 +1,9 @@
 package practicaiufragments.dam.com.netbeast;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,15 +16,12 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * Created by Alejandro Rodríguez Calzado on 28/04/16.
@@ -34,6 +32,7 @@ public class CustomListAdapter extends BaseAdapter {
     private List<App> appItems;
     private String title;
     private String IP;
+    private String port;
     private String url;
 
 
@@ -97,6 +96,7 @@ public class CustomListAdapter extends BaseAdapter {
         // Let's create/get global params
         Global g = Global.getInstance();
         IP = g.getIP();
+        port = g.getPort();
 
         mRequestParams = new HashMap<>();
 
@@ -109,12 +109,13 @@ public class CustomListAdapter extends BaseAdapter {
                     bt.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            url = "http://" + IP + ":8000/api/activities/" + app.getName();
+                            url = "http://" + IP + ":" + port + "/api/activities/" + app.getName();
                             //String gitUrl = "https://github.com/" + app.getFull_name();
                             // Use this url to post params
                             mRequestParams.put("app", app.getName());
                             // Make post request
                             sendPostRequest();
+                            launchWebActivity(v, app.getName());
                         }
                     });
                 }
@@ -124,7 +125,7 @@ public class CustomListAdapter extends BaseAdapter {
                         @Override
                         public void onClick(View v) {
 
-                            url = "http://" + IP + ":8000/api/apps";
+                            url = "http://" + IP + ":" + port + "/api/apps";
                             String gitUrl = "https://github.com/" + app.getFull_name();
                             // Use this url to post params
                             mRequestParams.put("url", gitUrl);
@@ -141,7 +142,7 @@ public class CustomListAdapter extends BaseAdapter {
                 bt.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        url = "http://" + IP + ":8000/api/activities/" + app.getName();
+                        url = "http://" + IP + ":" + port + "/api/activities/" + app.getName();
                         // Use this url to post params
                         mRequestParams.put("url", url);
                         // Make post request
@@ -161,7 +162,7 @@ public class CustomListAdapter extends BaseAdapter {
                 bt.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        url = "http://" + IP + ":8000/api/apps/" + app.getName();
+                        url = "http://" + IP + ":" + port + "/api/apps/" + app.getName();
                         // Use this url to post params
                         mRequestParams.put("url", url);
                         // Make post request
@@ -175,12 +176,12 @@ public class CustomListAdapter extends BaseAdapter {
         imgBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                url = "http://" + IP + ":8000/api/activities/" + app.getName();
-                //String gitUrl = "https://github.com/" + app.getFull_name();
-                // Use this url to post params
+                url = "http://" + IP + ":" + port + "/api/activities/" + app.getName();
+                // Use the app name to post params
                 mRequestParams.put("app", app.getName());
                 // Make post request
                 sendPostRequest();
+                launchWebActivity(v, app.getName());
             }
         });
 
@@ -191,21 +192,17 @@ public class CustomListAdapter extends BaseAdapter {
     // Generic method to make a POST request
     public void sendPostRequest() {
 
-        JsonArrayRequest req = new JsonArrayRequest(Request.Method.POST, url,
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, url,
                 new JSONObject(mRequestParams),
-                new Response.Listener<JSONArray>() {
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(JSONArray response) {
-                        Log.d(TAG, "ERROR:  " + response.toString());
-
+                    public void onResponse(JSONObject response) {
+                        Log.d(TAG, "POST request has been made");
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
-                //Toast.makeText(getApplicationContext(),
-                //        "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-
             }
         });
 
@@ -217,26 +214,28 @@ public class CustomListAdapter extends BaseAdapter {
     // Generic method to make a DELETE request
     public void sendDeleteRequest() {
 
-        JsonArrayRequest req = new JsonArrayRequest(Request.Method.DELETE, url,
-                new Response.Listener<JSONArray>() {
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.DELETE, url,
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(JSONArray response) {
-
-
+                    public void onResponse(JSONObject response) {
+                        Log.d(TAG, "DELETE request has been made");
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
-                //Toast.makeText(getApplicationContext(),
-                //        "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-
             }
         });
 
         // Adding request to request queue
         QueueController.getInstance().addToRequestQueue(req);
     }
-
-
+    public void launchWebActivity (View view, String name)
+    {
+        Intent intent = new Intent(view.getContext(), WebActivity.class);
+        Bundle b = new Bundle();
+        b.putString("title", name);
+        intent.putExtras(b);
+        view.getContext().startActivity(intent);
+    }
 }

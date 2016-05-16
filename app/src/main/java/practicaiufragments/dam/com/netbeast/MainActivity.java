@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -14,23 +13,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import static practicaiufragments.dam.com.netbeast.R.id.tv_dashboardip;
 
@@ -39,14 +24,13 @@ public class MainActivity extends AppCompatActivity
 
 
     private String IP;
-    private String urlGetOneApp;
+    private String port;
     private String urlGetAllApps;
     private String urlGetApps;
     private String urlGetPlugins;
     private String urlGetActivities;
 
     private static String TAG = MainActivity.class.getSimpleName();
-    private String jsonResponse = "";
 
     // Progress dialog
     private ProgressDialog pDialog;
@@ -62,6 +46,7 @@ public class MainActivity extends AppCompatActivity
         Global g = Global.getInstance();
         IP = g.getIP();
 
+        // Toolbar with the menu
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -126,41 +111,13 @@ public class MainActivity extends AppCompatActivity
     }
 */
 
-    /*
-        This is just a checking method that we can use to get responses if we don't know if
-        it's working properly.
-     */
-    public void botonClickeado(View v) {
-        final TextView mTextView = (TextView) findViewById(R.id.text);
-
-        // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://" + IP;
-
-        // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        // Display the first 500 characters of the response string.
-                        mTextView.setText("Response is: " + response.substring(0, 500));
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                mTextView.setText("That didn't work!");
-            }
-        });
-        // Add the request to the RequestQueue.
-        queue.add(stringRequest);
-    }
-
     public void exploreApps(View v) {
         Intent intent = new Intent(this, ExploreActivity.class);
 
         Global g = Global.getInstance();
         IP = g.getIP();
-        urlGetAllApps = "http://" + IP + ":8000/api/modules";
+        port = g.getPort();
+        urlGetAllApps = "http://" + IP + ":" + port + "/api/modules";
         Bundle b = new Bundle();
         b.putString("url", urlGetAllApps);
         b.putString("title", "Apps");
@@ -180,6 +137,8 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -187,44 +146,54 @@ public class MainActivity extends AppCompatActivity
         // Let's create/get global params
         Global g = Global.getInstance();
         IP = g.getIP();
+        port = g.getPort();
 
+        // The default activity to launch is explore
         Intent intent = new Intent(this, ExploreActivity.class);
         Bundle b = new Bundle();
 
+        // Menu options
         switch(item.getItemId()) {
-
+            // Case Apps
             case R.id.nav_apps:
-                urlGetApps = "http://" + IP + ":8000/api/apps";
+                urlGetApps = "http://" + IP + ":" + port + "/api/apps";
                 b.putString("url", urlGetApps);
                 b.putString("title", "Apps");
                 intent.putExtras(b);
                 startActivity(intent);
                 break;
+            // Case Plugins
             case R.id.nav_plugins:
-                urlGetPlugins = "http://" + IP + ":8000/api/plugins";
+                urlGetPlugins = "http://" + IP + ":" + port + "/api/plugins";
                 b.putString("url", urlGetPlugins);
                 b.putString("title", "Plugins");
                 intent.putExtras(b);
                 startActivity(intent);
                 break;
+            // Case Activities
             case R.id.nav_activities:
-                urlGetActivities = "http://" + IP + ":8000/api/activities";
+                urlGetActivities = "http://" + IP + ":" + port + "/api/activities";
                 b.putString("url", urlGetActivities);
                 b.putString("title", "Activities");
                 intent.putExtras(b);
                 startActivity(intent);
                 break;
+            // Case Install
             case R.id.nav_install:
+                // Launch install activity instead of explore
                 Intent install_intent = new Intent(this, InstallActivity.class);
                 startActivity(install_intent);
                 break;
+            // Case Remove
             case R.id.nav_remove:
-                urlGetAllApps = "http://" + IP + ":8000/api/modules";
+                urlGetAllApps = "http://" + IP + ":" + port + "/api/modules";
                 b.putString("url", urlGetAllApps);
                 b.putString("title", "Remove");
                 intent.putExtras(b);
                 startActivity(intent);
                 break;
+
+            // Example options for other sections in the menu
             case R.id.nav_twitter:
 
                 break;
