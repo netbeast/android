@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -27,6 +26,7 @@ import java.util.TimerTask;
  */
 public class GitInstallActivity extends Activity{
     private String IP;
+    private String port;
     private String urlPostApp;
 
     private static String TAG = GitInstallActivity.class.getSimpleName();
@@ -47,7 +47,8 @@ public class GitInstallActivity extends Activity{
         // Let's create/get global params
         Global g = Global.getInstance();
         IP = g.getIP();
-        urlPostApp = "http://" + IP + ":8000/api/apps";
+        port = g.getPort();
+        urlPostApp = "http://" + IP + ":" + port + "/api/apps";
 
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Please wait...");

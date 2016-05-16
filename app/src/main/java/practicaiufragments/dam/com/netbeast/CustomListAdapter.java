@@ -1,7 +1,6 @@
 package practicaiufragments.dam.com.netbeast;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,16 +16,12 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * Created by Alejandro Rodríguez Calzado on 28/04/16.
@@ -37,6 +32,7 @@ public class CustomListAdapter extends BaseAdapter {
     private List<App> appItems;
     private String title;
     private String IP;
+    private String port;
     private String url;
 
 
@@ -100,6 +96,7 @@ public class CustomListAdapter extends BaseAdapter {
         // Let's create/get global params
         Global g = Global.getInstance();
         IP = g.getIP();
+        port = g.getPort();
 
         mRequestParams = new HashMap<>();
 
@@ -112,7 +109,7 @@ public class CustomListAdapter extends BaseAdapter {
                     bt.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            url = "http://" + IP + ":8000/api/activities/" + app.getName();
+                            url = "http://" + IP + ":" + port + "/api/activities/" + app.getName();
                             //String gitUrl = "https://github.com/" + app.getFull_name();
                             // Use this url to post params
                             mRequestParams.put("app", app.getName());
@@ -128,7 +125,7 @@ public class CustomListAdapter extends BaseAdapter {
                         @Override
                         public void onClick(View v) {
 
-                            url = "http://" + IP + ":8000/api/apps";
+                            url = "http://" + IP + ":" + port + "/api/apps";
                             String gitUrl = "https://github.com/" + app.getFull_name();
                             // Use this url to post params
                             mRequestParams.put("url", gitUrl);
@@ -145,7 +142,7 @@ public class CustomListAdapter extends BaseAdapter {
                 bt.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        url = "http://" + IP + ":8000/api/activities/" + app.getName();
+                        url = "http://" + IP + ":" + port + "/api/activities/" + app.getName();
                         // Use this url to post params
                         mRequestParams.put("url", url);
                         // Make post request
@@ -165,7 +162,7 @@ public class CustomListAdapter extends BaseAdapter {
                 bt.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        url = "http://" + IP + ":8000/api/apps/" + app.getName();
+                        url = "http://" + IP + ":" + port + "/api/apps/" + app.getName();
                         // Use this url to post params
                         mRequestParams.put("url", url);
                         // Make post request
@@ -179,7 +176,7 @@ public class CustomListAdapter extends BaseAdapter {
         imgBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                url = "http://" + IP + ":8000/api/activities/" + app.getName();
+                url = "http://" + IP + ":" + port + "/api/activities/" + app.getName();
                 // Use the app name to post params
                 mRequestParams.put("app", app.getName());
                 // Make post request

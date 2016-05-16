@@ -28,6 +28,7 @@ public class ExploreInstallableAppsActivity extends Activity {
     private String url;
     private String urlGetAllApps;
     private String IP;
+    private String port;
     private String title;
     Boolean installed;
 
@@ -48,7 +49,8 @@ public class ExploreInstallableAppsActivity extends Activity {
 
         Global g = Global.getInstance();
         IP = g.getIP();
-        urlGetAllApps = "http://" + IP + ":8000/api/modules";
+        port = g.getPort();
+        urlGetAllApps = "http://" + IP + ":" + port + "/api/modules";
 
         title = "Install";
 

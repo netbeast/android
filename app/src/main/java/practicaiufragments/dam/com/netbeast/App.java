@@ -1,7 +1,6 @@
 package practicaiufragments.dam.com.netbeast;
 
 import android.graphics.Bitmap;
-import android.support.v7.util.AsyncListUtil;
 import android.util.Log;
 
 import com.android.volley.Response;
@@ -30,14 +29,6 @@ public class App {
     public App (String name) {
         this.name = name;
         installed = true;
-        logoBitmap = null;
-        calculateLogoUrl();
-        this.full_name = null;
-    }
-
-    public App (String name, Boolean installed) {
-        this.name = name;
-        this.installed = installed;
         logoBitmap = null;
         calculateLogoUrl();
         this.full_name = null;
@@ -89,6 +80,7 @@ public class App {
 
     private String calculateLogoUrl () {
         aux = null;
+        final Global g = Global.getInstance();
         if (full_name != null) {
             url = "https://raw.githubusercontent.com/" + full_name + "/master/";
             this.askLogoPath(url + "package.json", new DataCallback() {
@@ -101,7 +93,7 @@ public class App {
                             logoURL = aux;
                             Log.d("LOGO2", aux);
                         } else {
-                            aux = "http://" + Global.getInstance().getIP() + ":8000/api/apps/" + name + "/logo";
+                            aux = "http://" + g.getIP() + ":" + g.getPort() + "/api/apps/" + name + "/logo";
                             logoURL = aux;
                         }
                     } catch (JSONException e) {
@@ -111,7 +103,7 @@ public class App {
             });
         }
         else {
-            aux = "http://" + Global.getInstance().getIP() + ":8000/api/apps/" + name + "/logo";
+            aux = "http://" + g.getIP() + ":" + g.getPort() + "/api/apps/" + name + "/logo";
             logoURL = aux;
             Log.d("test", aux);
         }

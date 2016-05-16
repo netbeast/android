@@ -18,6 +18,7 @@ import java.util.TimerTask;
 public class WebActivity extends Activity {
     private String title;
     private String IP;
+    private String port;
 
     private static String TAG = WebActivity.class.getSimpleName();
 
@@ -45,6 +46,7 @@ public class WebActivity extends Activity {
         // Let's create/get global params
         Global g = Global.getInstance();
         IP = g.getIP();
+        port = g.getPort();
 
         WebView myWebView = (WebView) this.findViewById(R.id.webView);
 
@@ -59,7 +61,7 @@ public class WebActivity extends Activity {
         showpDialog();
 
         // Load proxy app url
-        myWebView.loadUrl("http://" + IP + ":8000/i/" + title);
+        myWebView.loadUrl("http://" + IP + ":" + port + "/i/" + title);
 
         new Timer().schedule(
                 new TimerTask() {
