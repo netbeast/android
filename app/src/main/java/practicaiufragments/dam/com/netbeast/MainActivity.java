@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity
     private String urlGetPlugins;
     private String urlGetActivities;
 
+    private UDPMessenger udp;
     private static String TAG = MainActivity.class.getSimpleName();
 
     // Progress dialog
@@ -80,6 +81,8 @@ public class MainActivity extends AppCompatActivity
         tv_ip = (TextView)findViewById(tv_dashboardip);
         tv_ip.setText(IP);
         tv_ip.setTextColor(Color.parseColor("#33cc33"));
+
+        udp = new UDPMessenger(this);
 
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Please wait...");
@@ -205,6 +208,11 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void select_dashboard(View v) {
+        udp.sendMessage("hi");
+        udp.startMessageReceiver();
     }
 }
 
