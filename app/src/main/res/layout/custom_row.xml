@@ -8,7 +8,7 @@
     android:id="@+id/linearchild">
 
     <ImageButton
-        android:layout_width="wrap_content"
+        android:layout_width="175dp"
         android:layout_height="wrap_content"
         android:id="@+id/imbutton"
         android:src="@drawable/dflt"
@@ -17,6 +17,8 @@
         android:layout_marginBottom="8dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
         android:onClick=""/>
 
     <TextView
@@ -34,13 +36,15 @@
         android:layout_marginBottom="10dp"/>
 
     <ImageButton
-        android:layout_width="wrap_content"
+        android:layout_width="125dp"
         android:layout_height="wrap_content"
         android:id="@+id/button"
         android:visibility="invisible"
         android:src="@drawable/install"
         android:background="@color/imgBackground"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"/>
 
 </RelativeLayout>
