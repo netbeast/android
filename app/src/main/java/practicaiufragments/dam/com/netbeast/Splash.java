@@ -25,7 +25,7 @@ public class Splash extends Activity {
             @Override
             public void run() {
                 // Create an Intent that will start the Main Activity.
-                Intent mainIntent = new Intent(Splash.this,MainActivity.class);
+                Intent mainIntent = new Intent(Splash.this,SelectDashboardActivity.class);
                 Splash.this.startActivity(mainIntent);
                 Splash.this.finish();
             }

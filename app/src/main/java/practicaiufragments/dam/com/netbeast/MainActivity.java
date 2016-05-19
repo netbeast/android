@@ -79,7 +79,11 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         tv_ip = (TextView)findViewById(tv_dashboardip);
-        tv_ip.setText(IP);
+        // if we have connected to the cloud dashboard, show "Cloud" instead of an IP
+        if(IP.equals("dashboard.827722d5.svc.dockerapp.io"))
+            tv_ip.setText("Cloud");
+        else
+            tv_ip.setText(IP);
         tv_ip.setTextColor(Color.parseColor("#33cc33"));
 
         udp = new UDPMessenger(this);
@@ -208,11 +212,6 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    public void select_dashboard(View v) {
-        udp.sendMessage("hi");
-        udp.startMessageReceiver();
     }
 }
 

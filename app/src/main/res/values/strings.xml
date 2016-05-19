@@ -18,6 +18,8 @@
     <string name="plugins_activity_title">Plugins</string>
     <string name="activities_activity_title">Activities</string>
     <string name="remove_activity_title">Remove</string>
+    <string name="select_dashboard">Select Dashboard</string>
+    <string name="choose_dashboard">Choose a dashboard to connect</string>
     <string name="hint_install_activity">Paste here an URL to install from git</string>
     <string name="install_explore">Explore apps to install</string>
     <string name="install_git">Install from git</string>

@@ -77,14 +77,4 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="49dp" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SELECT DASHBOARD"
-        android:onClick="select_dashboard"
-        android:layout_alignTop="@+id/tv_dashboardip"
-        android:layout_toRightOf="@+id/tv_explore"
-        android:layout_toEndOf="@+id/tv_explore" />
-
-
 </RelativeLayout>

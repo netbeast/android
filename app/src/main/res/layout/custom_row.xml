@@ -18,8 +18,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:adjustViewBounds="true"
-        android:scaleType="fitXY"
-        android:onClick=""/>
+        android:scaleType="fitXY" />
 
     <TextView
         android:layout_width="fill_parent"

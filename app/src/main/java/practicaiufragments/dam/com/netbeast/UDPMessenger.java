@@ -105,57 +105,73 @@ public class UDPMessenger {
 
     public void startMessageReceiver() {
 
-        Runnable receiver = new Runnable() {
-            @Override
-            public void run() {
-                // Enable multicast
-                WifiManager wim = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-                if (wim != null) {
-                    MulticastLock mcLock = wim.createMulticastLock(TAG);
-                    mcLock.acquire();
-                }
+        // Check for WiFi connectivity
+        ConnectivityManager connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo mWifi = null;
+        NetworkInfo activeNetwork = connManager.getActiveNetworkInfo();
+        if (activeNetwork != null) { // connected to the internet
+            if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI) // connected to wifi
+                mWifi = activeNetwork;
+        }
 
-                byte[] buffer = new byte[BUFFER_SIZE];
-                DatagramPacket rPacket = new DatagramPacket(buffer, buffer.length);
-
-                // Create the receiver socket
-                if(rsocket == null)
-                {
-                    try {
-                        rsocket = new DatagramSocket(MULTICAST_PORT);
-                    } catch (IOException e) {
-                        Log.d(DEBUG_TAG, "Impossible to create a new socket on port " + MULTICAST_PORT);
-                        e.printStackTrace();
-                        return;
-                    }
-                }
-                while (receiveMessages) {
-                    try {
-                        socket.receive(rPacket);
-                    } catch (IOException e1) {
-                        Log.d(DEBUG_TAG, "There was a problem receiving the incoming message.");
-                        e1.printStackTrace();
-                        continue;
+        if (mWifi == null || !mWifi.isConnected()) {
+            Log.d(DEBUG_TAG, "Sorry! You need to be in a WiFi network in order to send UDP multicast packets. Aborting.");
+            Global.getInstance().setIP("10.100.3.24");
+            Global.getInstance().setPort("8000");
+        } else {
+            Runnable receiver = new Runnable() {
+                @Override
+                public void run() {
+                    // Enable multicast
+                    WifiManager wim = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+                    if (wim != null) {
+                        MulticastLock mcLock = wim.createMulticastLock(TAG);
+                        mcLock.acquire();
                     }
 
-                    String port = new String(rPacket.getData(), 0, rPacket.getLength()); // Aquí está el puerto
-                    String ip = rPacket.getAddress().getHostAddress(); // Aquí está la ip
-                    Log.d("RESPUESTA", ip + ":" + port);
+                    byte[] buffer = new byte[BUFFER_SIZE];
+                    DatagramPacket rPacket = new DatagramPacket(buffer, buffer.length);
 
-                    if (!receiveMessages)
-                        break;
+                    // Create the receiver socket
+                    if (rsocket == null) {
+                        try {
+                            rsocket = new DatagramSocket(MULTICAST_PORT);
+                        } catch (IOException e) {
+                            Log.d(DEBUG_TAG, "Impossible to create a new socket on port " + MULTICAST_PORT);
+                            e.printStackTrace();
+                            return;
+                        }
+                    }
+                    while (receiveMessages) {
+                        try {
+                            socket.receive(rPacket);
+                        } catch (IOException e1) {
+                            Log.d(DEBUG_TAG, "There was a problem receiving the incoming message.");
+                            e1.printStackTrace();
+                            continue;
+                        }
 
+                        String port = new String(rPacket.getData(), 0, rPacket.getLength()); // Aquí está el puerto
+                        String ip = rPacket.getAddress().getHostAddress(); // Aquí está la ip
+                        Log.d("RESPUESTA", ip + ":" + port);
+                        Global.getInstance().setIP(ip);
+                        Global.getInstance().setPort(port);
+
+                        if (!receiveMessages)
+                            break;
+
+                    }
                 }
+            };
+
+            receiveMessages = true;
+
+            if (receiverThread == null)
+                receiverThread = new Thread(receiver);
+
+            if (!receiverThread.isAlive()) {
+                receiverThread.start();
             }
-        };
-
-        receiveMessages = true;
-
-        if(receiverThread == null)
-            receiverThread = new Thread(receiver);
-
-        if(!receiverThread.isAlive()) {
-            receiverThread.start();
         }
     }
 
