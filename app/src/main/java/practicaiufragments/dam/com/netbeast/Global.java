@@ -9,8 +9,8 @@ public class Global {
     private static Global instance;
 
     // IP where the dashboard is running
-    private String IP = "192.168.1.138";
-    private String port = "8000";
+    private String IP = "dashboard.827722d5.svc.dockerapp.io";
+    private String port = "";
 
     public void setIP (String ip) { this.IP = ip; }
 
