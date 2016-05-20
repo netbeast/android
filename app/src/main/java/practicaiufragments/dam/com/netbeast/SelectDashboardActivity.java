@@ -4,10 +4,16 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -22,6 +28,10 @@ public class SelectDashboardActivity extends Activity {
     private UDPMessenger udp;
 
     TextView tv;
+    LinearLayout l;
+    ListView listView;
+    CustomListAdapter adapter;
+    ArrayList<String> lista;
 
     // Progress dialog
     private ProgressDialog pDialog;
@@ -47,6 +57,13 @@ public class SelectDashboardActivity extends Activity {
             //Toast.makeText(getApplicationContext(),
             //        "Sorry! You need to be in a WiFi network", Toast.LENGTH_SHORT).show();
         udp.startMessageReceiver();
+        final int N = 10;
+        listView = (ListView) findViewById(R.id.list);
+
+        lista = new ArrayList<>();
+        adapter = new CustomListAdapter(this,lista);
+
+        listView.setAdapter(adapter);
         new Timer().schedule(
                 new TimerTask() {
                     @Override
@@ -55,11 +72,16 @@ public class SelectDashboardActivity extends Activity {
                     }
                 }, 1500);
 
-        // Let's create/get global params
-        Global g = Global.getInstance();
-        tv = (TextView)findViewById(R.id.dashboard_tv);
-        tv.setText(g.getIP()+":"+g.getPort());
+        for (int i = 0; i < N; i++) {
+            if (lista == null)
+                lista = new ArrayList<>();
+            lista.add("Dashboard " + i);
+            adapter.notifyDataSetChanged();
+        }
     }
+
+
+
     private void showpDialog() {
         if (!pDialog.isShowing())
             pDialog.show();
@@ -70,10 +92,6 @@ public class SelectDashboardActivity extends Activity {
             pDialog.dismiss();
     }
 
-    public void dashboardSelected(View v){
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
     public void cloudDashboard(View v){
         Global g = Global.getInstance();
         // dashboard cloud address

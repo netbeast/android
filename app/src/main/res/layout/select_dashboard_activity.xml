@@ -38,19 +38,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/dashboard_tv"
-        android:text="@string/none"
-        android:textColor="@color/colorAccent"
-        android:textSize="@dimen/app_name"
-        android:typeface="sans"
-        android:layout_centerHorizontal="true"
-        android:layout_above="@id/installButton1"
-        android:onClick="dashboardSelected"/>
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -59,9 +46,8 @@
         android:textColor="@color/text"
         android:typeface="sans"
         android:textSize="25sp"
-        android:layout_centerHorizontal="true"
-        android:layout_above="@id/dashboard_tv"/>
-
+        android:layout_below="@+id/view"
+        android:layout_centerHorizontal="true" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -72,8 +58,14 @@
         android:textSize="@dimen/app_name"
         android:textAlignment="center"
         android:onClick="cloudDashboard"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/list"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp" />
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="wrap_content"
+        android:layout_height="350dp"
+        android:layout_below="@id/tv_dashboards" />
 
 
 </RelativeLayout>
