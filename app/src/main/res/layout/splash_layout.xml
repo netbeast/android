@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/background">
+    android:background="@color/colorPrimary">
 
     <ImageView android:id="@+id/splashscreen"
         android:layout_width="250dp"
@@ -21,6 +21,7 @@
         android:textColor="@color/text"
         android:textAlignment="center"
         android:textSize="50sp"
+        android:typeface="sans"
         android:layout_below="@id/splashscreen"/>
 
 </RelativeLayout>
