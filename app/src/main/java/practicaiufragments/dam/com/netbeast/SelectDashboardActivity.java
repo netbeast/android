@@ -48,15 +48,12 @@ public class SelectDashboardActivity extends Activity {
 
         // Show dialog "Looking for dashboards"
         showpDialog();
+
         // Send multicast message
-        //if (udp.sendMessage("hi"))
+        if (udp.sendMessage("hi", getApplicationContext()))
             // Wait for responses
-            //udp.startMessageReceiver();
-        //else
-        // If wifi is not connected show toast
-            //Toast.makeText(getApplicationContext(),
-            //        "Sorry! You need to be in a WiFi network", Toast.LENGTH_SHORT).show();
-        udp.startMessageReceiver();
+            udp.startMessageReceiver();
+
         final int N = 10;
         listView = (ListView) findViewById(R.id.list);
 

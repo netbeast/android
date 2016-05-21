@@ -19,14 +19,14 @@ public class Splash extends Activity {
         super.onCreate(icicle);
         setContentView(R.layout.splash_layout);
 
-        // New Handler to start the Main Activity
+        // New Handler to start the other Splash
         // and close this Splash-Screen after some seconds.
         new Handler().postDelayed(new Runnable(){
             @Override
             public void run() {
-                // Create an Intent that will start the Main Activity.
-                Intent mainIntent = new Intent(Splash.this,SelectDashboardActivity.class);
-                Splash.this.startActivity(mainIntent);
+                // Create an Intent that will start the other Splash Activity.
+                Intent intent = new Intent(Splash.this, DiscoveringDashboardsSplash.class);
+                Splash.this.startActivity(intent);
                 Splash.this.finish();
             }
         }, SPLASH_DISPLAY_LENGTH);

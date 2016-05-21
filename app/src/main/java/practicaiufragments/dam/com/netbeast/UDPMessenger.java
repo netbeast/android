@@ -15,6 +15,7 @@ import android.net.wifi.WifiManager;
 import android.net.wifi.WifiManager.MulticastLock;
 import android.os.StrictMode;
 import android.util.Log;
+import android.widget.Toast;
 
 /**
  * Created by Cayetano Rodríguez Medina on 17/5/16.
@@ -49,7 +50,7 @@ public class UDPMessenger {
     }
 
 
-    public boolean sendMessage(String message) throws IllegalArgumentException {
+    public boolean sendMessage(String message, Context context) throws IllegalArgumentException {
         if(message == null || message.length() == 0)
             throw new IllegalArgumentException();
 
@@ -65,6 +66,9 @@ public class UDPMessenger {
         if(mWifi == null || !mWifi.isConnected())
         {
             Log.d(DEBUG_TAG, "Sorry! You need to be in a WiFi network in order to send UDP multicast packets. Aborting.");
+            // If wifi is not connected show toast
+            Toast.makeText(context,
+                    "Sorry! You need to be in a WiFi network", Toast.LENGTH_SHORT).show();
             return false;
         }
 

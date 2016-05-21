@@ -8,7 +8,7 @@ package practicaiufragments.dam.com.netbeast;
 public class Global {
     private static Global instance;
 
-    // IP where the dashboard is running
+    // IP and port where the dashboard is running
     private String IP = "dashboard.827722d5.svc.dockerapp.io";
     private String port = "";
 

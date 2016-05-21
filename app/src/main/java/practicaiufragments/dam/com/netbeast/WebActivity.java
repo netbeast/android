@@ -16,7 +16,7 @@ import java.util.TimerTask;
  */
 
 public class WebActivity extends Activity {
-    private String title;
+    private String app_name;
     private String IP;
     private String port;
 
@@ -30,18 +30,18 @@ public class WebActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         this.setContentView(R.layout.web_app);
 
+        // Get the app name to include it as the title of the activity
         Bundle b = getIntent().getExtras();
         if (b!=null) {
-            title = b.getString("title");
+            app_name = b.getString("title");
         }
         else
             Log.d(TAG, "Bundle is null");
 
         textView = (TextView) findViewById(R.id.title_text);
-        textView.setText(title);
+        textView.setText(app_name);
 
         // Let's create/get global params
         Global g = Global.getInstance();
@@ -61,7 +61,7 @@ public class WebActivity extends Activity {
         showpDialog();
 
         // Load proxy app url
-        myWebView.loadUrl("http://" + IP + ":" + port + "/i/" + title);
+        myWebView.loadUrl("http://" + IP + ":" + port + "/i/" + app_name);
 
         new Timer().schedule(
                 new TimerTask() {
@@ -70,8 +70,6 @@ public class WebActivity extends Activity {
                         hidepDialog();
                     }
                 }, 2000);
-
-
     }
 
     private void showpDialog() {
