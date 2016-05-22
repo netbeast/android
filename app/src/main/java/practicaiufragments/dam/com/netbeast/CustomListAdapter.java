@@ -125,7 +125,6 @@ public class CustomListAdapter extends BaseAdapter {
                             @Override
                             public void onClick(View v) {
                                 url = "http://" + IP + ":" + port + "/api/activities/" + app.getName();
-                                //String gitUrl = "https://github.com/" + app.getFull_name();
                                 // Use this url to post params
                                 mRequestParams.put("app", app.getName());
                                 // Make post request
@@ -138,14 +137,12 @@ public class CustomListAdapter extends BaseAdapter {
                         bt.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-
                                 url = "http://" + IP + ":" + port + "/api/apps";
                                 String gitUrl = "https://github.com/" + app.getFull_name();
                                 // Use this url to post params
                                 mRequestParams.put("url", gitUrl);
                                 // Make post request
                                 sendPostRequest();
-
                             }
                         });
                     }
@@ -270,6 +267,7 @@ public class CustomListAdapter extends BaseAdapter {
         // Adding request to request queue
         QueueController.getInstance().addToRequestQueue(req);
     }
+
     public void launchWebActivity (View view, String name)
     {
         Intent intent = new Intent(view.getContext(), WebActivity.class);

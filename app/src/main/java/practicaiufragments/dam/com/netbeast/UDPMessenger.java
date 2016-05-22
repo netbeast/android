@@ -187,7 +187,6 @@ public class UDPMessenger {
         }
     }
 
-    public void stopMessageReceiver() {
-        receiveMessages = false;
-    }
+    public void stopMessageReceiver() { receiveMessages = false; }
+
 }
