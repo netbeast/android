@@ -1,5 +1,9 @@
 package practicaiufragments.dam.com.netbeast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Created by Cayetano Rodríguez Medina on 26/4/16.
  */
@@ -11,6 +15,7 @@ public class Global {
     // IP and port where the dashboard is running
     private String IP = "dashboard.827722d5.svc.dockerapp.io";
     private String port = "";
+    private JSONArray dashboards;
 
     public void setIP (String ip) { this.IP = ip; }
 
@@ -19,6 +24,24 @@ public class Global {
     public void setPort (String port) { this.port = port; }
 
     public String getPort () { return this.port; }
+
+    public void addDashboard (String ip, String port) {
+        if (dashboards == null)
+            dashboards = new JSONArray();
+
+        JSONObject dash = new JSONObject();
+        try {
+            dash.put("ip", ip);
+            dash.put("port", port);
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        dashboards.put(dash);
+    }
+
+    public JSONArray getDashboards() {
+        return this.dashboards;
+    }
 
     // Singleton implementation
     public static synchronized Global getInstance() {

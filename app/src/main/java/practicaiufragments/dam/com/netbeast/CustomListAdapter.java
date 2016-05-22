@@ -18,6 +18,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -209,7 +211,15 @@ public class CustomListAdapter extends BaseAdapter {
             txt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Global.getInstance().setIP(items.get(position));
+                    Global g = Global.getInstance();
+                    JSONArray dashboards = g.getDashboards();
+                    try {
+                        JSONObject dash = (JSONObject) dashboards.get(position);
+                        g.setIP(dash.getString("ip"));
+                        g.setPort(dash.getString("port"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     Intent intent = new Intent(v.getContext(), MainActivity.class);
                     v.getContext().startActivity(intent);
                 }

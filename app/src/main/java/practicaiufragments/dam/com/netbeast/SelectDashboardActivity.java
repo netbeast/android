@@ -1,19 +1,16 @@
 package practicaiufragments.dam.com.netbeast;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -27,14 +24,10 @@ public class SelectDashboardActivity extends Activity {
     private String port;
     private UDPMessenger udp;
 
-    TextView tv;
-    LinearLayout l;
     ListView listView;
     CustomListAdapter adapter;
-    ArrayList<String> lista;
+    ArrayList<String> list;
 
-    // Progress dialog
-    private ProgressDialog pDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,53 +35,56 @@ public class SelectDashboardActivity extends Activity {
 
         udp = new UDPMessenger(this);
 
-        pDialog = new ProgressDialog(this);
-        pDialog.setMessage("Looking for dashboards...");
-        pDialog.setCancelable(false);
-
-        // Show dialog "Looking for dashboards"
-        showpDialog();
 
         // Send multicast message
-        if (udp.sendMessage("hi", getApplicationContext()))
-            // Wait for responses
+        if (udp.sendMessage("hi"))
+            // If there isn't any problem, wait for responses
+            udp.startMessageReceiver();
+        else // este else está para probar cuando no haya móvil físico
             udp.startMessageReceiver();
 
-        final int N = 10;
-        listView = (ListView) findViewById(R.id.list);
-
-        lista = new ArrayList<>();
-        adapter = new CustomListAdapter(this,lista);
-
-        listView.setAdapter(adapter);
+        // After one second, stop waiting for responses
         new Timer().schedule(
                 new TimerTask() {
                     @Override
                     public void run() {
-                        hidepDialog();
+                        udp.stopMessageReceiver();
                     }
-                }, 1500);
+                }, 1000);
 
-        for (int i = 0; i < N; i++) {
-            if (lista == null)
-                lista = new ArrayList<>();
-            lista.add("Dashboard " + i);
+        listView = (ListView) findViewById(R.id.list);
+
+        list = new ArrayList<>();
+        adapter = new CustomListAdapter(this,list);
+
+        listView.setAdapter(adapter);
+
+        Global g = Global.getInstance();
+        JSONArray dashboards = g.getDashboards();
+
+        // Go over the JSONArray dashboards that has all dashboards as JSON Objects
+        for (int i = 0; i < dashboards.length(); i++) {
+            // Create the list if it's not created
+            if (list == null)
+                list = new ArrayList<>();
+
+            try {
+                // Get the JSONObject for position i in the dashboards list
+                JSONObject dash = (JSONObject) dashboards.get(i);
+                IP = dash.getString("ip");
+                port = dash.getString("port");
+                // Add to the list in screen the dashboard in position i, as IP:port
+                list.add(IP + ":" + port);
+            }catch (JSONException e) {
+                e.printStackTrace();
+            }
+            // Update the list
             adapter.notifyDataSetChanged();
         }
     }
 
 
-
-    private void showpDialog() {
-        if (!pDialog.isShowing())
-            pDialog.show();
-    }
-
-    private void hidepDialog() {
-        if (pDialog.isShowing())
-            pDialog.dismiss();
-    }
-
+    // Method that will be called in the onClick of the "Use dashboard in the cloud" button
     public void cloudDashboard(View v){
         Global g = Global.getInstance();
         // dashboard cloud address

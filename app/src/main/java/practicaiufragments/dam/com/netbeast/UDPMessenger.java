@@ -50,7 +50,7 @@ public class UDPMessenger {
     }
 
 
-    public boolean sendMessage(String message, Context context) throws IllegalArgumentException {
+    public boolean sendMessage(String message) throws IllegalArgumentException {
         if(message == null || message.length() == 0)
             throw new IllegalArgumentException();
 
@@ -79,20 +79,23 @@ public class UDPMessenger {
             } catch (SocketException e) {
                 Log.d(DEBUG_TAG, "There was a problem creating the sending socket. Aborting.");
                 e.printStackTrace();
+                Toast.makeText(context,
+                        "There was a problem creating the socket", Toast.LENGTH_SHORT).show();
                 return false;
             }
         }
 
         // Build the packet
         DatagramPacket packet;
-        String msg = "hi";
-        byte data[] = msg.getBytes();
+        byte data[] = message.getBytes();
 
         try {
             packet = new DatagramPacket(data, data.length, InetAddress.getByName(MULTICAST_IP), MULTICAST_PORT);
         } catch (UnknownHostException e) {
             Log.d(DEBUG_TAG, "It seems that " + MULTICAST_IP + " is not a valid ip! Aborting.");
             e.printStackTrace();
+            Toast.makeText(context,
+                    "It seems that " + MULTICAST_IP + "is not a valid ip!", Toast.LENGTH_SHORT).show();
             return false;
         }
 
@@ -101,6 +104,8 @@ public class UDPMessenger {
         } catch (IOException e) {
             Log.d(DEBUG_TAG, "There was an error sending the UDP packet. Aborted.");
             e.printStackTrace();
+            Toast.makeText(context,
+                    "There was an error sending the UDP packet", Toast.LENGTH_SHORT).show();
             return false;
         }
 
@@ -120,8 +125,12 @@ public class UDPMessenger {
 
         if (mWifi == null || !mWifi.isConnected()) {
             Log.d(DEBUG_TAG, "Sorry! You need to be in a WiFi network in order to send UDP multicast packets. Aborting.");
-            Global.getInstance().setIP("10.100.3.24");
-            Global.getInstance().setPort("8000");
+            String ip = "10.100.12.2";
+            String port = "1234";
+            Global.getInstance().addDashboard(ip, port);
+            String ip2 = "10.100.12.221";
+            String port2 = "4321";
+            Global.getInstance().addDashboard(ip2, port2);
         } else {
             Runnable receiver = new Runnable() {
                 @Override
@@ -158,8 +167,7 @@ public class UDPMessenger {
                         String port = new String(rPacket.getData(), 0, rPacket.getLength()); // Aquí está el puerto
                         String ip = rPacket.getAddress().getHostAddress(); // Aquí está la ip
                         Log.d("RESPUESTA", ip + ":" + port);
-                        Global.getInstance().setIP(ip);
-                        Global.getInstance().setPort(port);
+                        Global.getInstance().addDashboard(ip, port);
 
                         if (!receiveMessages)
                             break;
