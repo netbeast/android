@@ -1,12 +1,12 @@
 package practicaiufragments.dam.com.netbeast;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.widget.TextView;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -15,33 +15,34 @@ import java.util.TimerTask;
  * Created by Cayetano Rodríguez Medina on 12/5/16.
  */
 
-public class WebActivity extends Activity {
-    private String title;
+public class WebActivity extends AppCompatActivity {
+    private String app_name;
     private String IP;
     private String port;
 
     private static String TAG = WebActivity.class.getSimpleName();
 
+    private NavigationViewListener navigationViewListener;
+
     // Progress dialog
     private ProgressDialog pDialog;
 
-    private TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         this.setContentView(R.layout.web_app);
 
+        // Get the app name to include it as the title of the activity
         Bundle b = getIntent().getExtras();
         if (b!=null) {
-            title = b.getString("title");
+            app_name = b.getString("title");
         }
         else
             Log.d(TAG, "Bundle is null");
 
-        textView = (TextView) findViewById(R.id.title_text);
-        textView.setText(title);
+        navigationViewListener = new NavigationViewListener(this);
+        getSupportActionBar().setTitle(app_name);
 
         // Let's create/get global params
         Global g = Global.getInstance();
@@ -61,7 +62,7 @@ public class WebActivity extends Activity {
         showpDialog();
 
         // Load proxy app url
-        myWebView.loadUrl("http://" + IP + ":" + port + "/i/" + title);
+        myWebView.loadUrl("http://" + IP + ":" + port + "/i/" + app_name);
 
         new Timer().schedule(
                 new TimerTask() {
@@ -70,8 +71,13 @@ public class WebActivity extends Activity {
                         hidepDialog();
                     }
                 }, 2000);
+    }
 
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
     }
 
     private void showpDialog() {

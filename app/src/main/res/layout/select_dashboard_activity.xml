@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
     android:background="@color/background">
+
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay"
-        android:id="@+id/viewDialog">
+        android:id="@+id/view">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbarDialog"
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
@@ -27,39 +28,44 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/dialog_text"
+                android:id="@+id/text"
                 android:textStyle="bold"
                 android:textColor="@color/text"
                 android:typeface="sans"
                 android:textSize="20sp"
-                android:layout_marginRight="30dp"
-                android:text="@string/ip_dialog_message"/>
+                android:text="@string/select_dashboard"/>
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
-    <EditText
-        android:id="@+id/ipTextEdit"
-        android:inputType="text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
-        android:layout_marginBottom="4dp"
-        android:hint="@string/hint_dialog_text"
-        android:textColorHint="@color/hintText"
-        android:textColor="@color/text"/>
-    <EditText
-        android:id="@+id/portTextEdit"
-        android:inputType="text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
-        android:layout_marginBottom="4dp"
-        android:hint="@string/hint_port_dialog_text"
-        android:textColorHint="@color/hintText"
-        android:textColor="@color/text"/>
 
-</LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_dashboards"
+        android:text="@string/choose_dashboard"
+        android:textColor="@color/text"
+        android:typeface="sans"
+        android:textSize="25sp"
+        android:layout_below="@+id/view"
+        android:layout_centerHorizontal="true" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/installButton1"
+        android:text="Use dashboard in the cloud"
+        android:textColor="@color/text"
+        android:typeface="sans"
+        android:textSize="@dimen/app_name"
+        android:textAlignment="center"
+        android:onClick="cloudDashboard"
+        android:layout_below="@+id/list"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp" />
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="wrap_content"
+        android:layout_height="350dp"
+        android:layout_below="@id/tv_dashboards" />
+
+
+</RelativeLayout>

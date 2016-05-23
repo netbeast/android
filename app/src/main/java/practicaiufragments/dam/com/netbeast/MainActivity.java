@@ -19,23 +19,22 @@ import android.widget.TextView;
 
 import static practicaiufragments.dam.com.netbeast.R.id.tv_dashboardip;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity {
 
 
     private String IP;
     private String port;
     private String urlGetAllApps;
-    private String urlGetApps;
-    private String urlGetPlugins;
-    private String urlGetActivities;
 
+    private UDPMessenger udp;
     private static String TAG = MainActivity.class.getSimpleName();
 
     // Progress dialog
     private ProgressDialog pDialog;
 
     private TextView tv_ip;
+
+    private NavigationViewListener navigationViewListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,40 +45,17 @@ public class MainActivity extends AppCompatActivity
         Global g = Global.getInstance();
         IP = g.getIP();
 
-        // Toolbar with the menu
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(false);
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        toggle.setDrawerIndicatorEnabled(false);
-        toggle.setHomeAsUpIndicator(R.mipmap.logo);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        // onClick method to show the menu
-        toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-                if (drawer.isDrawerOpen(GravityCompat.START)) {
-                    drawer.closeDrawer(GravityCompat.START);
-                } else {
-                    drawer.openDrawer(GravityCompat.START);
-                }
-            }
-        });
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        navigationViewListener = new NavigationViewListener(this);
 
         tv_ip = (TextView)findViewById(tv_dashboardip);
-        tv_ip.setText(IP);
+        // if we have connected to the cloud dashboard, show "Cloud" instead of an IP
+        if(IP.equals("dashboard.827722d5.svc.dockerapp.io"))
+            tv_ip.setText("Cloud");
+        else
+            tv_ip.setText(IP);
         tv_ip.setTextColor(Color.parseColor("#33cc33"));
+
+        udp = new UDPMessenger(this);
 
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Please wait...");
@@ -120,7 +96,7 @@ public class MainActivity extends AppCompatActivity
         urlGetAllApps = "http://" + IP + ":" + port + "/api/modules";
         Bundle b = new Bundle();
         b.putString("url", urlGetAllApps);
-        b.putString("title", "Apps");
+        b.putString("title", "Explore");
         intent.putExtras(b);
 
         startActivity(intent);
@@ -134,77 +110,6 @@ public class MainActivity extends AppCompatActivity
     public void changeIp(View v) {
         DialogFragment newFragment = new ChangeIpDialog();
         newFragment.show(getFragmentManager(), "ChangeIp");
-    }
-
-
-
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-
-        // Let's create/get global params
-        Global g = Global.getInstance();
-        IP = g.getIP();
-        port = g.getPort();
-
-        // The default activity to launch is explore
-        Intent intent = new Intent(this, ExploreActivity.class);
-        Bundle b = new Bundle();
-
-        // Menu options
-        switch(item.getItemId()) {
-            // Case Apps
-            case R.id.nav_apps:
-                urlGetApps = "http://" + IP + ":" + port + "/api/apps";
-                b.putString("url", urlGetApps);
-                b.putString("title", "Apps");
-                intent.putExtras(b);
-                startActivity(intent);
-                break;
-            // Case Plugins
-            case R.id.nav_plugins:
-                urlGetPlugins = "http://" + IP + ":" + port + "/api/plugins";
-                b.putString("url", urlGetPlugins);
-                b.putString("title", "Plugins");
-                intent.putExtras(b);
-                startActivity(intent);
-                break;
-            // Case Activities
-            case R.id.nav_activities:
-                urlGetActivities = "http://" + IP + ":" + port + "/api/activities";
-                b.putString("url", urlGetActivities);
-                b.putString("title", "Activities");
-                intent.putExtras(b);
-                startActivity(intent);
-                break;
-            // Case Install
-            case R.id.nav_install:
-                // Launch install activity instead of explore
-                Intent install_intent = new Intent(this, InstallActivity.class);
-                startActivity(install_intent);
-                break;
-            // Case Remove
-            case R.id.nav_remove:
-                urlGetAllApps = "http://" + IP + ":" + port + "/api/modules";
-                b.putString("url", urlGetAllApps);
-                b.putString("title", "Remove");
-                intent.putExtras(b);
-                startActivity(intent);
-                break;
-
-            // Example options for other sections in the menu
-            case R.id.nav_twitter:
-
-                break;
-            case R.id.nav_slack:
-
-                break;
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
 }
 

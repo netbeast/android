@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="practicaiufragments.dam.com.netbeast" >
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
 
 
     <application
@@ -12,7 +16,7 @@
         android:theme="@style/AppTheme"
         android:name="practicaiufragments.dam.com.netbeast.QueueController">
         <activity
-            android:name=".MainActivity"
+            android:name=".Splash"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
@@ -20,6 +24,11 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
             android:name=".ExploreActivity"
@@ -40,9 +49,19 @@
         android:name=".GitInstallActivity"
         android:label="@string/app_name"
         android:theme="@style/AppTheme.NoActionBar" >
-    </activity>
+        </activity>
         <activity
             android:name=".WebActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity
+            android:name=".SelectDashboardActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity
+            android:name=".DiscoveringDashboardsSplash"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>

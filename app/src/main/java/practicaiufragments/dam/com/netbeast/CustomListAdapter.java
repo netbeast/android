@@ -18,6 +18,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -34,6 +36,7 @@ public class CustomListAdapter extends BaseAdapter {
     private String IP;
     private String port;
     private String url;
+    private List<String> items;
 
 
     private HashMap<String, String> mRequestParams;
@@ -46,14 +49,26 @@ public class CustomListAdapter extends BaseAdapter {
         this.title = title;
     }
 
+    public CustomListAdapter(Activity activity, List<String> items) {
+        this.activity = activity;
+        this.appItems = null;
+        this.items = items;
+    }
+
     @Override
     public int getCount() {
-        return appItems.size();
+        if (appItems!=null)
+            return appItems.size();
+        else
+            return items.size();
     }
 
     @Override
     public Object getItem(int location) {
-        return appItems.get(location);
+        if (appItems!=null)
+            return appItems.get(location);
+        else
+            return items.get(location);
     }
 
     @Override
@@ -62,129 +77,151 @@ public class CustomListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        if (appItems!=null) {
+            if (inflater == null)
+                inflater = (LayoutInflater) activity
+                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            if (convertView == null)
+                convertView = inflater.inflate(R.layout.custom_row, null);
 
-        if (inflater == null)
-            inflater = (LayoutInflater) activity
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        if (convertView == null)
-            convertView = inflater.inflate(R.layout.custom_row, null);
+            ImageButton imgBt = (ImageButton) convertView.findViewById(R.id.imbutton);
+            TextView txt = (TextView) convertView.findViewById(R.id.text);
+            ImageButton bt = (ImageButton) convertView.findViewById(R.id.button);
 
-        ImageButton imgBt = (ImageButton) convertView.findViewById(R.id.imbutton);
-        TextView txt = (TextView) convertView.findViewById(R.id.text);
-        ImageButton bt = (ImageButton) convertView.findViewById(R.id.button);
+            // getting app data for the row
+            final App app = appItems.get(position);
 
-        // getting app data for the row
-        final App app = appItems.get(position);
-
-        if (app.getLogoURL() != null)
-            if (app.getLogoBitmap() == null)
-                // If the logo has not been downloaded yet...
-                // download app logo and set it to image button
-                new DownloadImageTask(imgBt, app).execute(app.getLogoURL());
+            if (app.getLogoURL() != null)
+                if (app.getLogoBitmap() == null)
+                    // If the logo has not been downloaded yet...
+                    // download app logo and set it to image button
+                    new DownloadImageTask(imgBt, app).execute(app.getLogoURL());
+                else
+                    // If the logo has already been downloaded...
+                    // set it to image button
+                    imgBt.setImageBitmap(app.getLogoBitmap());
             else
-                // If the logo has already been downloaded...
-                // set it to image button
-                imgBt.setImageBitmap(app.getLogoBitmap());
-        else
-            imgBt.setImageResource(R.drawable.dflt);
+                imgBt.setImageResource(R.drawable.dflt);
 
-        // set app name to textView
-        txt.setText(app.getName());
+            // set app name to textView
+            txt.setText(app.getName());
 
 
-        // Let's create/get global params
-        Global g = Global.getInstance();
-        IP = g.getIP();
-        port = g.getPort();
+            // Let's create/get global params
+            Global g = Global.getInstance();
+            IP = g.getIP();
+            port = g.getPort();
 
-        mRequestParams = new HashMap<>();
+            mRequestParams = new HashMap<>();
 
-        // Set the button over the apps, to INSTALL, LAUNCH, REMOVE or STOP
-        switch(title){
-            case "Install":
-                bt.setVisibility(View.VISIBLE);
-                if (app.getInstalled()) {
-                    bt.setImageResource(R.drawable.launch);
+            // Set the button over the apps, to INSTALL, LAUNCH, REMOVE or STOP
+            switch (title) {
+                case "Install":
+                    bt.setVisibility(View.VISIBLE);
+                    if (app.getInstalled()) {
+                        bt.setImageResource(R.drawable.launch);
+                        bt.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                url = "http://" + IP + ":" + port + "/api/activities/" + app.getName();
+                                // Use this url to post params
+                                mRequestParams.put("app", app.getName());
+                                // Make post request
+                                sendPostRequest();
+                                launchWebActivity(v, app.getName());
+                            }
+                        });
+                    } else {
+                        bt.setImageResource(R.drawable.install);
+                        bt.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                url = "http://" + IP + ":" + port + "/api/apps";
+                                String gitUrl = "https://github.com/" + app.getFull_name();
+                                // Use this url to post params
+                                mRequestParams.put("url", gitUrl);
+                                // Make post request
+                                sendPostRequest();
+                            }
+                        });
+                    }
+                    break;
+                case "Activities":
+                    bt.setVisibility(View.VISIBLE);
+                    bt.setImageResource(R.drawable.stop);
                     bt.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             url = "http://" + IP + ":" + port + "/api/activities/" + app.getName();
-                            //String gitUrl = "https://github.com/" + app.getFull_name();
                             // Use this url to post params
-                            mRequestParams.put("app", app.getName());
+                            mRequestParams.put("url", url);
                             // Make post request
-                            sendPostRequest();
-                            launchWebActivity(v, app.getName());
+                            sendDeleteRequest();
                         }
                     });
-                }
-                else {
-                    bt.setImageResource(R.drawable.install);
-                    bt.setOnClickListener(new View.OnClickListener() {
+                    imgBt.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
 
-                            url = "http://" + IP + ":" + port + "/api/apps";
-                            String gitUrl = "https://github.com/" + app.getFull_name();
-                            // Use this url to post params
-                            mRequestParams.put("url", gitUrl);
-                            // Make post request
-                            sendPostRequest();
-
                         }
                     });
-                }
-                break;
-            case "Activities":
-                bt.setVisibility(View.VISIBLE);
-                bt.setImageResource(R.drawable.stop);
-                bt.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        url = "http://" + IP + ":" + port + "/api/activities/" + app.getName();
-                        // Use this url to post params
-                        mRequestParams.put("url", url);
-                        // Make post request
-                        sendDeleteRequest();
-                    }
-                });
-                imgBt.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                    }
-                });
-                break;
-            case "Remove":
-                bt.setVisibility(View.VISIBLE);
-                bt.setImageResource(R.drawable.remove);
-                bt.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        url = "http://" + IP + ":" + port + "/api/apps/" + app.getName();
-                        // Use this url to post params
-                        mRequestParams.put("url", url);
-                        // Make post request
-                        sendDeleteRequest();
-                    }
-                });
-                break;
-        }
-
-        // If you click on an app, it launches
-        imgBt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                url = "http://" + IP + ":" + port + "/api/activities/" + app.getName();
-                // Use the app name to post params
-                mRequestParams.put("app", app.getName());
-                // Make post request
-                sendPostRequest();
-                launchWebActivity(v, app.getName());
+                    break;
+                case "Remove":
+                    bt.setVisibility(View.VISIBLE);
+                    bt.setImageResource(R.drawable.remove);
+                    bt.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            url = "http://" + IP + ":" + port + "/api/apps/" + app.getName();
+                            // Use this url to post params
+                            mRequestParams.put("url", url);
+                            // Make post request
+                            sendDeleteRequest();
+                        }
+                    });
+                    break;
             }
-        });
 
+            // If you click on an app, it launches
+            imgBt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    url = "http://" + IP + ":" + port + "/api/activities/" + app.getName();
+                    // Use the app name to post params
+                    mRequestParams.put("app", app.getName());
+                    // Make post request
+                    sendPostRequest();
+                    launchWebActivity(v, app.getName());
+                }
+            });
+        }
+        else{
+            if (inflater == null)
+                inflater = (LayoutInflater) activity
+                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            if (convertView == null)
+                convertView = inflater.inflate(R.layout.dashboard_row, null);
+
+            TextView txt = (TextView) convertView.findViewById(R.id.dashboard_text);
+            txt.setText(items.get(position));
+            txt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Global g = Global.getInstance();
+                    JSONArray dashboards = g.getDashboards();
+                    try {
+                        JSONObject dash = (JSONObject) dashboards.get(position);
+                        g.setIP(dash.getString("ip"));
+                        g.setPort(dash.getString("port"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    Intent intent = new Intent(v.getContext(), MainActivity.class);
+                    v.getContext().startActivity(intent);
+                }
+            });
+        }
         return convertView;
     }
 
@@ -230,6 +267,7 @@ public class CustomListAdapter extends BaseAdapter {
         // Adding request to request queue
         QueueController.getInstance().addToRequestQueue(req);
     }
+
     public void launchWebActivity (View view, String name)
     {
         Intent intent = new Intent(view.getContext(), WebActivity.class);

@@ -1,9 +1,10 @@
 package practicaiufragments.dam.com.netbeast;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,7 +25,7 @@ import java.util.TimerTask;
 /**
  * Created by Cayetano Rodríguez Medina on 29/4/16.
  */
-public class GitInstallActivity extends Activity{
+public class GitInstallActivity extends AppCompatActivity{
     private String IP;
     private String port;
     private String urlPostApp;
@@ -39,10 +40,15 @@ public class GitInstallActivity extends Activity{
 
     private HashMap<String, String> mRequestParams;
 
+    private NavigationViewListener navigationViewListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.git_install_activity);
+
+        navigationViewListener = new NavigationViewListener(this);
+        getSupportActionBar().setTitle(R.string.install_activity_title);
 
         // Let's create/get global params
         Global g = Global.getInstance();
@@ -71,6 +77,13 @@ public class GitInstallActivity extends Activity{
             }
         });
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
     }
 
     public void installApp() {
