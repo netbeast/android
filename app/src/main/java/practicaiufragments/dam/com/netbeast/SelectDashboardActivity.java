@@ -1,11 +1,15 @@
 package practicaiufragments.dam.com.netbeast;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,6 +27,8 @@ public class SelectDashboardActivity extends Activity {
     private String IP;
     private String port;
 
+    private static String TAG = SelectDashboardActivity.class.getSimpleName();
+
     ListView listView;
     CustomListAdapter adapter;
     ArrayList<String> list;
@@ -38,6 +44,23 @@ public class SelectDashboardActivity extends Activity {
         adapter = new CustomListAdapter(this,list);
 
         listView.setAdapter(adapter);
+
+        // Check for WiFi connectivity
+        ConnectivityManager connManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo mWifi = null;
+        NetworkInfo activeNetwork = connManager.getActiveNetworkInfo();
+        if (activeNetwork != null) { // connected to the internet
+            if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI) // connected to wifi
+                mWifi  = activeNetwork;
+        }
+
+        if(mWifi == null || !mWifi.isConnected())
+        {
+            Log.d(TAG, "Sorry! You need to be in a WiFi network in order to send UDP multicast packets. Aborting.");
+            // If wifi is not connected show toast
+            Toast.makeText(getApplicationContext(),
+                    "Sorry! You need to be in a WiFi network", Toast.LENGTH_SHORT).show();
+        }
 
         fillList();
     }

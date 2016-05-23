@@ -69,9 +69,6 @@ public class UDPMessenger {
         if(mWifi == null || !mWifi.isConnected())
         {
             Log.d(DEBUG_TAG, "Sorry! You need to be in a WiFi network in order to send UDP multicast packets. Aborting.");
-            // If wifi is not connected show toast
-            Toast.makeText(context,
-                    "Sorry! You need to be in a WiFi network", Toast.LENGTH_SHORT).show();
             return false;
         }
 
@@ -82,8 +79,6 @@ public class UDPMessenger {
             } catch (SocketException e) {
                 Log.d(DEBUG_TAG, "There was a problem creating the sending socket. Aborting.");
                 e.printStackTrace();
-                Toast.makeText(context,
-                        "There was a problem creating the socket", Toast.LENGTH_SHORT).show();
                 return false;
             }
         }
@@ -97,8 +92,6 @@ public class UDPMessenger {
         } catch (UnknownHostException e) {
             Log.d(DEBUG_TAG, "It seems that " + MULTICAST_IP + " is not a valid ip! Aborting.");
             e.printStackTrace();
-            Toast.makeText(context,
-                    "It seems that " + MULTICAST_IP + "is not a valid ip!", Toast.LENGTH_SHORT).show();
             return false;
         }
 
@@ -107,8 +100,6 @@ public class UDPMessenger {
         } catch (IOException e) {
             Log.d(DEBUG_TAG, "There was an error sending the UDP packet. Aborted.");
             e.printStackTrace();
-            Toast.makeText(context,
-                    "There was an error sending the UDP packet", Toast.LENGTH_SHORT).show();
             return false;
         }
 
@@ -131,13 +122,6 @@ public class UDPMessenger {
 
         if (mWifi == null || !mWifi.isConnected()) {
             Log.d(DEBUG_TAG, "Sorry! You need to be in a WiFi network in order to send UDP multicast packets. Aborting.");
-            Global.getInstance().clearDashboards();
-            String ip = "10.100.12.2";
-            String port = "1234";
-            Global.getInstance().addDashboard(ip, port);
-            String ip2 = "10.100.12.221";
-            String port2 = "4321";
-            Global.getInstance().addDashboard(ip2, port2);
         } else {
             Runnable receiver = new Runnable() {
                 @Override
@@ -172,11 +156,15 @@ public class UDPMessenger {
                             continue;
                         }
 
-                        String port = new String(rPacket.getData(), 0, rPacket.getLength()); // Here is the port
-                        String ip = rPacket.getAddress().getHostAddress(); // Here is the ip
-                        Log.d("RESPUESTA", ip + ":" + port);
+                        // The port is stored inside the packet that is sent by the dashboard
+                        String port = new String(rPacket.getData(), 0, rPacket.getLength());
+                        // We can also get the ip from the packet
+                        String ip = rPacket.getAddress().getHostAddress();
+                        Log.d("DASHBOARD", ip + ":" + port);
+                        // Set values of IP and port in Global class
                         Global.getInstance().addDashboard(ip, port);
 
+                        // If we call stopMessageReceiver() method, we must go out from the while loop
                         if (!receiveMessages)
                             break;
 
@@ -186,9 +174,11 @@ public class UDPMessenger {
 
             receiveMessages = true;
 
+            // Create thread if it's not created
             if (receiverThread == null)
                 receiverThread = new Thread(receiver);
 
+            // Start thread if it's not alive
             if (!receiverThread.isAlive()) {
                 receiverThread.start();
             }
@@ -197,7 +187,6 @@ public class UDPMessenger {
 
     public void stopMessageReceiver() {
         receiveMessages = false;
-
     }
 
 }
