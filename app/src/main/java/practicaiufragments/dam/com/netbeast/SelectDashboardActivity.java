@@ -3,6 +3,7 @@ package practicaiufragments.dam.com.netbeast;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
@@ -85,11 +86,13 @@ public class SelectDashboardActivity extends Activity {
                     port = dash.getString("port");
                     // Add to the list in screen the dashboard in position i, as IP:port
                     list.add(IP + ":" + port);
-                }catch (JSONException e) {
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 adapter.notifyDataSetChanged();
             }
+        else
+            Log.d("LOG", "No dashboards");
     }
 
     // Method that will be called in the onClick of the "Use dashboard in the cloud" button
