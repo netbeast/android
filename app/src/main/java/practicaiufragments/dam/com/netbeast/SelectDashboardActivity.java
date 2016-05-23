@@ -12,8 +12,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
+
 
 
 /**
@@ -23,8 +22,6 @@ public class SelectDashboardActivity extends Activity {
 
     private String IP;
     private String port;
-    private UDPMessenger udp;
-    private Boolean dashboardsLoaded;
 
     ListView listView;
     CustomListAdapter adapter;
@@ -35,9 +32,6 @@ public class SelectDashboardActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.select_dashboard_activity);
 
-        udp = new UDPMessenger(this);
-
-
         listView = (ListView) findViewById(R.id.list);
 
         list = new ArrayList<>();
@@ -45,27 +39,7 @@ public class SelectDashboardActivity extends Activity {
 
         listView.setAdapter(adapter);
 
-        // Send multicast message
-        if (udp.sendMessage("hi")) {
-            // If there isn't any problem, wait for responses
-            udp.startMessageReceiver();
-
-            // After one second, stop waiting for responses
-            new Timer().schedule(
-                    new TimerTask() {
-                        @Override
-                        public void run() {
-                            udp.stopMessageReceiver(new DataCallback() {
-                                @Override
-                                public void onSuccess(JSONObject result) {
-                                    fillList();
-                                }
-                            });
-                        }
-                    }, 500);
-        }
-
-
+        fillList();
     }
 
     public void fillList(){

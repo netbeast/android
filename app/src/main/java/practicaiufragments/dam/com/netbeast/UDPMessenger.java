@@ -195,13 +195,9 @@ public class UDPMessenger {
         }
     }
 
-    public void stopMessageReceiver(DataCallback callback) {
+    public void stopMessageReceiver() {
         receiveMessages = false;
-        try {
-            callback.onSuccess(new JSONObject().put("ok", true));
-        }catch(JSONException e){
-            e.printStackTrace();
-        }
+
     }
 
 }
