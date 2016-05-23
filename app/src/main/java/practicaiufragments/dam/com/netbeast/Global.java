@@ -43,6 +43,10 @@ public class Global {
         return this.dashboards;
     }
 
+    public void clearDashboards() {
+        dashboards = null;
+    }
+
     // Singleton implementation
     public static synchronized Global getInstance() {
         if (instance == null) {

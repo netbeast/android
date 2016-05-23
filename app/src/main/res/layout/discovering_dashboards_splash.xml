@@ -8,7 +8,7 @@
 
     <TextView android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Discovering dashboards in yout network..."
+        android:text="@string/discovering_dashboards"
         android:textColor="@color/text"
         android:textAlignment="center"
         android:textSize="30sp"

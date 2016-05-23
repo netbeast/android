@@ -125,6 +125,7 @@ public class UDPMessenger {
 
         if (mWifi == null || !mWifi.isConnected()) {
             Log.d(DEBUG_TAG, "Sorry! You need to be in a WiFi network in order to send UDP multicast packets. Aborting.");
+            Global.getInstance().clearDashboards();
             String ip = "10.100.12.2";
             String port = "1234";
             Global.getInstance().addDashboard(ip, port);
@@ -155,6 +156,9 @@ public class UDPMessenger {
                             return;
                         }
                     }
+                    //Clear the dashboard list before receive new dashboards data.
+                    Global.getInstance().clearDashboards();
+
                     while (receiveMessages) {
                         try {
                             socket.receive(rPacket);
@@ -164,8 +168,8 @@ public class UDPMessenger {
                             continue;
                         }
 
-                        String port = new String(rPacket.getData(), 0, rPacket.getLength()); // Aquí está el puerto
-                        String ip = rPacket.getAddress().getHostAddress(); // Aquí está la ip
+                        String port = new String(rPacket.getData(), 0, rPacket.getLength()); // Here is the port
+                        String ip = rPacket.getAddress().getHostAddress(); // Here is the ip
                         Log.d("RESPUESTA", ip + ":" + port);
                         Global.getInstance().addDashboard(ip, port);
 
