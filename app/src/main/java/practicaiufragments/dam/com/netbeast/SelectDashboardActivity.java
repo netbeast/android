@@ -23,6 +23,7 @@ public class SelectDashboardActivity extends Activity {
     private String IP;
     private String port;
     private UDPMessenger udp;
+    private Boolean dashboardsLoaded;
 
     ListView listView;
     CustomListAdapter adapter;
@@ -36,22 +37,6 @@ public class SelectDashboardActivity extends Activity {
         udp = new UDPMessenger(this);
 
 
-        // Send multicast message
-        if (udp.sendMessage("hi"))
-            // If there isn't any problem, wait for responses
-            udp.startMessageReceiver();
-        else // este else está para probar cuando no haya móvil físico
-            udp.startMessageReceiver();
-
-        // After one second, stop waiting for responses
-        new Timer().schedule(
-                new TimerTask() {
-                    @Override
-                    public void run() {
-                        udp.stopMessageReceiver();
-                    }
-                }, 1000);
-
         listView = (ListView) findViewById(R.id.list);
 
         list = new ArrayList<>();
@@ -59,30 +44,53 @@ public class SelectDashboardActivity extends Activity {
 
         listView.setAdapter(adapter);
 
+        // Send multicast message
+        if (udp.sendMessage("hi")) {
+            // If there isn't any problem, wait for responses
+            udp.startMessageReceiver();
+
+            // After one second, stop waiting for responses
+            new Timer().schedule(
+                    new TimerTask() {
+                        @Override
+                        public void run() {
+                            udp.stopMessageReceiver(new DataCallback() {
+                                @Override
+                                public void onSuccess(JSONObject result) {
+                                    fillList();
+                                }
+                            });
+                        }
+                    }, 500);
+        }
+
+
+    }
+
+    public void fillList(){
         Global g = Global.getInstance();
         JSONArray dashboards = g.getDashboards();
 
-        // Go over the JSONArray dashboards that has all dashboards as JSON Objects
-        for (int i = 0; i < dashboards.length(); i++) {
-            // Create the list if it's not created
-            if (list == null)
-                list = new ArrayList<>();
+        if (dashboards != null)
+            // Go over the JSONArray dashboards that has all dashboards as JSON Objects
+            for (int i = 0; i < dashboards.length(); i++) {
+                // Create the list if it's not created
+                if (list == null)
+                    list = new ArrayList<>();
 
-            try {
-                // Get the JSONObject for position i in the dashboards list
-                JSONObject dash = (JSONObject) dashboards.get(i);
-                IP = dash.getString("ip");
-                port = dash.getString("port");
-                // Add to the list in screen the dashboard in position i, as IP:port
-                list.add(IP + ":" + port);
-            }catch (JSONException e) {
-                e.printStackTrace();
+                try {
+                    // Get the JSONObject for position i in the dashboards list
+                    JSONObject dash = (JSONObject) dashboards.get(i);
+                    IP = dash.getString("ip");
+                    port = dash.getString("port");
+                    // Add to the list in screen the dashboard in position i, as IP:port
+                    list.add(IP + ":" + port);
+                }catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                adapter.notifyDataSetChanged();
             }
-            // Update the list
-            adapter.notifyDataSetChanged();
-        }
     }
-
 
     // Method that will be called in the onClick of the "Use dashboard in the cloud" button
     public void cloudDashboard(View v){

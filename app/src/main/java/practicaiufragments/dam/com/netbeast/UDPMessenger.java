@@ -17,6 +17,9 @@ import android.os.StrictMode;
 import android.util.Log;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Created by Cayetano Rodríguez Medina on 17/5/16.
  */
@@ -114,6 +117,9 @@ public class UDPMessenger {
 
     public void startMessageReceiver() {
 
+        //Clear the dashboard list before receive new dashboards data.
+        Global.getInstance().clearDashboards();
+
         // Check for WiFi connectivity
         ConnectivityManager connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo mWifi = null;
@@ -156,8 +162,6 @@ public class UDPMessenger {
                             return;
                         }
                     }
-                    //Clear the dashboard list before receive new dashboards data.
-                    Global.getInstance().clearDashboards();
 
                     while (receiveMessages) {
                         try {
@@ -191,6 +195,13 @@ public class UDPMessenger {
         }
     }
 
-    public void stopMessageReceiver() { receiveMessages = false; }
+    public void stopMessageReceiver(DataCallback callback) {
+        receiveMessages = false;
+        try {
+            callback.onSuccess(new JSONObject().put("ok", true));
+        }catch(JSONException e){
+            e.printStackTrace();
+        }
+    }
 
 }
