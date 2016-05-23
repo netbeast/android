@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         urlGetAllApps = "http://" + IP + ":" + port + "/api/modules";
         Bundle b = new Bundle();
         b.putString("url", urlGetAllApps);
-        b.putString("title", "Apps");
+        b.putString("title", "Explore");
         intent.putExtras(b);
 
         startActivity(intent);
