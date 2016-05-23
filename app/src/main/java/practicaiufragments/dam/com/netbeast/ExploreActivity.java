@@ -1,20 +1,11 @@
 package practicaiufragments.dam.com.netbeast;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
@@ -44,7 +35,6 @@ public class ExploreActivity extends AppCompatActivity{
     // Progress dialog
     private ProgressDialog pDialog;
 
-    private TextView textView;
     private ListView listView;
     private CustomListAdapter adapter;
     private ArrayList<App> appList;
@@ -62,11 +52,10 @@ public class ExploreActivity extends AppCompatActivity{
             Log.d(TAG, "Bundle is null");
 
         navigationViewListener = new NavigationViewListener(this);
+        getSupportActionBar().setTitle(title);
 
         appList = new ArrayList<>();
 
-        textView = (TextView) findViewById(R.id.title_text);
-        //textView.setText(title);
         listView = (ListView) findViewById(R.id.list);
         adapter = new CustomListAdapter(this, appList, title);
         listView.setAdapter(adapter);

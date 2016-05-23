@@ -3,7 +3,9 @@ package practicaiufragments.dam.com.netbeast;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -24,7 +26,7 @@ import java.util.TimerTask;
 /**
  * Created by Cayetano Rodríguez Medina on 4/5/16.
  */
-public class ExploreInstallableAppsActivity extends Activity {
+public class ExploreInstallableAppsActivity extends AppCompatActivity {
     private String url;
     private String urlGetAllApps;
     private String IP;
@@ -42,10 +44,15 @@ public class ExploreInstallableAppsActivity extends Activity {
     private ArrayList<App> appList;
     private String [] ignoreApps;
 
+    private NavigationViewListener navigationViewListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.explore_activity);
+
+        navigationViewListener = new NavigationViewListener(this);
+        getSupportActionBar().setTitle(R.string.install_activity_title);
 
         Global g = Global.getInstance();
         IP = g.getIP();
@@ -69,6 +76,13 @@ public class ExploreInstallableAppsActivity extends Activity {
         ignoreApps = new String[] {"dashboard", "api"};
 
         exploreApps();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
     }
 
     public void exploreApps() {
