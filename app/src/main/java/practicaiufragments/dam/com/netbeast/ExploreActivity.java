@@ -1,11 +1,11 @@
 package practicaiufragments.dam.com.netbeast;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
@@ -24,9 +24,7 @@ import java.util.TimerTask;
 /**
  * Created by Alejandro Rodríguez Calzado on 24/04/16.
  */
-public class ExploreActivity extends AppCompatActivity{
-    private NavigationViewListener navigationViewListener;
-
+public class ExploreActivity extends Activity{
     private String url;
     private String title;
 
@@ -35,6 +33,7 @@ public class ExploreActivity extends AppCompatActivity{
     // Progress dialog
     private ProgressDialog pDialog;
 
+    private TextView textView;
     private ListView listView;
     private CustomListAdapter adapter;
     private ArrayList<App> appList;
@@ -45,17 +44,17 @@ public class ExploreActivity extends AppCompatActivity{
         setContentView(R.layout.explore_activity);
 
         Bundle b = getIntent().getExtras();
-        if (b != null) {
+        if (b!=null) {
             url = b.getString("url");
             title = b.getString("title");
-        } else
+        }
+        else
             Log.d(TAG, "Bundle is null");
-
-        navigationViewListener = new NavigationViewListener(this);
-        getSupportActionBar().setTitle(title);
 
         appList = new ArrayList<>();
 
+        textView = (TextView) findViewById(R.id.title_text);
+        textView.setText(title);
         listView = (ListView) findViewById(R.id.list);
         adapter = new CustomListAdapter(this, appList, title);
         listView.setAdapter(adapter);
@@ -65,13 +64,6 @@ public class ExploreActivity extends AppCompatActivity{
         pDialog.setCancelable(false);
 
         exploreApps();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
     }
 
     public void exploreApps() {
@@ -84,19 +76,19 @@ public class ExploreActivity extends AppCompatActivity{
                     public void onResponse(JSONArray response) {
                         Log.d(TAG, response.toString());
 
-                        for (int i = 0; i < response.length(); i++) {
-                            try {
-                                JSONObject app = (JSONObject) response.get(i);
-                                String name = app.getString("name");
-                                appList.add(new App(name));
-                                Log.d(TAG, name);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                                Toast.makeText(getApplicationContext(),
-                                        "Error: " + e.getMessage(),
-                                        Toast.LENGTH_LONG).show();
+                            for (int i = 0; i < response.length(); i++) {
+                                try {
+                                    JSONObject app = (JSONObject) response.get(i);
+                                    String name = app.getString("name");
+                                    appList.add(new App(name));
+                                    Log.d(TAG, name);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    Toast.makeText(getApplicationContext(),
+                                            "Error: " + e.getMessage(),
+                                            Toast.LENGTH_LONG).show();
+                                }
                             }
-                        }
 
                         new Timer().schedule(
                                 new TimerTask() {
@@ -122,7 +114,7 @@ public class ExploreActivity extends AppCompatActivity{
                             public void run() {
                                 hidepDialog();
                             }
-                        }, 500);
+                        },500);
             }
         });
 
@@ -139,5 +131,6 @@ public class ExploreActivity extends AppCompatActivity{
         if (pDialog.isShowing())
             pDialog.dismiss();
     }
+
 }
 

@@ -7,7 +7,6 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,10 +46,7 @@ public class ChangeIpDialog extends DialogFragment {
                     public void onClick(DialogInterface dialog, int id) {
 
                         EditText ip = (EditText) customView.findViewById(R.id.ipTextEdit);
-                        EditText port = (EditText) customView.findViewById(R.id.portTextEdit);
                         String givenIP = ip.getText().toString();
-                        String givenPort = port.getText().toString();
-
                         // givenIP is the one that de user set so we need to verify the format
 
                         if (givenIP.isEmpty() || !validateIP(givenIP)) {
@@ -61,22 +57,10 @@ public class ChangeIpDialog extends DialogFragment {
                         } else {
                             Global g = Global.getInstance();
 
-                            g.setIP(givenIP);
+                            g.setIP(ip.getText().toString());
+
                             TextView ip_tv = (TextView) getActivity().findViewById(R.id.tv_dashboardip);
                             ip_tv.setText(g.getIP());
-
-                            if (!givenPort.isEmpty())
-                                if (TextUtils.isDigitsOnly(givenPort)){
-                                    g.setPort(givenPort);
-                                } else {
-                                    g.setPort("8000");
-                                    Toast.makeText(getActivity(),
-                                            R.string.port_error_dialog,
-                                            Toast.LENGTH_LONG).show();
-                                }
-                            else
-                                g.setPort("8000");
-
                         }
                     }
                 })
