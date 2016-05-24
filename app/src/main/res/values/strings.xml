@@ -10,9 +10,7 @@
     <string name="connect_dialog_button">Connect</string>
     <string name="cancel_dialog_button">Cancel</string>
     <string name="ip_error_dialog">Error: you must enter a valid IP.</string>
-    <string name="port_error_dialog">Error: you must enter a valid port.</string>
     <string name="hint_dialog_text">Dashboard IP</string>
-    <string name="hint_port_dialog_text">Dashboard port</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="explore_activity_title">Apps</string>
@@ -20,12 +18,9 @@
     <string name="plugins_activity_title">Plugins</string>
     <string name="activities_activity_title">Activities</string>
     <string name="remove_activity_title">Remove</string>
-    <string name="select_dashboard">Select Dashboard</string>
-    <string name="choose_dashboard">Choose a dashboard to connect</string>
     <string name="hint_install_activity">Paste here an URL to install from git</string>
     <string name="install_explore">Explore apps to install</string>
     <string name="install_git">Install from git</string>
     <string name="twitter">\@netbeast_co</string>
     <string name="slack">netbeast-community</string>
-    <string name="discovering_dashboards">Discovering dashboards in your network...</string>
 </resources>
