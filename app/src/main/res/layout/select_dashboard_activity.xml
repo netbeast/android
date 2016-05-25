@@ -51,16 +51,21 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/installButton1"
+        android:id="@+id/cloud_button"
         android:text="Use dashboard in the cloud"
-        android:textColor="@color/text"
+        android:background="@color/text"
+        android:textColor="@color/colorPrimaryDark"
         android:typeface="sans"
         android:textSize="@dimen/app_name"
         android:textAlignment="center"
         android:onClick="cloudDashboard"
         android:layout_below="@+id/list"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp" />
+        android:layout_marginTop="30dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textStyle="bold" />
+
     <ListView
         android:id="@+id/list"
         android:layout_width="wrap_content"
