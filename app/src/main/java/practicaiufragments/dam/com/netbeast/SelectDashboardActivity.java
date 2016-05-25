@@ -8,9 +8,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -47,8 +45,6 @@ public class SelectDashboardActivity extends Activity {
 
         listView.setAdapter(adapter);
 
-        TextView nodashboard = (TextView) findViewById(R.id.nodashboard);
-
         // Check for WiFi connectivity
         ConnectivityManager connManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo mWifi = null;
@@ -64,9 +60,6 @@ public class SelectDashboardActivity extends Activity {
             // If wifi is not connected show toast
             Toast.makeText(getApplicationContext(),
                     "Sorry! You need to be in a WiFi network", Toast.LENGTH_SHORT).show();
-
-            nodashboard.setText("You need to be in a WiFi network to discover dashboards");
-
         }
 
         fillList();
@@ -76,7 +69,7 @@ public class SelectDashboardActivity extends Activity {
         Global g = Global.getInstance();
         JSONArray dashboards = g.getDashboards();
 
-        if (dashboards != null) // If there is at least one dashboard in the network
+        if (dashboards != null)
             // Go over the JSONArray dashboards that has all dashboards as JSON Objects
             for (int i = 0; i < dashboards.length(); i++) {
                 // Create the list if it's not created
@@ -94,13 +87,9 @@ public class SelectDashboardActivity extends Activity {
                     e.printStackTrace();
                 }
                 adapter.notifyDataSetChanged();
-            } else { // If there is not any dashboard in the network we show the hidden error text and the manual button
-            TextView nodashboard = (TextView) findViewById(R.id.nodashboard);
-            Button manual = (Button) findViewById(R.id.manual);
-            nodashboard.setVisibility(View.VISIBLE);
-            manual.setVisibility(View.VISIBLE);
-        }
-
+            }
+        else
+            Log.d("LOG", "No dashboards");
     }
 
     // Method that will be called in the onClick of the "Use dashboard in the cloud" button
@@ -110,15 +99,6 @@ public class SelectDashboardActivity extends Activity {
         g.setIP("dashboard.827722d5.svc.dockerapp.io");
         g.setPort("");
         Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
-
-    // Method that will be called in the onClcik of the "Choose a dashboard manually" button
-    public void manualDashboard(View v){
-        Intent intent = new Intent(this, MainActivity.class);
-        Bundle b = new Bundle();
-        b.putBoolean("manual", true); // We want to launch the dialog when the main activity starts
-        intent.putExtras(b);
         startActivity(intent);
     }
 }
