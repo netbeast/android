@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -16,6 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static practicaiufragments.dam.com.netbeast.R.id.tv_dashboardip;
 
 /**
  * Created by Alejandro Rodríguez Calzado on 28/04/16.
@@ -64,6 +67,7 @@ public class ChangeIpDialog extends DialogFragment {
                             g.setIP(givenIP);
                             TextView ip_tv = (TextView) getActivity().findViewById(R.id.tv_dashboardip);
                             ip_tv.setText(g.getIP());
+                            ip_tv.setTextColor(Color.parseColor("#33cc33"));
 
                             if (!givenPort.isEmpty())
                                 if (TextUtils.isDigitsOnly(givenPort)){

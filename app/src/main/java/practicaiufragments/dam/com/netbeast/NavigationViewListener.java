@@ -75,6 +75,10 @@ public class NavigationViewListener implements NavigationView.OnNavigationItemSe
         // Menu options
         switch (item.getItemId()) {
             // Case Apps
+            case R.id.nav_home:
+                Intent main_intent = new Intent(activity, MainActivity.class);
+                activity.startActivity(main_intent);
+                break;
             case R.id.nav_apps:
                 urlGetApps = "http://" + IP + ":" + port + "/api/apps";
                 b.putString("url", urlGetApps);

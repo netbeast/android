@@ -15,6 +15,7 @@
     <string name="hint_port_dialog_text">Dashboard port</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="home">Home</string>
     <string name="explore_activity_title">Apps</string>
     <string name="install_activity_title">Install</string>
     <string name="plugins_activity_title">Plugins</string>
@@ -28,4 +29,7 @@
     <string name="twitter">\@netbeast_co</string>
     <string name="slack">netbeast-community</string>
     <string name="discovering_dashboards">Discovering dashboards in your network...</string>
+    <string name="cloud">Use dashboard in the cloud</string>
+    <string name="nodashboard">There is not any dashboard running in your network</string>
+    <string name="manual">Choose a dashboard manually</string>
 </resources>
