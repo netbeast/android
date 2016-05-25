@@ -44,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
         Global g = Global.getInstance();
         IP = g.getIP();
 
+        Intent intent = new Intent(Intent.ACTION_SYNC, null, this, NotificationsService.class);
+        startService(intent);
+
         navigationViewListener = new NavigationViewListener(this);
 
         tv_ip = (TextView)findViewById(tv_dashboardip);
