@@ -29,4 +29,7 @@
     <string name="twitter">\@netbeast_co</string>
     <string name="slack">netbeast-community</string>
     <string name="discovering_dashboards">Discovering dashboards in your network...</string>
+    <string name="cloud">Use dashboard in the cloud</string>
+    <string name="nodashboard">There is not any dashboard running in your network</string>
+    <string name="manual">Choose a dashboard manually</string>
 </resources>
