@@ -42,28 +42,37 @@ tools:openDrawer="start">
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/installButton1"
+            android:background="@color/text"
             android:text="@string/install_explore"
-            android:textColor="@color/text"
+            android:textColor="@color/colorPrimaryDark"
             android:typeface="sans"
             android:textSize="@dimen/app_name"
             android:textAlignment="center"
             android:onClick="exploreInstallableApps"
             android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textStyle="bold" />
 
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/installButton2"
+            android:background="@color/text"
             android:text="@string/install_git"
-            android:textColor="@color/text"
+            android:textColor="@color/colorPrimaryDark"
             android:typeface="sans"
             android:textAlignment="center"
             android:textSize="@dimen/app_name"
             android:onClick="gitInstallApps"
             android:layout_below="@+id/installButton1"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textStyle="bold" />
     </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

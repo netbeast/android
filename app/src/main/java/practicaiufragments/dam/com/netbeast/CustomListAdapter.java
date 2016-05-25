@@ -78,6 +78,8 @@ public class CustomListAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
+
+        // Apps list view
         if (appItems!=null) {
             if (inflater == null)
                 inflater = (LayoutInflater) activity
@@ -117,6 +119,7 @@ public class CustomListAdapter extends BaseAdapter {
 
             // Set the button over the apps, to INSTALL, LAUNCH, REMOVE or STOP
             switch (title) {
+
                 case "Install":
                     bt.setVisibility(View.VISIBLE);
                     if (app.getInstalled()) {
@@ -147,6 +150,7 @@ public class CustomListAdapter extends BaseAdapter {
                         });
                     }
                     break;
+
                 case "Activities":
                     bt.setVisibility(View.VISIBLE);
                     bt.setImageResource(R.drawable.stop);
@@ -160,13 +164,8 @@ public class CustomListAdapter extends BaseAdapter {
                             sendDeleteRequest();
                         }
                     });
-                    imgBt.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-
-                        }
-                    });
                     break;
+
                 case "Remove":
                     bt.setVisibility(View.VISIBLE);
                     bt.setImageResource(R.drawable.remove);
@@ -196,7 +195,10 @@ public class CustomListAdapter extends BaseAdapter {
                 }
             });
         }
-        else{
+
+        // Dashboards list view
+        else {
+
             if (inflater == null)
                 inflater = (LayoutInflater) activity
                         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -268,6 +270,7 @@ public class CustomListAdapter extends BaseAdapter {
         QueueController.getInstance().addToRequestQueue(req);
     }
 
+    // Method to launch the web activity with the app name in title
     public void launchWebActivity (View view, String name)
     {
         Intent intent = new Intent(view.getContext(), WebActivity.class);

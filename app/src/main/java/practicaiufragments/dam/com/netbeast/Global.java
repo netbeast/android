@@ -13,8 +13,8 @@ public class Global {
     private static Global instance;
 
     // IP and port where the dashboard is running
-    private String IP = "dashboard.827722d5.svc.dockerapp.io";
-    private String port = "";
+    private String IP;
+    private String port;
     private JSONArray dashboards;
 
     public void setIP (String ip) { this.IP = ip; }
