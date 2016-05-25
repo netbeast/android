@@ -12,11 +12,13 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,6 +44,8 @@ public class CustomListAdapter extends BaseAdapter {
     private HashMap<String, String> mRequestParams;
 
     private static String TAG = CustomListAdapter.class.getSimpleName();
+
+    private static final int SOCKET_TIMEOUT_MS = 30000;
 
     public CustomListAdapter(Activity activity, List<App> appItems, String title) {
         this.activity = activity;
@@ -245,6 +249,11 @@ public class CustomListAdapter extends BaseAdapter {
             }
         });
 
+        req.setRetryPolicy(new DefaultRetryPolicy(
+                SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
         // Adding request to request queue
         QueueController.getInstance().addToRequestQueue(req);
     }
@@ -253,10 +262,10 @@ public class CustomListAdapter extends BaseAdapter {
     // Generic method to make a DELETE request
     public void sendDeleteRequest() {
 
-        JsonObjectRequest req = new JsonObjectRequest(Request.Method.DELETE, url,
-                new Response.Listener<JSONObject>() {
+        StringRequest req = new StringRequest(Request.Method.DELETE, url,
+                new Response.Listener<String>() {
                     @Override
-                    public void onResponse(JSONObject response) {
+                    public void onResponse(String response) {
                         Log.d(TAG, "DELETE request has been made");
                     }
                 }, new Response.ErrorListener() {
