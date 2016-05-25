@@ -26,15 +26,14 @@ public class MainActivity extends AppCompatActivity {
     private String port;
     private String urlGetAllApps;
 
-    private UDPMessenger udp;
     private static String TAG = MainActivity.class.getSimpleName();
 
     // Progress dialog
     private ProgressDialog pDialog;
 
-    private TextView tv_ip;
-
     private NavigationViewListener navigationViewListener;
+
+    private TextView tv_ip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,18 +47,28 @@ public class MainActivity extends AppCompatActivity {
         navigationViewListener = new NavigationViewListener(this);
 
         tv_ip = (TextView)findViewById(tv_dashboardip);
-        // if we have connected to the cloud dashboard, show "Cloud" instead of an IP
-        if(IP.equals("dashboard.827722d5.svc.dockerapp.io"))
-            tv_ip.setText("Cloud");
-        else
-            tv_ip.setText(IP);
-        tv_ip.setTextColor(Color.parseColor("#33cc33"));
 
-        udp = new UDPMessenger(this);
+        // If IP has a value, use this value in the text view
+        if(IP!=null) {
+            // if we have connected to the cloud dashboard, show "Cloud" instead of an IP
+            if (IP.equals("dashboard.827722d5.svc.dockerapp.io"))
+                tv_ip.setText("Cloud");
+            // if it's not the cloud dashboard, show the IP
+            else
+                tv_ip.setText(IP);
+            // In any case, if we have a dashboard connected, change color
+            tv_ip.setTextColor(Color.parseColor("#33cc33"));
+        }
+        // If it doesn't have a value, it will show the default text NONE
 
-        pDialog = new ProgressDialog(this);
-        pDialog.setMessage("Please wait...");
-        pDialog.setCancelable(false);
+        // If we push the "choose a dashboard manually" button, we should launch the dialog to change ip
+        Bundle b = getIntent().getExtras();
+        if (b != null) {
+            if (b.getBoolean("manual")) {
+                DialogFragment newFragment = new ChangeIpDialog();
+                newFragment.show(getFragmentManager(), "ChangeIp");
+            }
+        }
     }
 
     @Override
