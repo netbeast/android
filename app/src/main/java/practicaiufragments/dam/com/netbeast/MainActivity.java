@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         // If IP has a value, use this value in the text view
         if(IP!=null) {
             // if we have connected to the cloud dashboard, show "Cloud" instead of an IP
-            if (IP.equals(R.string.dashboard_cloud))
+            if (IP.equals(this.getResources().getString(R.string.dashboard_cloud)))
                 tv_ip.setText("Cloud");
             // if it's not the cloud dashboard, show the IP
             else
