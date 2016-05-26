@@ -39,7 +39,9 @@ public class NotificationsService extends IntentService {
 
             @Override
             public void messageArrived(String topic, MqttMessage message) throws Exception {
-                System.out.println("Message Arrived!: " + topic + ": " + new String(message.getPayload()));
+                System.out.println("Message Arrived!: " +
+                        topic + ": " +
+                        new String(message.getPayload()));
                 CharSequence text = new String(message.getPayload());
                 int duration = Toast.LENGTH_SHORT;
 
@@ -61,7 +63,8 @@ public class NotificationsService extends IntentService {
                     System.out.println("Connection Success!");
                     try {
                         System.out.println("Subscribing to /notifications");
-                        mqttAndroidClient.subscribe("notifications", 0);
+                        int qos = 2;
+                        mqttAndroidClient.subscribe("notifications", qos);
                         System.out.println("Subscribed to /notifications");
                         //  System.out.println("Publishing message..");
                         //  mqttAndroidClient.publish("notifications", new MqttMessage("This is a notification!".getBytes()));
