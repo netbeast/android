@@ -33,4 +33,6 @@
     <string name="nodashboard">There is not any dashboard running in your network</string>
     <string name="manual">Choose a dashboard manually</string>
     <string name="dashboard_cloud">dashboard.827722d5.svc.dockerapp.io</string>
+    <string name="mqtt_uri">tcp://test.mosca.io</string>
+    <string name="clientId">netbeastApp</string>
 </resources>

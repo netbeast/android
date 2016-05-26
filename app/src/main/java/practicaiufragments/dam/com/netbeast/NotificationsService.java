@@ -25,7 +25,11 @@ public class NotificationsService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         // "ws://localhost:8000"
-        final MqttAndroidClient mqttAndroidClient = new MqttAndroidClient(this.getApplicationContext(), "tcp://test.mosca.io", "clientId");
+        final MqttAndroidClient mqttAndroidClient = new MqttAndroidClient(
+                this.getApplicationContext(),
+                this.getResources().getString(R.string.mqtt_uri),
+                this.getResources().getString(R.string.clientId));
+
         mqttAndroidClient.setCallback(new MqttCallback() {
             @Override
             public void connectionLost(Throwable cause) {
