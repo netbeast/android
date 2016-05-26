@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         // If IP has a value, use this value in the text view
         if(IP!=null) {
             // if we have connected to the cloud dashboard, show "Cloud" instead of an IP
-            if (IP.equals("dashboard.827722d5.svc.dockerapp.io"))
+            if (IP.equals(R.string.dashboard_cloud))
                 tv_ip.setText("Cloud");
             // if it's not the cloud dashboard, show the IP
             else
@@ -64,7 +64,8 @@ public class MainActivity extends AppCompatActivity {
         }
         // If it doesn't have a value, it will show the default text NONE
 
-        // If we push the "choose a dashboard manually" button, we should launch the dialog to change ip
+        // If we push the "choose a dashboard manually" button,
+        // we should launch the dialog to change ip
         Bundle b = getIntent().getExtras();
         if (b != null) {
             if (b.getBoolean("manual")) {
@@ -80,24 +81,6 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-
-    /* This is the settings button. If you want to display it uncomment this method and add
-       the settings item in main_menu.xml
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-*/
 
     public void exploreApps(View v) {
         Intent intent = new Intent(this, ExploreActivity.class);
