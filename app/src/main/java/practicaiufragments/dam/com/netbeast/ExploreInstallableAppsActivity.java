@@ -86,6 +86,7 @@ public class ExploreInstallableAppsActivity extends AppCompatActivity {
     }
 
     public void exploreApps() {
+        appList.clear();
 
         showpDialog();
 

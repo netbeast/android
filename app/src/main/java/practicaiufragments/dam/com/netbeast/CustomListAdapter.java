@@ -132,7 +132,7 @@ public class CustomListAdapter extends BaseAdapter {
                         bt.setImageResource(R.drawable.launch);
                         bt.setOnTouchListener(new View.OnTouchListener() {
                             @Override
-                            public boolean onTouch(View v, MotionEvent event) {
+                            public boolean onTouch(final View v, MotionEvent event) {
                                 switch(event.getAction()) {
                                     case MotionEvent.ACTION_DOWN:
                                         // PRESSED
@@ -144,8 +144,12 @@ public class CustomListAdapter extends BaseAdapter {
                                         // Use this url to post params
                                         mRequestParams.put("app", app.getName());
                                         // Make post request
-                                        sendPostRequest();
-                                        launchWebActivity(v, app.getName());
+                                        sendPostRequest(new DataCallback() {
+                                            @Override
+                                            public void onSuccess(JSONObject result) {
+                                                launchWebActivity(v, app.getName());
+                                            }
+                                        });
 
                                         ((ImageButton)v.findViewById(R.id.button)).clearColorFilter();
                                         return true; // if you want to handle the touch event
@@ -170,8 +174,12 @@ public class CustomListAdapter extends BaseAdapter {
                                         // Use this url to post params
                                         mRequestParams.put("url", gitUrl);
                                         // Make post request
-                                        sendPostRequest();
-
+                                        sendPostRequest(new DataCallback() {
+                                            @Override
+                                            public void onSuccess(JSONObject result) {
+                                                ((ExploreInstallableAppsActivity) activity).exploreApps();
+                                            }
+                                        });
                                         ((ImageButton)v.findViewById(R.id.button)).clearColorFilter();
                                         return true; // if you want to handle the touch event
                                 }
@@ -246,7 +254,7 @@ public class CustomListAdapter extends BaseAdapter {
             // If you click on an app, it launches
             imgBt.setOnTouchListener(new View.OnTouchListener() {
                 @Override
-                public boolean onTouch(View v, MotionEvent event) {
+                public boolean onTouch(final View v, MotionEvent event) {
                     switch(event.getAction()) {
                         case MotionEvent.ACTION_DOWN:
                             // PRESSED
@@ -258,8 +266,12 @@ public class CustomListAdapter extends BaseAdapter {
                             // Use the app name to post params
                             mRequestParams.put("app", app.getName());
                             // Make post request
-                            sendPostRequest();
-                            launchWebActivity(v, app.getName());
+                            sendPostRequest(new DataCallback() {
+                                @Override
+                                public void onSuccess(JSONObject result) {
+                                    launchWebActivity(v, app.getName());
+                                }
+                            });
 
                             ((ImageButton)v.findViewById(R.id.imbutton)).clearColorFilter();
                             return true; // if you want to handle the touch event
@@ -302,7 +314,7 @@ public class CustomListAdapter extends BaseAdapter {
 
 
     // Generic method to make a POST request
-    public void sendPostRequest() {
+    public void sendPostRequest(final DataCallback callback) {
 
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, url,
                 new JSONObject(mRequestParams),
@@ -310,7 +322,11 @@ public class CustomListAdapter extends BaseAdapter {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.d(TAG, "POST request has been made");
-                    }
+                        try {
+                            callback.onSuccess(new JSONObject().put("response", response));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }                    }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
