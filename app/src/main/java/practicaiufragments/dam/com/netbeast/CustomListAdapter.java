@@ -3,9 +3,11 @@ package practicaiufragments.dam.com.netbeast;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -181,6 +183,22 @@ public class CustomListAdapter extends BaseAdapter {
                             mRequestParams.put("url", url);
                             // Make post request
                             sendDeleteRequest();
+                        }
+                    });
+                    bt.setOnTouchListener(new View.OnTouchListener() {
+                        @Override
+                        public boolean onTouch(View v, MotionEvent event) {
+                            switch(event.getAction()) {
+                                case MotionEvent.ACTION_DOWN:
+                                    // PRESSED
+                                    ((ImageButton)v.findViewById(R.id.button)).setColorFilter(Color.argb(255, 255, 255, 255));
+                                    return true; // if you want to handle the touch event
+                                case MotionEvent.ACTION_UP:
+                                    // RELEASED
+                                    ((ImageButton)v.findViewById(R.id.button)).clearColorFilter();
+                                    return true; // if you want to handle the touch event
+                            }
+                            return false;
                         }
                     });
                     break;
