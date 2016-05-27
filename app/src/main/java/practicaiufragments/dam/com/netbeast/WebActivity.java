@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -54,6 +55,9 @@ public class WebActivity extends AppCompatActivity {
         // Enable JavaScript
         WebSettings webSettings = myWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
+
+        // Provide a WebViewClient for your WebView
+        myWebView.setWebViewClient(new WebViewClient());
 
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Please wait...");
