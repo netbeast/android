@@ -213,15 +213,27 @@ public class CustomListAdapter extends BaseAdapter {
             }
 
             // If you click on an app, it launches
-            imgBt.setOnClickListener(new View.OnClickListener() {
+            imgBt.setOnTouchListener(new View.OnTouchListener() {
                 @Override
-                public void onClick(View v) {
-                    url = "http://" + IP + ":" + port + "/api/activities/" + app.getName();
-                    // Use the app name to post params
-                    mRequestParams.put("app", app.getName());
-                    // Make post request
-                    sendPostRequest();
-                    launchWebActivity(v, app.getName());
+                public boolean onTouch(View v, MotionEvent event) {
+                    switch(event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            // PRESSED
+                            ((ImageButton)v.findViewById(R.id.imbutton)).setColorFilter(Color.argb(100, 255, 255, 255));
+                            return true; // if you want to handle the touch event
+                        case MotionEvent.ACTION_UP:
+                            // RELEASED
+                            url = "http://" + IP + ":" + port + "/api/activities/" + app.getName();
+                            // Use the app name to post params
+                            mRequestParams.put("app", app.getName());
+                            // Make post request
+                            sendPostRequest();
+                            launchWebActivity(v, app.getName());
+
+                            ((ImageButton)v.findViewById(R.id.imbutton)).clearColorFilter();
+                            return true; // if you want to handle the touch event
+                    }
+                    return false;
                 }
             });
         }
