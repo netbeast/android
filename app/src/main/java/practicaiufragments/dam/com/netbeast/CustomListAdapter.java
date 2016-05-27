@@ -181,7 +181,7 @@ public class CustomListAdapter extends BaseAdapter {
                             switch(event.getAction()) {
                                 case MotionEvent.ACTION_DOWN:
                                     // PRESSED
-                                    ((ImageButton)v.findViewById(R.id.button)).setColorFilter(Color.argb(255, 255, 255, 255));
+                                    ((ImageButton)v.findViewById(R.id.button)).setColorFilter(Color.argb(100, 255, 255, 255));
                                     return true; // if you want to handle the touch event
                                 case MotionEvent.ACTION_UP:
                                     // RELEASED
