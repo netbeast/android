@@ -160,14 +160,26 @@ public class CustomListAdapter extends BaseAdapter {
                 case "Activities":
                     bt.setVisibility(View.VISIBLE);
                     bt.setImageResource(R.drawable.stop);
-                    bt.setOnClickListener(new View.OnClickListener() {
+                    bt.setOnTouchListener(new View.OnTouchListener() {
                         @Override
-                        public void onClick(View v) {
-                            url = "http://" + IP + ":" + port + "/api/activities/" + app.getName();
-                            // Use this url to post params
-                            mRequestParams.put("url", url);
-                            // Make post request
-                            sendDeleteRequest();
+                        public boolean onTouch(View v, MotionEvent event) {
+                            switch(event.getAction()) {
+                                case MotionEvent.ACTION_DOWN:
+                                    // PRESSED
+                                    ((ImageButton)v.findViewById(R.id.button)).setColorFilter(Color.argb(100, 255, 255, 255));
+                                    return true; // if you want to handle the touch event
+                                case MotionEvent.ACTION_UP:
+                                    // RELEASED
+                                    url = "http://" + IP + ":" + port + "/api/activities/" + app.getName();
+                                    // Use this url to post params
+                                    mRequestParams.put("url", url);
+                                    // Make post request
+                                    sendDeleteRequest();
+
+                                    ((ImageButton)v.findViewById(R.id.button)).clearColorFilter();
+                                    return true; // if you want to handle the touch event
+                            }
+                            return false;
                         }
                     });
                     break;
