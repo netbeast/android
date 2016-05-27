@@ -75,7 +75,12 @@ tools:openDrawer="start">
             android:typeface="sans"
             android:textSize="@dimen/app_name"
             android:layout_below="@+id/linearLayout"
-            android:layout_centerHorizontal="true" />
+            android:background="@color/text"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_centerHorizontal="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textStyle="bold"/>
     </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>
