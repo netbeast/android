@@ -78,6 +78,8 @@ public class ExploreActivity extends AppCompatActivity{
 
         showpDialog();
 
+        appList.clear();
+
         JsonArrayRequest req = new JsonArrayRequest(url,
                 new Response.Listener<JSONArray>() {
                     @Override

@@ -33,7 +33,7 @@ import java.util.List;
  * Created by Alejandro Rodríguez Calzado on 28/04/16.
  */
 public class CustomListAdapter extends BaseAdapter {
-    private Activity activity;
+    final private Activity activity;
     private LayoutInflater inflater;
     private List<App> appItems;
     private String title;
@@ -198,7 +198,7 @@ public class CustomListAdapter extends BaseAdapter {
                                     // Use this url to post params
                                     mRequestParams.put("url", url);
                                     // Make post request
-                                    sendDeleteRequest();
+                                    //sendDeleteRequest();
 
                                     ((ImageButton)v.findViewById(R.id.button)).clearColorFilter();
                                     return true; // if you want to handle the touch event
@@ -223,7 +223,12 @@ public class CustomListAdapter extends BaseAdapter {
                                     // RELEASED
                                     url = "http://" + IP + ":" + port + "/api/apps/" + app.getName();
                                     // Make post request
-                                    sendDeleteRequest();
+                                    sendDeleteRequest(new DataCallback() {
+                                        @Override
+                                        public void onSuccess(JSONObject result) {
+                                            ((ExploreActivity) activity).exploreApps();
+                                        }
+                                    });
 
                                     ((ImageButton)v.findViewById(R.id.button)).clearColorFilter();
                                     return true; // if you want to handle the touch event
@@ -320,13 +325,18 @@ public class CustomListAdapter extends BaseAdapter {
 
 
     // Generic method to make a DELETE request
-    public void sendDeleteRequest() {
+    public void sendDeleteRequest(final DataCallback callback) {
 
         StringRequest req = new StringRequest(Request.Method.DELETE, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         Log.d(TAG, "DELETE request has been made");
+                        try {
+                            callback.onSuccess(new JSONObject().put("response", response));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }, new Response.ErrorListener() {
             @Override
