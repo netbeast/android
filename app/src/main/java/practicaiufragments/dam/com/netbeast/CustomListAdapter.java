@@ -175,16 +175,6 @@ public class CustomListAdapter extends BaseAdapter {
                 case "Remove":
                     bt.setVisibility(View.VISIBLE);
                     bt.setImageResource(R.drawable.remove);
-                    bt.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            url = "http://" + IP + ":" + port + "/api/apps/" + app.getName();
-                            // Use this url to post params
-                            mRequestParams.put("url", url);
-                            // Make post request
-                            sendDeleteRequest();
-                        }
-                    });
                     bt.setOnTouchListener(new View.OnTouchListener() {
                         @Override
                         public boolean onTouch(View v, MotionEvent event) {
@@ -195,6 +185,12 @@ public class CustomListAdapter extends BaseAdapter {
                                     return true; // if you want to handle the touch event
                                 case MotionEvent.ACTION_UP:
                                     // RELEASED
+                                    url = "http://" + IP + ":" + port + "/api/apps/" + app.getName();
+                                    // Use this url to post params
+                                    mRequestParams.put("url", url);
+                                    // Make post request
+                                    sendDeleteRequest();
+
                                     ((ImageButton)v.findViewById(R.id.button)).clearColorFilter();
                                     return true; // if you want to handle the touch event
                             }
