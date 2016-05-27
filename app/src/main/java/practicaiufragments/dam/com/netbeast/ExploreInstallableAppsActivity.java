@@ -156,12 +156,12 @@ public class ExploreInstallableAppsActivity extends AppCompatActivity {
         QueueController.getInstance().addToRequestQueue(req);
     }
 
-    private void showpDialog() {
+    public void showpDialog() {
         if (!pDialog.isShowing())
             pDialog.show();
     }
 
-    private void hidepDialog() {
+    public void hidepDialog() {
         if (pDialog.isShowing())
             pDialog.dismiss();
     }

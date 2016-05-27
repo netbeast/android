@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -315,6 +316,11 @@ public class CustomListAdapter extends BaseAdapter {
 
     // Generic method to make a POST request
     public void sendPostRequest(final DataCallback callback) {
+        if(title.equals("Install"))
+            ((ExploreInstallableAppsActivity) activity).showpDialog();
+        else
+            ((ExploreActivity) activity).showpDialog();
+
 
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, url,
                 new JSONObject(mRequestParams),
@@ -323,6 +329,10 @@ public class CustomListAdapter extends BaseAdapter {
                     public void onResponse(JSONObject response) {
                         Log.d(TAG, "POST request has been made");
                         try {
+                            if(title.equals("Install"))
+                                ((ExploreInstallableAppsActivity) activity).hidepDialog();
+                            else
+                                ((ExploreActivity) activity).hidepDialog();
                             callback.onSuccess(new JSONObject().put("response", response));
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -330,6 +340,15 @@ public class CustomListAdapter extends BaseAdapter {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                if(title.equals("Install"))
+                    ((ExploreInstallableAppsActivity) activity).hidepDialog();
+                else
+                    ((ExploreActivity) activity).hidepDialog();
+
+                Toast.makeText(activity.getApplicationContext(),
+                        "Installation is taking too much time.",
+                        Toast.LENGTH_LONG).show();
+
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
             }
         });
