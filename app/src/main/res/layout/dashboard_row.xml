@@ -4,8 +4,7 @@
     android:layout_height="wrap_content"
     android:descendantFocusability="blocksDescendants"
     android:orientation="vertical"
-    android:background="@color/background"
-    android:id="@+id/dashboardlinearchild">
+    android:background="@color/background">
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
