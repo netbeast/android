@@ -197,9 +197,13 @@ public class CustomListAdapter extends BaseAdapter {
                                     url = "http://" + IP + ":" + port + "/api/activities/" + app.getName();
                                     // Use this url to post params
                                     mRequestParams.put("url", url);
-                                    // Make post request
-                                    //sendDeleteRequest();
-
+                                    // Make delete request
+                                    sendDeleteRequest(new DataCallback() {
+                                        @Override
+                                        public void onSuccess(JSONObject result) {
+                                            ((ExploreActivity) activity).exploreApps();
+                                        }
+                                    });
                                     ((ImageButton)v.findViewById(R.id.button)).clearColorFilter();
                                     return true; // if you want to handle the touch event
                             }
@@ -222,7 +226,7 @@ public class CustomListAdapter extends BaseAdapter {
                                 case MotionEvent.ACTION_UP:
                                     // RELEASED
                                     url = "http://" + IP + ":" + port + "/api/apps/" + app.getName();
-                                    // Make post request
+                                    // Make delete request
                                     sendDeleteRequest(new DataCallback() {
                                         @Override
                                         public void onSuccess(JSONObject result) {
