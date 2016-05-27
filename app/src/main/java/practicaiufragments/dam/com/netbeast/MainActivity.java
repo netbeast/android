@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.complete_main_activity);
+        setContentView(R.layout.main_activity);
 
         // Let's create/get global params
         Global g = Global.getInstance();
