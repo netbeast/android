@@ -9,5 +9,6 @@
     <color name="error">#cf3737</color>
     <color name="divider">#424242</color>
     <color name="hintText">#7e7b7b</color>
+    <color name="pressedButton">#ac529be9</color>
 
 </resources>

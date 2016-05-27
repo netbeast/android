@@ -14,7 +14,10 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import static practicaiufragments.dam.com.netbeast.R.id.tv_dashboardip;
@@ -46,6 +49,48 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent(Intent.ACTION_SYNC, null, this, NotificationsService.class);
         startService(intent);
+
+        ImageButton exploreBt = (ImageButton) findViewById(R.id.imageButton);
+        ImageButton installBt = (ImageButton) findViewById(R.id.imageButton2);
+
+        exploreBt.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        // PRESSED
+                        ((ImageButton)v.findViewById(R.id.imageButton)).setColorFilter(Color.argb(100, 255, 255, 255));
+                        return true; // if you want to handle the touch event
+                    case MotionEvent.ACTION_UP:
+                        // RELEASED
+                        exploreApps(v);
+
+                        ((ImageButton)v.findViewById(R.id.imageButton)).clearColorFilter();
+                        return true; // if you want to handle the touch event
+                }
+                return false;
+            }
+        });
+
+        installBt.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        // PRESSED
+                        ((ImageButton)v.findViewById(R.id.imageButton2)).setColorFilter(Color.argb(100, 255, 255, 255));
+                        return true; // if you want to handle the touch event
+                    case MotionEvent.ACTION_UP:
+                        // RELEASED
+                        installApps(v);
+
+                        ((ImageButton)v.findViewById(R.id.imageButton2)).clearColorFilter();
+                        return true; // if you want to handle the touch event
+                }
+                return false;
+            }
+        });
+
 
         navigationViewListener = new NavigationViewListener(this);
 

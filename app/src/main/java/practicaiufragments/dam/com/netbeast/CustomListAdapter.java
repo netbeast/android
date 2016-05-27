@@ -3,9 +3,11 @@ package practicaiufragments.dam.com.netbeast;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -128,28 +130,52 @@ public class CustomListAdapter extends BaseAdapter {
                     bt.setVisibility(View.VISIBLE);
                     if (app.getInstalled()) {
                         bt.setImageResource(R.drawable.launch);
-                        bt.setOnClickListener(new View.OnClickListener() {
+                        bt.setOnTouchListener(new View.OnTouchListener() {
                             @Override
-                            public void onClick(View v) {
-                                url = "http://" + IP + ":" + port + "/api/activities/" + app.getName();
-                                // Use this url to post params
-                                mRequestParams.put("app", app.getName());
-                                // Make post request
-                                sendPostRequest();
-                                launchWebActivity(v, app.getName());
+                            public boolean onTouch(View v, MotionEvent event) {
+                                switch(event.getAction()) {
+                                    case MotionEvent.ACTION_DOWN:
+                                        // PRESSED
+                                        ((ImageButton)v.findViewById(R.id.button)).setColorFilter(Color.argb(100, 255, 255, 255));
+                                        return true; // if you want to handle the touch event
+                                    case MotionEvent.ACTION_UP:
+                                        // RELEASED
+                                        url = "http://" + IP + ":" + port + "/api/activities/" + app.getName();
+                                        // Use this url to post params
+                                        mRequestParams.put("app", app.getName());
+                                        // Make post request
+                                        sendPostRequest();
+                                        launchWebActivity(v, app.getName());
+
+                                        ((ImageButton)v.findViewById(R.id.button)).clearColorFilter();
+                                        return true; // if you want to handle the touch event
+                                }
+                                return false;
                             }
                         });
                     } else {
                         bt.setImageResource(R.drawable.install);
-                        bt.setOnClickListener(new View.OnClickListener() {
+                        bt.setOnTouchListener(new View.OnTouchListener() {
                             @Override
-                            public void onClick(View v) {
-                                url = "http://" + IP + ":" + port + "/api/apps";
-                                String gitUrl = "https://github.com/" + app.getFull_name();
-                                // Use this url to post params
-                                mRequestParams.put("url", gitUrl);
-                                // Make post request
-                                sendPostRequest();
+                            public boolean onTouch(View v, MotionEvent event) {
+                                switch(event.getAction()) {
+                                    case MotionEvent.ACTION_DOWN:
+                                        // PRESSED
+                                        ((ImageButton)v.findViewById(R.id.button)).setColorFilter(Color.argb(100, 255, 255, 255));
+                                        return true; // if you want to handle the touch event
+                                    case MotionEvent.ACTION_UP:
+                                        // RELEASED
+                                        url = "http://" + IP + ":" + port + "/api/apps";
+                                        String gitUrl = "https://github.com/" + app.getFull_name();
+                                        // Use this url to post params
+                                        mRequestParams.put("url", gitUrl);
+                                        // Make post request
+                                        sendPostRequest();
+
+                                        ((ImageButton)v.findViewById(R.id.button)).clearColorFilter();
+                                        return true; // if you want to handle the touch event
+                                }
+                                return false;
                             }
                         });
                     }
@@ -158,14 +184,26 @@ public class CustomListAdapter extends BaseAdapter {
                 case "Activities":
                     bt.setVisibility(View.VISIBLE);
                     bt.setImageResource(R.drawable.stop);
-                    bt.setOnClickListener(new View.OnClickListener() {
+                    bt.setOnTouchListener(new View.OnTouchListener() {
                         @Override
-                        public void onClick(View v) {
-                            url = "http://" + IP + ":" + port + "/api/activities/" + app.getName();
-                            // Use this url to post params
-                            mRequestParams.put("url", url);
-                            // Make post request
-                            sendDeleteRequest();
+                        public boolean onTouch(View v, MotionEvent event) {
+                            switch(event.getAction()) {
+                                case MotionEvent.ACTION_DOWN:
+                                    // PRESSED
+                                    ((ImageButton)v.findViewById(R.id.button)).setColorFilter(Color.argb(100, 255, 255, 255));
+                                    return true; // if you want to handle the touch event
+                                case MotionEvent.ACTION_UP:
+                                    // RELEASED
+                                    url = "http://" + IP + ":" + port + "/api/activities/" + app.getName();
+                                    // Use this url to post params
+                                    mRequestParams.put("url", url);
+                                    // Make post request
+                                    sendDeleteRequest();
+
+                                    ((ImageButton)v.findViewById(R.id.button)).clearColorFilter();
+                                    return true; // if you want to handle the touch event
+                            }
+                            return false;
                         }
                     });
                     break;
@@ -173,29 +211,51 @@ public class CustomListAdapter extends BaseAdapter {
                 case "Remove":
                     bt.setVisibility(View.VISIBLE);
                     bt.setImageResource(R.drawable.remove);
-                    bt.setOnClickListener(new View.OnClickListener() {
+                    bt.setOnTouchListener(new View.OnTouchListener() {
                         @Override
-                        public void onClick(View v) {
-                            url = "http://" + IP + ":" + port + "/api/apps/" + app.getName();
-                            // Use this url to post params
-                            mRequestParams.put("url", url);
-                            // Make post request
-                            sendDeleteRequest();
+                        public boolean onTouch(View v, MotionEvent event) {
+                            switch(event.getAction()) {
+                                case MotionEvent.ACTION_DOWN:
+                                    // PRESSED
+                                    ((ImageButton)v.findViewById(R.id.button)).setColorFilter(Color.argb(100, 255, 255, 255));
+                                    return true; // if you want to handle the touch event
+                                case MotionEvent.ACTION_UP:
+                                    // RELEASED
+                                    url = "http://" + IP + ":" + port + "/api/apps/" + app.getName();
+                                    // Make post request
+                                    sendDeleteRequest();
+
+                                    ((ImageButton)v.findViewById(R.id.button)).clearColorFilter();
+                                    return true; // if you want to handle the touch event
+                            }
+                            return false;
                         }
                     });
                     break;
             }
 
             // If you click on an app, it launches
-            imgBt.setOnClickListener(new View.OnClickListener() {
+            imgBt.setOnTouchListener(new View.OnTouchListener() {
                 @Override
-                public void onClick(View v) {
-                    url = "http://" + IP + ":" + port + "/api/activities/" + app.getName();
-                    // Use the app name to post params
-                    mRequestParams.put("app", app.getName());
-                    // Make post request
-                    sendPostRequest();
-                    launchWebActivity(v, app.getName());
+                public boolean onTouch(View v, MotionEvent event) {
+                    switch(event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            // PRESSED
+                            ((ImageButton)v.findViewById(R.id.imbutton)).setColorFilter(Color.argb(100, 255, 255, 255));
+                            return true; // if you want to handle the touch event
+                        case MotionEvent.ACTION_UP:
+                            // RELEASED
+                            url = "http://" + IP + ":" + port + "/api/activities/" + app.getName();
+                            // Use the app name to post params
+                            mRequestParams.put("app", app.getName());
+                            // Make post request
+                            sendPostRequest();
+                            launchWebActivity(v, app.getName());
+
+                            ((ImageButton)v.findViewById(R.id.imbutton)).clearColorFilter();
+                            return true; // if you want to handle the touch event
+                    }
+                    return false;
                 }
             });
         }

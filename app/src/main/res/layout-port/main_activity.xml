@@ -24,7 +24,6 @@
         android:id="@+id/imageButton"
         android:src="@drawable/btn_explore_white"
         android:background="@color/imgBackground"
-        android:onClick="exploreApps"
         android:layout_above="@+id/tv_explore"
         android:layout_centerHorizontal="true" />
 
@@ -60,7 +59,6 @@
         android:id="@+id/imageButton2"
         android:src="@drawable/rsz_netbot_cajita_color_black_resized"
         android:background="@color/imgBackground"
-        android:onClick="installApps"
         android:layout_above="@+id/tv_install"
         android:layout_toRightOf="@+id/tv_connectedto"
         android:layout_toEndOf="@+id/tv_connectedto" />

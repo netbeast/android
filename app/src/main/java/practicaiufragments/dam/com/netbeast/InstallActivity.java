@@ -1,10 +1,14 @@
 package practicaiufragments.dam.com.netbeast;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 
 /**
@@ -18,6 +22,47 @@ public class InstallActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.install_activity);
+
+        Button exploreBt = (Button) findViewById(R.id.installButton1);
+        Button gitBt = (Button) findViewById(R.id.installButton2);
+
+        exploreBt.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        // PRESSED
+                        ((Button)v.findViewById(R.id.installButton1)).setBackgroundColor(getResources().getColor(R.color.pressedButton));
+                        return true; // if you want to handle the touch event
+                    case MotionEvent.ACTION_UP:
+                        // RELEASED
+                        exploreInstallableApps(v);
+
+                        ((Button)v.findViewById(R.id.installButton1)).setBackgroundColor(getResources().getColor(R.color.text));
+                        return true; // if you want to handle the touch event
+                }
+                return false;
+            }
+        });
+
+        gitBt.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        // PRESSED
+                        ((Button)v.findViewById(R.id.installButton2)).setBackgroundColor(getResources().getColor(R.color.pressedButton));
+                        return true; // if you want to handle the touch event
+                    case MotionEvent.ACTION_UP:
+                        // RELEASED
+                        gitInstallApps(v);
+
+                        ((Button)v.findViewById(R.id.installButton2)).setBackgroundColor(getResources().getColor(R.color.text));
+                        return true; // if you want to handle the touch event
+                }
+                return false;
+            }
+        });
 
         navigationViewListener = new NavigationViewListener(this);
         getSupportActionBar().setTitle(R.string.install_activity_title);

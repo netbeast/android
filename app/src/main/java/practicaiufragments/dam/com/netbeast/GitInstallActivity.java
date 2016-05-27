@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -65,15 +66,27 @@ public class GitInstallActivity extends AppCompatActivity{
         mRequestParams = new HashMap<>();
 
         installButton = (Button) findViewById(R.id.installButton);
-        installButton.setOnClickListener(new View.OnClickListener() {
+        installButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View view) {
-                // Get url from text box
-                String url = editText.getText().toString();
-                // Use this url to post params
-                mRequestParams.put("url", url);
-                // Make post request
-                installApp();
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        // PRESSED
+                        ((Button)v.findViewById(R.id.installButton)).setBackgroundColor(getResources().getColor(R.color.pressedButton));
+                        return true; // if you want to handle the touch event
+                    case MotionEvent.ACTION_UP:
+                        // RELEASED
+                        // Get url from text box
+                        String url = editText.getText().toString();
+                        // Use this url to post params
+                        mRequestParams.put("url", url);
+                        // Make post request
+                        installApp();
+
+                        ((Button)v.findViewById(R.id.installButton)).setBackgroundColor(getResources().getColor(R.color.text));
+                        return true; // if you want to handle the touch event
+                }
+                return false;
             }
         });
 
