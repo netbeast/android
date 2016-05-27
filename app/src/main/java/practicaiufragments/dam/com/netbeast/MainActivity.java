@@ -31,9 +31,6 @@ public class MainActivity extends AppCompatActivity {
 
     private static String TAG = MainActivity.class.getSimpleName();
 
-    // Progress dialog
-    private ProgressDialog pDialog;
-
     private NavigationViewListener navigationViewListener;
 
     private TextView tv_ip;

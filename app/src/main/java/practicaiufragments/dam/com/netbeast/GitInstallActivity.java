@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -42,6 +43,8 @@ public class GitInstallActivity extends AppCompatActivity{
     private HashMap<String, String> mRequestParams;
 
     private NavigationViewListener navigationViewListener;
+
+    private static final int SOCKET_TIMEOUT_MS = 30000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +111,7 @@ public class GitInstallActivity extends AppCompatActivity{
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        Log.d(TAG, "ERROR:  " + response.toString());
+                        Log.d(TAG, response.toString());
 
                         new Timer().schedule(
                                 new TimerTask() {
@@ -133,6 +136,11 @@ public class GitInstallActivity extends AppCompatActivity{
                         }, 500);
             }
         });
+
+        req.setRetryPolicy(new DefaultRetryPolicy(
+                SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         // Adding request to request queue
         QueueController.getInstance().addToRequestQueue(req);
