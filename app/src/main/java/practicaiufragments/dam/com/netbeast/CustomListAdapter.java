@@ -143,15 +143,27 @@ public class CustomListAdapter extends BaseAdapter {
                         });
                     } else {
                         bt.setImageResource(R.drawable.install);
-                        bt.setOnClickListener(new View.OnClickListener() {
+                        bt.setOnTouchListener(new View.OnTouchListener() {
                             @Override
-                            public void onClick(View v) {
-                                url = "http://" + IP + ":" + port + "/api/apps";
-                                String gitUrl = "https://github.com/" + app.getFull_name();
-                                // Use this url to post params
-                                mRequestParams.put("url", gitUrl);
-                                // Make post request
-                                sendPostRequest();
+                            public boolean onTouch(View v, MotionEvent event) {
+                                switch(event.getAction()) {
+                                    case MotionEvent.ACTION_DOWN:
+                                        // PRESSED
+                                        ((ImageButton)v.findViewById(R.id.button)).setColorFilter(Color.argb(100, 255, 255, 255));
+                                        return true; // if you want to handle the touch event
+                                    case MotionEvent.ACTION_UP:
+                                        // RELEASED
+                                        url = "http://" + IP + ":" + port + "/api/apps";
+                                        String gitUrl = "https://github.com/" + app.getFull_name();
+                                        // Use this url to post params
+                                        mRequestParams.put("url", gitUrl);
+                                        // Make post request
+                                        sendPostRequest();
+
+                                        ((ImageButton)v.findViewById(R.id.button)).clearColorFilter();
+                                        return true; // if you want to handle the touch event
+                                }
+                                return false;
                             }
                         });
                     }
@@ -198,8 +210,6 @@ public class CustomListAdapter extends BaseAdapter {
                                 case MotionEvent.ACTION_UP:
                                     // RELEASED
                                     url = "http://" + IP + ":" + port + "/api/apps/" + app.getName();
-                                    // Use this url to post params
-                                    mRequestParams.put("url", url);
                                     // Make post request
                                     sendDeleteRequest();
 
