@@ -7,6 +7,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -48,6 +49,47 @@ public class SelectDashboardActivity extends Activity {
         listView.setAdapter(adapter);
 
         TextView nodashboard = (TextView) findViewById(R.id.nodashboard);
+
+        Button manualBt = (Button) findViewById(R.id.manual);
+        Button cloudBt = (Button) findViewById(R.id.cloud_button);
+
+        manualBt.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        // PRESSED
+                        ((Button)v.findViewById(R.id.manual)).setBackgroundColor(getResources().getColor(R.color.pressedButton));
+                        return true; // if you want to handle the touch event
+                    case MotionEvent.ACTION_UP:
+                        // RELEASED
+                        manualDashboard(v);
+
+                        ((Button)v.findViewById(R.id.manual)).setBackgroundColor(getResources().getColor(R.color.text));
+                        return true; // if you want to handle the touch event
+                }
+                return false;
+            }
+        });
+
+        cloudBt.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        // PRESSED
+                        ((Button)v.findViewById(R.id.cloud_button)).setBackgroundColor(getResources().getColor(R.color.pressedButton));
+                        return true; // if you want to handle the touch event
+                    case MotionEvent.ACTION_UP:
+                        // RELEASED
+                        cloudDashboard(v);
+
+                        ((Button)v.findViewById(R.id.cloud_button)).setBackgroundColor(getResources().getColor(R.color.text));
+                        return true; // if you want to handle the touch event
+                }
+                return false;
+            }
+        });
 
         // Check for WiFi connectivity
         ConnectivityManager connManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
