@@ -42,7 +42,7 @@ tools:openDrawer="start">
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/installButton1"
-            android:background="@color/text"
+            android:background="#e0e0e0"
             android:text="@string/install_explore"
             android:textColor="@color/colorPrimaryDark"
             android:typeface="sans"
@@ -53,14 +53,14 @@ tools:openDrawer="start">
             android:layout_centerHorizontal="true"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:textStyle="bold" />
+            android:textStyle="normal" />
 
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/installButton2"
-            android:background="@color/text"
+            android:background="#e0e0e0"
             android:text="@string/install_git"
             android:textColor="@color/colorPrimaryDark"
             android:typeface="sans"
@@ -72,7 +72,7 @@ tools:openDrawer="start">
             android:layout_marginTop="25dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:textStyle="bold" />
+            android:textStyle="normal" />
     </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>
