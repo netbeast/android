@@ -88,7 +88,7 @@ public class GitInstallActivity extends AppCompatActivity{
                         // Make post request
                         installApp();
 
-                        ((Button)v.findViewById(R.id.installButton)).setBackgroundColor(getResources().getColor(R.color.text));
+                        ((Button)v.findViewById(R.id.installButton)).setBackgroundColor(getResources().getColor(R.color.button));
                         return true; // if you want to handle the touch event
                 }
                 return false;
