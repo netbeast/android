@@ -4,8 +4,7 @@
     android:layout_height="wrap_content"
     android:descendantFocusability="blocksDescendants"
     android:orientation="vertical"
-    android:background="@color/background"
-    android:id="@+id/linearchild">
+    android:background="@color/background">
 
     <ImageButton
         android:layout_width="175dp"

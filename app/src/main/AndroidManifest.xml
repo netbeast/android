@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="practicaiufragments.dam.com.netbeast" >
+    package="dam.com.netbeast.netbeast" >
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
@@ -17,13 +17,13 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name="practicaiufragments.dam.com.netbeast.QueueController">
+        android:name="dam.com.netbeast.QueueController">
         <service android:name="org.eclipse.paho.android.service.MqttService"></service>
         <service
-            android:name=".NotificationsService"
+            android:name="dam.com.netbeast.NotificationsService"
             android:exported="false"></service>
         <activity
-            android:name=".Splash"
+            android:name="dam.com.netbeast.Splash"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
@@ -33,42 +33,42 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name="dam.com.netbeast.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
-            android:name=".ExploreActivity"
+            android:name="dam.com.netbeast.ExploreActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
-            android:name=".InstallActivity"
+            android:name="dam.com.netbeast.InstallActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
-            android:name=".ExploreInstallableAppsActivity"
+            android:name="dam.com.netbeast.ExploreInstallableAppsActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
-        android:name=".GitInstallActivity"
+        android:name="dam.com.netbeast.GitInstallActivity"
         android:label="@string/app_name"
         android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
-            android:name=".WebActivity"
+            android:name="dam.com.netbeast.WebActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
-            android:name=".SelectDashboardActivity"
+            android:name="dam.com.netbeast.SelectDashboardActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
-            android:name=".DiscoveringDashboardsSplash"
+            android:name="dam.com.netbeast.DiscoveringDashboardsSplash"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
