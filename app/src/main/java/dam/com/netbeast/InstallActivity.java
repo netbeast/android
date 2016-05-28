@@ -38,7 +38,7 @@ public class InstallActivity extends AppCompatActivity{
                         // RELEASED
                         exploreInstallableApps(v);
 
-                        ((Button)v.findViewById(R.id.installButton1)).setBackgroundColor(getResources().getColor(R.color.text));
+                        ((Button)v.findViewById(R.id.installButton1)).setBackgroundColor(getResources().getColor(R.color.button));
                         return true; // if you want to handle the touch event
                 }
                 return false;
@@ -57,7 +57,7 @@ public class InstallActivity extends AppCompatActivity{
                         // RELEASED
                         gitInstallApps(v);
 
-                        ((Button)v.findViewById(R.id.installButton2)).setBackgroundColor(getResources().getColor(R.color.text));
+                        ((Button)v.findViewById(R.id.installButton2)).setBackgroundColor(getResources().getColor(R.color.button));
                         return true; // if you want to handle the touch event
                 }
                 return false;

@@ -66,7 +66,7 @@ public class SelectDashboardActivity extends Activity {
                         // RELEASED
                         manualDashboard(v);
 
-                        ((Button)v.findViewById(R.id.manual)).setBackgroundColor(getResources().getColor(R.color.text));
+                        ((Button)v.findViewById(R.id.manual)).setBackgroundColor(getResources().getColor(R.color.button));
                         return true; // if you want to handle the touch event
                 }
                 return false;
@@ -85,7 +85,7 @@ public class SelectDashboardActivity extends Activity {
                         // RELEASED
                         cloudDashboard(v);
 
-                        ((Button)v.findViewById(R.id.cloud_button)).setBackgroundColor(getResources().getColor(R.color.text));
+                        ((Button)v.findViewById(R.id.cloud_button)).setBackgroundColor(getResources().getColor(R.color.button));
                         return true; // if you want to handle the touch event
                 }
                 return false;

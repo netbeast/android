@@ -73,14 +73,14 @@ tools:openDrawer="start">
             android:layout_height="wrap_content"
             android:text="@string/install"
             android:typeface="sans"
-            android:textSize="@dimen/app_name"
+            android:textSize="@dimen/button_text"
             android:layout_below="@+id/linearLayout"
-            android:background="@color/text"
+            android:background="@color/button"
             android:textColor="@color/colorPrimaryDark"
             android:layout_centerHorizontal="true"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:textStyle="bold"/>
+            android:textStyle="normal"/>
     </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>
