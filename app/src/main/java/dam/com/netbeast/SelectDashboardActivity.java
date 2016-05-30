@@ -131,6 +131,7 @@ public class SelectDashboardActivity extends Activity {
                     JSONObject dash = (JSONObject) dashboards.get(i);
                     IP = dash.getString("ip");
                     port = dash.getString("port");
+                    Log.d("TESTIN:", String.valueOf(dash));
                     // Add to the list in screen the dashboard in position i, as IP:port
                     list.add(IP + ":" + port);
                 } catch (JSONException e) {
