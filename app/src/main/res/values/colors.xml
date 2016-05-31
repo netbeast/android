@@ -11,5 +11,6 @@
     <color name="button">#e0e0e0</color>
     <color name="pressedButton">#ac529be9</color>
     <color name="loginButton">#f800ffff</color>
+    <color name="pressedLoginButton">#f800afaf</color>
 
 </resources>
