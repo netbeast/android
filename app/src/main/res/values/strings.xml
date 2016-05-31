@@ -35,11 +35,11 @@
     <string name="mqtt_uri">tcp://test.mosca.io</string>
     <string name="clientId">netbeastApp</string>
 
-    <!-- Strings related to login -->
+    <!-- Strings related to login and sign up-->
     <string name="prompt_email">your@email.com</string>
     <string name="prompt_password">Password</string>
     <string name="action_log_in">Log in</string>
-    <string name="action_log_in_short">Sign in</string>
+    <string name="action_sign_up">Sign up</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
@@ -49,5 +49,5 @@
         completions."
     </string>
     <string name="sign_up_text">Don\'t you have an account yet?</string>
-    <string name="sign_up">Sign up</string>
+    <string name="log_in_text">Do you already have an account?</string>
 </resources>
