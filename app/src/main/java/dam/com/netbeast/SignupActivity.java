@@ -55,8 +55,10 @@ public class SignupActivity extends AppCompatActivity {
     private UserLoginTask mAuthTask = null;
 
     // UI references.
-    private AutoCompleteTextView mEmailView;
+    private EditText mUsernameView;
+    private EditText mEmailView;
     private EditText mPasswordView;
+    private EditText mPasswordView2;
     private View mProgressView;
     private View mLoginFormView;
 
@@ -64,11 +66,15 @@ public class SignupActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup_layout);
-        // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+        // Set up the signup form.
+        mUsernameView = (EditText) findViewById(R.id.username);
+
+        mEmailView = (EditText) findViewById(R.id.email);
 
         mPasswordView = (EditText) findViewById(R.id.password);
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
+        mPasswordView2 = (EditText) findViewById(R.id.retype_password);
+        mPasswordView2.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == R.id.login || id == EditorInfo.IME_NULL) {

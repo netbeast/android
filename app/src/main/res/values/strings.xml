@@ -38,6 +38,7 @@
     <!-- Strings related to login and sign up-->
     <string name="prompt_email">your@email.com</string>
     <string name="prompt_password">Password</string>
+    <string name="prompt_username">Choose a username</string>
     <string name="action_log_in">Log in</string>
     <string name="action_sign_up">Sign up</string>
     <string name="error_invalid_email">This email address is invalid</string>
@@ -50,4 +51,6 @@
     </string>
     <string name="sign_up_text">Don\'t you have an account yet?</string>
     <string name="log_in_text">Do you already have an account?</string>
+    <string name="type_pass">Type a password</string>
+    <string name="retype">Retype your password</string>
 </resources>

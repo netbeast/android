@@ -86,13 +86,33 @@
                     android:id="@+id/text1"
                     android:layout_below="@id/log_in_title"
                     android:textColorHint="@color/hintText"
-                    android:layout_marginTop="5dp">
+                    android:background="@color/text"
+                    android:layout_marginTop="10dp">
 
-                    <AutoCompleteTextView
+                <EditText
+                    android:id="@+id/username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/prompt_username"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:singleLine="true" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/text2"
+                    android:layout_below="@id/text1"
+                    android:textColorHint="@color/hintText"
+                    android:background="@color/text"
+                    android:layout_marginTop="10dp">
+
+                    <EditText
                         android:id="@+id/email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/text"
                         android:hint="@string/prompt_email"
                         android:inputType="textEmailAddress"
                         android:maxLines="1"
@@ -103,16 +123,37 @@
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/text2"
-                    android:layout_below="@id/text1"
-                    android:textColorHint="@color/hintText">
+                    android:id="@+id/text3"
+                    android:layout_below="@id/text2"
+                    android:textColorHint="@color/hintText"
+                    android:background="@color/text"
+                    android:layout_marginTop="10dp">
 
                     <EditText
                         android:id="@+id/password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/text"
-                        android:hint="@string/prompt_password"
+                        android:hint="@string/type_pass"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:singleLine="true" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/text4"
+                    android:layout_below="@id/text3"
+                    android:textColorHint="@color/hintText"
+                    android:background="@color/text"
+                    android:layout_marginTop="10dp">
+
+                    <EditText
+                        android:id="@+id/retype_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/retype"
                         android:imeActionId="@+id/login"
                         android:imeActionLabel="@string/action_sign_up"
                         android:imeOptions="actionUnspecified"
@@ -127,14 +168,14 @@
                     style="?android:textAppearanceSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="20dp"
                     android:text="@string/action_sign_up"
                     android:textStyle="bold"
                     android:textColor="@color/loginButton"
                     android:textSize="@dimen/app_name"
                     android:background="@drawable/button_border"
                     android:layout_centerHorizontal="true"
-                    android:layout_below="@id/text2" />
+                    android:layout_below="@id/text4" />
 
                 <TextView
                     android:layout_width="wrap_content"
