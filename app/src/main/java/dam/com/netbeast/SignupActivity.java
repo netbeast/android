@@ -79,7 +79,7 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
 
-        Button LogInButton = (Button) findViewById(R.id.log_in_button);
+        Button LogInButton = (Button) findViewById(R.id.sign_up_button);
         LogInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,23 +87,23 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
 
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
-        final TextView SignUpButton = (TextView) findViewById(R.id.sign_up_link);
+        mLoginFormView = findViewById(R.id.signup_form);
+        mProgressView = findViewById(R.id.signup_progress);
+        final TextView SignUpButton = (TextView) findViewById(R.id.log_in_link);
         SignUpButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch(event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         // PRESSED
-                        ((TextView)v.findViewById(R.id.sign_up_link)).setTextColor(getResources().getColor(R.color.pressedLoginButton));
+                        ((TextView)v.findViewById(R.id.log_in_link)).setTextColor(getResources().getColor(R.color.pressedLoginButton));
                         return true; // if you want to handle the touch event
                     case MotionEvent.ACTION_UP:
                         // RELEASED
-                        Intent intent = new Intent(v.getContext(), SignupActivity.class);
+                        Intent intent = new Intent(v.getContext(), LoginActivity.class);
                         startActivity(intent);
 
-                        ((TextView)v.findViewById(R.id.sign_up_link)).setTextColor(getResources().getColor(R.color.loginButton));
+                        ((TextView)v.findViewById(R.id.log_in_link)).setTextColor(getResources().getColor(R.color.loginButton));
                         return true; // if you want to handle the touch event
                 }
                 return false;
