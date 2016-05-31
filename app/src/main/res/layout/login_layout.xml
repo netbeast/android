@@ -1,5 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="@color/background">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:id="@+id/view">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/logo"
+                android:paddingRight="10dp"
+                android:paddingBottom="8dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/text"
+                android:textStyle="bold"
+                android:textColor="@color/text"
+                android:typeface="sans"
+                android:textSize="20sp"
+                android:text="@string/action_log_in"/>
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
@@ -8,7 +48,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="@color/background">
+    android:layout_below="@+id/view">
 
     <!-- Login progress -->
     <ProgressBar
@@ -38,14 +78,15 @@
                 android:textColor="@color/text"
                 android:typeface="sans"
                 android:textSize="35sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/text1"
                 android:layout_below="@id/log_in_title"
-                android:textColorHint="@color/hintText" >
+                android:textColorHint="@color/hintText"
+                android:layout_marginTop="5dp">
 
                 <AutoCompleteTextView
                     android:id="@+id/email"
@@ -123,3 +164,4 @@
         </RelativeLayout>
     </ScrollView>
 </LinearLayout>
+</RelativeLayout>
