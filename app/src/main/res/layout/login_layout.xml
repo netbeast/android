@@ -131,6 +131,7 @@
                 android:text="@string/action_log_in"
                 android:textStyle="bold"
                 android:textColor="@color/loginButton"
+                android:textSize="@dimen/app_name"
                 android:background="@drawable/button_border"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@id/text2"
