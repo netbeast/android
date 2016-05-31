@@ -165,7 +165,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
         View focusView = null;
 
         // Check for a valid password.
-        if (!TextUtils.isEmpty(password)) {
+        if (TextUtils.isEmpty(password)) {
             mPasswordView.setError(getString(R.string.error_field_required));
             focusView = mPasswordView;
             cancel = true;
@@ -308,6 +308,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
 
         private final String mEmail;
         private final String mPassword;
+        private Boolean correctEmail;
+        private Boolean correctPassword;
 
         UserLoginTask(String email, String password) {
             mEmail = email;
@@ -325,16 +327,23 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
                 return false;
             }
 
+            correctEmail = false;
+            correctPassword = false;
+
             for (String credential : DUMMY_CREDENTIALS) {
                 String[] pieces = credential.split(":");
                 if (pieces[0].equals(mEmail)) {
+                    correctEmail = true;
                     // Account exists, return true if the password matches.
+                    if (pieces[1].equals(mPassword))
+                        correctPassword = true;
+
                     return pieces[1].equals(mPassword);
                 }
             }
 
             // TODO: register the new account here.
-            return true;
+            return false;
         }
 
         @Override
@@ -344,9 +353,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
 
             if (success) {
                 finish();
+            } else if (!correctEmail) {
+                mEmailView.setError(getString(R.string.error_incorrect_email));
+                mEmailView.requestFocus();
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+                if (!correctPassword) {
+                    mPasswordView.setError(getString(R.string.error_incorrect_password));
+                    mPasswordView.requestFocus();
+                }
             }
         }
 
