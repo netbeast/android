@@ -10,5 +10,6 @@
     <color name="hintText">#7e7b7b</color>
     <color name="button">#e0e0e0</color>
     <color name="pressedButton">#ac529be9</color>
+    <color name="loginButton">#f800ffff</color>
 
 </resources>

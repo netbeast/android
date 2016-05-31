@@ -89,8 +89,36 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/action_log_in"
                 android:textStyle="bold"
+                android:textColor="@color/loginButton"
+                android:background="@drawable/button_border"
                 android:layout_centerHorizontal="true"
-                android:layout_below="@id/text2"/>
+                android:layout_below="@id/text2"
+                android:longClickable="false" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/sign_up_text"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/log_in_button"
+                android:text="@string/sign_up_text"
+                android:textColor="@color/text"
+                android:typeface="sans"
+                android:textSize="@dimen/app_name"
+                android:layout_marginTop="30dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/sign_up_text"
+                android:text="@string/sign_up"
+                android:textColor="@color/error"
+                android:typeface="sans"
+                android:textSize="@dimen/app_name"
+                android:layout_marginTop="10dp"
+                android:clickable="true"
+                android:onClick="launchSignUpActivity"/>
 
         </RelativeLayout>
     </ScrollView>
