@@ -45,7 +45,9 @@
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_incorrect_email">There isn\'t any user registered with this email</string>
+    <string name="error_repeated_email">There is already a user registered with this email</string>
     <string name="error_field_required">This field is required</string>
+    <string name="error_different_passwords">Passwords don\'t match</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>

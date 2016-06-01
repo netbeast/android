@@ -32,6 +32,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,9 +55,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
      */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
+    private ArrayList<String> DUMMY_CREDENTIALS = new ArrayList<String>();
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -72,6 +71,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_layout);
+        if(DUMMY_CREDENTIALS.size()>2)
+            DUMMY_CREDENTIALS.clear();
+        DUMMY_CREDENTIALS.add("foo@example.com:hello");
+        DUMMY_CREDENTIALS.add("bar@example.com:world");
+
+        Bundle b = getIntent().getExtras();
+        if (b != null) {
+            DUMMY_CREDENTIALS.add(b.getString("newUser"));
+            for (String credential : DUMMY_CREDENTIALS) {
+                Log.d("DUMMY", credential);
+            }
+        }
+
+
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
@@ -216,8 +229,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
             // perform the user login attempt.
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
-            //mAuthTask.execute((Void) null);
-            Log.d("LOG", mAuthTask.execute((Void) null).toString());
+            mAuthTask.execute((Void) null);
         }
     }
 
@@ -373,7 +385,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
             showProgress(false);
 
             if (success) {
-                finish();
+                Log.d("LOGIN", "Login success");
+                //finish();
+                Toast.makeText(getApplicationContext(), "Login Success!", Toast.LENGTH_SHORT).show();
+                try {
+                    Thread.sleep(1500);
+                }catch (InterruptedException e){
+                    e.printStackTrace();
+                }
+                Intent intent = new Intent(getApplicationContext(), DiscoveringDashboardsSplash.class);
+                startActivity(intent);
             } else if (!correctEmail) {
                 mEmailView.setError(getString(R.string.error_incorrect_email));
                 mEmailView.requestFocus();

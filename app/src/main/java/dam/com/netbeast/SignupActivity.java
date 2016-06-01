@@ -32,6 +32,9 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 import dam.com.netbeast.netbeast.R;
 
@@ -46,13 +49,11 @@ public class SignupActivity extends AppCompatActivity {
      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
      */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
+    private ArrayList<String> DUMMY_CREDENTIALS = new ArrayList<String>();
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
-    private UserLoginTask mAuthTask = null;
+    private UserSignupTask mAuthTask = null;
 
     // UI references.
     private EditText mUsernameView;
@@ -66,6 +67,9 @@ public class SignupActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup_layout);
+
+        DUMMY_CREDENTIALS.add("foo@example.com:hello");
+        DUMMY_CREDENTIALS.add("bar@example.com:world");
         // Set up the signup form.
         mUsernameView = (EditText) findViewById(R.id.username);
 
@@ -134,8 +138,11 @@ public class SignupActivity extends AppCompatActivity {
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
+        String username = mUsernameView.getText().toString();
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
+        String password2 = mPasswordView2.getText().toString();
+
 
         boolean cancel = false;
         View focusView = null;
@@ -148,6 +155,10 @@ public class SignupActivity extends AppCompatActivity {
         } else if (!isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
+            cancel = true;
+        } else if (!password.equals(password2)) {
+            mPasswordView2.setError(getString(R.string.error_different_passwords));
+            focusView = mPasswordView2;
             cancel = true;
         }
 
@@ -170,9 +181,8 @@ public class SignupActivity extends AppCompatActivity {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            //mAuthTask.execute((Void) null);
-            Log.d("LOG", mAuthTask.execute((Void) null).toString());
+            mAuthTask = new UserSignupTask(username, email, password);
+            mAuthTask.execute((Void) null);
         }
     }
 
@@ -230,21 +240,22 @@ public class SignupActivity extends AppCompatActivity {
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    public class UserSignupTask extends AsyncTask<Void, Void, Boolean> {
 
+        private final String mUsername;
         private final String mEmail;
         private final String mPassword;
         private Boolean correctEmail;
-        private Boolean correctPassword;
 
-        UserLoginTask(String email, String password) {
+        UserSignupTask(String username, String email, String password) {
+            mUsername = username;
             mEmail = email;
             mPassword = password;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
+            // TODO: attempt registration against a network service.
 
             try {
                 // Simulate network access.
@@ -254,18 +265,13 @@ public class SignupActivity extends AppCompatActivity {
             }
 
             correctEmail = false;
-            correctPassword = false;
 
             for (String credential : DUMMY_CREDENTIALS) {
                 String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
+                if (!pieces[0].equals(mEmail))
                     correctEmail = true;
-                    // Account exists, return true if the password matches.
-                    if (pieces[1].equals(mPassword))
-                        correctPassword = true;
-
-                    return pieces[1].equals(mPassword);
-                }
+                // return true if the account doesn't exist
+                return !pieces[0].equals(mEmail);
             }
 
             // TODO: register the new account here.
@@ -278,15 +284,23 @@ public class SignupActivity extends AppCompatActivity {
             showProgress(false);
 
             if (success) {
-                finish();
-            } else if (!correctEmail) {
-                mEmailView.setError(getString(R.string.error_incorrect_email));
-                mEmailView.requestFocus();
-            } else {
-                if (!correctPassword) {
-                    mPasswordView.setError(getString(R.string.error_incorrect_password));
-                    mPasswordView.requestFocus();
+                Log.d("SIGNUP", "Sign up success");
+                //finish();
+                String newUser = mEmail + ":" + mPassword;
+                Toast.makeText(getApplicationContext(), "Sign up success!", Toast.LENGTH_SHORT).show();
+                try {
+                    Thread.sleep(1500);
+                }catch (InterruptedException e){
+                    e.printStackTrace();
                 }
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                Bundle b = new Bundle();
+                b.putString("newUser", newUser);
+                intent.putExtras(b);
+                startActivity(intent);
+            } else if (!correctEmail) {
+                mEmailView.setError(getString(R.string.error_repeated_email));
+                mEmailView.requestFocus();
             }
         }
 
